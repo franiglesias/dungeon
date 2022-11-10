@@ -17,6 +17,9 @@ class Command:
 
         return result
 
+    def __str__(self) -> str:
+        return "You said: {} {}".format(self._command, self._argument)
+
 
 class Game:
     def __init__(self):
@@ -33,9 +36,7 @@ class Game:
 
         c = Command(command, argument)
 
-        # execute the action
         result = c.do(self.dungeon)
 
-        # show the result of the action
-        print("You said: {c} {a}".format(c=command, a=argument))
+        print(c)
         return result

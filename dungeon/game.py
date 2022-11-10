@@ -1,6 +1,23 @@
 from dungeon.dungeon import Dungeon
 
 
+class Command:
+
+    def __init__(self, command, argument):
+        self._argument = argument
+        self._command = command
+
+    def do(self, dungeon):
+        result = ""
+
+        if self._command == "go":
+            result = dungeon.go(self._argument)
+        if self._command == "look":
+            result = dungeon.look(self._argument)
+
+        return result
+
+
 class Game:
     def __init__(self):
         self.dungeon = None
@@ -9,12 +26,16 @@ class Game:
         self.dungeon = Dungeon()
 
     def execute(self, instruction):
-        result = "I don't understand"
+        # obtain a valid command from player input
         command, argument = instruction.split(" ", 1)
-        if command == "go":
-            print("You said: {c} {a}".format(c=command, a=argument))
-            result = self.dungeon.go(argument)
-        if command == "look":
-            print("You said: {c} {a}".format(c=command, a=argument))
-            result = self.dungeon.look(argument)
+        if command != "go" and command != "look":
+            return "I don't understand"
+
+        c = Command(command, argument)
+
+        # execute the action
+        result = c.do(self.dungeon)
+
+        # show the result of the action
+        print("You said: {c} {a}".format(c=command, a=argument))
         return result

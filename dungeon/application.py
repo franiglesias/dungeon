@@ -7,11 +7,11 @@ class Application:
         print("-")
         game = Game()
         game.start()
-        print(game.execute("look around"))
-        print("-")
-        print(game.execute("go south"))
-        print("-")
-        print(game.execute("look around"))
-        print("-")
-        print(game.execute("go north"))
+        finished = False
+        while not finished:
+            command = input()
+            result = game.execute(command)
+            print(result)
+            print("-")
+            finished = result == "Congrats. You're out"
         print("-")

@@ -1,9 +1,8 @@
 class ShowOutput:
-    def __init__(self):
-        self._contents = ""
-
     def put(self, message):
-        self._contents = self._contents + message + "\n"
+        pass
 
-    def contents(self):
-        return self._contents
+
+class ConsoleShowOutput(ShowOutput):
+    def put(self, message):
+        print(message)

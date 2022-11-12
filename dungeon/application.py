@@ -9,7 +9,6 @@ class Application:
 
     def run(self):
         self._show_output.put("Welcome to the Dungeon")
-        print("-")
         game = Game()
         game.start()
         finished = False
@@ -18,7 +17,5 @@ class Application:
             command = Command.from_user_input(instruction)
             result = game.execute(instruction)
             self._show_output.put(str(command))
-            print(result)
-            print("-")
+            self._show_output.put(result)
             finished = result == "Congrats. You're out"
-        print("-")

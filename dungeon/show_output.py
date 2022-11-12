@@ -5,4 +5,4 @@ class ShowOutput:
 
 class ConsoleShowOutput(ShowOutput):
     def put(self, message):
-        print(message)
+        print(message + "\n")

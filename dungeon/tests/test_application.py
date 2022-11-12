@@ -18,7 +18,7 @@ class TestShowOutput(ShowOutput):
         self._contents = ""
 
     def put(self, message):
-        self._contents = self._contents + message + "\n"
+        self._contents = self._contents + message + "\n\n"
 
     def contents(self):
         return self._contents
@@ -42,3 +42,12 @@ class TestApplication(TestCase):
         app.run()
 
         self.assertIn("You said: go north", show_output.contents())
+
+    def test_should_show_ending_message(self):
+        obtain_user_command = FixedObtainUserCommand("go north")
+        show_output = TestShowOutput()
+
+        app = Application(obtain_user_command, show_output)
+        app.run()
+
+        self.assertIn("Congrats. You're out", show_output.contents())

@@ -5,4 +5,4 @@ class ObtainUserCommand:
 
 class ConsoleObtainUserCommand(ObtainUserCommand):
     def command(self):
-        return input()
+        return input("What should I do? >")

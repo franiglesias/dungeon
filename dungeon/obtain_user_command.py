@@ -5,4 +5,5 @@ class ObtainUserCommand:
 
 class ConsoleObtainUserCommand(ObtainUserCommand):
     def command(self):
-        return input("What should I do? >")
+        raw = input("What should I do? >")
+        return " ".join(raw.lower().strip().split())

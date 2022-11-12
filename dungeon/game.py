@@ -14,5 +14,4 @@ class Game:
 
         result = c.do(self.dungeon)
 
-        print(c)
         return result

@@ -33,3 +33,12 @@ class TestApplication(TestCase):
         app.run()
 
         self.assertIn("Welcome to the Dungeon", show_output.contents())
+
+    def test_should_show_command_echo(self):
+        obtain_user_command = FixedObtainUserCommand("go north")
+        show_output = TestShowOutput()
+
+        app = Application(obtain_user_command, show_output)
+        app.run()
+
+        self.assertIn("You said: go north", show_output.contents())

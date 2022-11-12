@@ -1,3 +1,4 @@
+from dungeon.command.command import Command
 from dungeon.game import Game
 
 
@@ -13,8 +14,10 @@ class Application:
         game.start()
         finished = False
         while not finished:
-            command = self._obtain_user_command.command()
-            result = game.execute(command)
+            instruction = self._obtain_user_command.command()
+            command = Command.from_user_input(instruction)
+            result = game.execute(instruction)
+            self._show_output.put(str(command))
             print(result)
             print("-")
             finished = result == "Congrats. You're out"

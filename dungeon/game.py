@@ -9,9 +9,5 @@ class Game:
     def start(self):
         self.dungeon = Dungeon()
 
-    def execute(self, instruction):
-        c = Command.from_user_input(instruction)
-
-        result = c.do(self.dungeon)
-
-        return result
+    def do_command(self, command):
+        return command.do(self.dungeon)

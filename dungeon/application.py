@@ -15,7 +15,7 @@ class Application:
         while not finished:
             instruction = self._obtain_user_command.command()
             command = Command.from_user_input(instruction)
-            result = game.execute(instruction)
+            result = game.do_command(command)
             self._show_output.put(str(command))
             self._show_output.put(result)
             finished = result == "Congrats. You're out"

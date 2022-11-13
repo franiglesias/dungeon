@@ -1,6 +1,7 @@
 from unittest import TestCase
 
 from dungeon.application import Application
+from dungeon.command.command import Command
 from dungeon.obtain_user_command import ObtainUserCommand
 from dungeon.show_output import ShowOutput
 
@@ -10,7 +11,7 @@ class FixedObtainUserCommand(ObtainUserCommand):
         self._instruction = instruction
 
     def command(self):
-        return self._instruction
+        return Command.from_user_input(self._instruction)
 
 
 class TestShowOutput(ShowOutput):

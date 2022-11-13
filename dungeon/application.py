@@ -13,8 +13,7 @@ class Application:
         game.start()
         finished = False
         while not finished:
-            instruction = self._obtain_user_command.command()
-            command = Command.from_user_input(instruction)
+            command = self._obtain_user_command.command()
             result = game.do_command(command)
             self._show_output.put(str(command))
             self._show_output.put(result)

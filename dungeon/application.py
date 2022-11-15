@@ -15,8 +15,7 @@ class Application:
         finished = False
         while not finished:
             command = self._obtain_user_command.command()
-            result = game.do_command_deprecate(command)
-            action_result = ActionResult(result)
+            action_result = game.do_command(command)
             self._show_output.put(str(command))
             self._show_output.put(action_result.message())
             finished = action_result.is_finished()

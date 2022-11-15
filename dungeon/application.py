@@ -19,4 +19,4 @@ class Application:
             action_result = ActionResult(result)
             self._show_output.put(str(command))
             self._show_output.put(result)
-            finished = result == "Congrats. You're out"
+            finished = action_result.is_finished()

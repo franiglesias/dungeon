@@ -10,5 +10,5 @@ class Game:
         self.dungeon = Dungeon()
 
     def do_command(self, command):
-        result = command.do(self.dungeon)
+        result = command.do_deprecated(self.dungeon)
         return ActionResult(result)

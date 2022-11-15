@@ -1,3 +1,6 @@
+from dungeon.command.action_result import ActionResult
+
+
 class Command:
 
     def __init__(self, command, argument):
@@ -12,7 +15,7 @@ class Command:
 
         return Command(command, argument)
 
-    def do(self, dungeon):
+    def do_deprecated(self, dungeon):
         result = ""
 
         if self._command == "go":
@@ -22,6 +25,10 @@ class Command:
 
         return result
 
+    def do(self, dungeon):
+        result = self.do_deprecated(dungeon)
+        return ActionResult(result)
+
     def __str__(self) -> str:
         return "You said: {} {}".format(self._command, self._argument)
 
@@ -30,7 +37,7 @@ class InvalidCommand(Command):
     def __init__(self, user_input):
         self._user_input = user_input
 
-    def do(self, dungeon):
+    def do_deprecated(self, dungeon):
         return "I don't understand"
 
     def __str__(self) -> str:

@@ -1,3 +1,4 @@
+from dungeon.command.action_result import ActionResult
 from dungeon.command.command import Command
 from dungeon.game import Game
 
@@ -15,6 +16,7 @@ class Application:
         while not finished:
             command = self._obtain_user_command.command()
             result = game.do_command(command)
+            action_result = ActionResult(result)
             self._show_output.put(str(command))
             self._show_output.put(result)
             finished = result == "Congrats. You're out"

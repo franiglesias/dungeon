@@ -10,7 +10,7 @@ class OneRoomDungeonTestCase(unittest.TestCase):
         self.game.start()
 
     def execute_user_action(self, action):
-        return self.game.do_command(Command.from_user_input(action))
+        return self.game.do_command_deprecate(Command.from_user_input(action))
 
     def test_player_finds_easy_way_out(self):
         self.assertEqual("Congrats. You're out", self.execute_user_action("go north"))

@@ -16,14 +16,10 @@ class Command:
         return Command(command, argument)
 
     def do(self, dungeon):
-        result = ""
-
         if self._command == "go":
-            result = dungeon.go(self._argument)
+            return dungeon.go(self._argument)
         if self._command == "look":
-            result = dungeon.look(self._argument)
-
-        return ActionResult(result)
+            return dungeon.look(self._argument)
 
     def __str__(self) -> str:
         return "You said: {} {}".format(self._command, self._argument)
@@ -33,8 +29,8 @@ class InvalidCommand(Command):
     def __init__(self, user_input):
         self._user_input = user_input
 
-    def do_deprecated(self, dungeon):
-        return "I don't understand"
+    def do(self, dungeon):
+        return ActionResult("I don't understand")
 
     def __str__(self) -> str:
         return "You said: {}".format(self._user_input)

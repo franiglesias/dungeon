@@ -1,3 +1,4 @@
+from dungeon.command.action_result import ActionResult
 from dungeon.wall import Exit, Wall
 
 
@@ -14,10 +15,10 @@ class Room:
 
     def look(self, argument):
         response = ""
-        response += "North: " + self.north.look() + "\n"
-        response += "East: " + self.east.look() + "\n"
-        response += "South: " + self.south.look() + "\n"
-        response += "West: " + self.west.look() + "\n"
+        response += "North: " + self.north.look().message() + "\n"
+        response += "East: " + self.east.look().message() + "\n"
+        response += "South: " + self.south.look().message() + "\n"
+        response += "West: " + self.west.look().message() + "\n"
 
         response += "That's all" + "\n"
-        return response
+        return ActionResult(response)

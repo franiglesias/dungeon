@@ -15,7 +15,7 @@ class Command:
 
         return Command(command, argument)
 
-    def do_deprecated(self, dungeon):
+    def do(self, dungeon):
         result = ""
 
         if self._command == "go":
@@ -23,10 +23,6 @@ class Command:
         if self._command == "look":
             result = dungeon.look(self._argument)
 
-        return result
-
-    def do(self, dungeon):
-        result = self.do_deprecated(dungeon)
         return ActionResult(result)
 
     def __str__(self) -> str:

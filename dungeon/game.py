@@ -1,4 +1,3 @@
-from dungeon.command.action_result import ActionResult
 from dungeon.dungeon import Dungeon
 
 
@@ -10,5 +9,4 @@ class Game:
         self.dungeon = Dungeon()
 
     def do_command(self, command):
-        result = command.do_deprecated(self.dungeon)
-        return ActionResult(result)
+        return command.do(self.dungeon)

@@ -1,5 +1,4 @@
 from dungeon.command.action_result import ActionResult
-from dungeon.command.command import Command
 from dungeon.game import Game
 
 
@@ -12,10 +11,9 @@ class Application:
         self._show_output.put("Welcome to the Dungeon")
         game = Game()
         game.start()
-        finished = False
-        while not finished:
+        action_result = ActionResult("")
+        while not action_result.is_finished():
             command = self._obtain_user_command.command()
             action_result = game.do_command(command)
             self._show_output.put(str(command))
             self._show_output.put(action_result.message())
-            finished = action_result.is_finished()

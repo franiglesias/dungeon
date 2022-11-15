@@ -18,5 +18,5 @@ class Application:
             result = game.do_command(command)
             action_result = ActionResult(result)
             self._show_output.put(str(command))
-            self._show_output.put(result)
+            self._show_output.put(action_result.message())
             finished = action_result.is_finished()

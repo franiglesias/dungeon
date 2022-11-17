@@ -1,4 +1,5 @@
 from dungeon.command.action_result import ActionResult
+from dungeon.room import Dir
 
 
 class Command:

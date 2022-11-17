@@ -1,4 +1,4 @@
-from dungeon.room import Room
+from dungeon.room import Room, Dir
 
 
 class Dungeon:
@@ -6,7 +6,7 @@ class Dungeon:
         self.start = Room()
 
     def go(self, direction):
-        return self.start.go(direction)
+        return self.start.go(Dir(direction))
 
     def look(self, focus):
         return self.start.look(focus)

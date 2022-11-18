@@ -1,4 +1,6 @@
-from dungeon.room import Room, Dir, Rooms
+from dungeon.room import Room, Rooms
+from dungeon.dir import Dir
+from dungeon.wall import Walls, Exit
 
 
 class Dungeon:
@@ -22,5 +24,7 @@ class DungeonBuilder:
 
     def build(self):
         rooms = Rooms()
-        rooms.set('start', Room())
+        walls = Walls()
+        walls.set(Dir.N, Exit())
+        rooms.set('start', Room(walls))
         return Dungeon(rooms)

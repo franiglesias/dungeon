@@ -1,4 +1,5 @@
 from dungeon.command.action_result import ActionResult
+from dungeon.dir import Dir
 
 
 class Wall:
@@ -15,3 +16,21 @@ class Exit(Wall):
 
     def look(self):
         return ActionResult("There is a door")
+
+
+class Walls:
+    def __init__(self):
+        self._walls = {
+            Dir.N: Wall(),
+            Dir.E: Wall(),
+            Dir.S: Wall(),
+            Dir.W: Wall()
+        }
+
+    def get(self, direction):
+        return self._walls[direction]
+
+    def set(self, direction, wall):
+        cloned = self
+        cloned._walls[direction] = wall
+        return cloned

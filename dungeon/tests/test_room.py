@@ -1,18 +1,24 @@
 from unittest import TestCase
 
-from dungeon.room import Room, Dir, Rooms
+from dungeon.dir import Dir
+from dungeon.room import Room, Rooms
+from dungeon.wall import Walls, Exit
 
 
 class TestRoom(TestCase):
+    def setUp(self):
+        walls = Walls()
+        walls.set(Dir.N, Exit())
+        self.room = Room(walls)
+
     def test_wall_in_all_directions(self):
-        room = Room()
-        result = room.go(Dir.N)
+        result = self.room.go(Dir.N)
         self.assertEqual("Congrats. You're out", result.message())
-        result = room.go(Dir.E)
+        result = self.room.go(Dir.E)
         self.assertEqual('You hit a wall', result.message())
-        result = room.go(Dir.S)
+        result = self.room.go(Dir.S)
         self.assertEqual('You hit a wall', result.message())
-        result = room.go(Dir.W)
+        result = self.room.go(Dir.W)
         self.assertEqual('You hit a wall', result.message())
 
     def test_can_provide_description(self):
@@ -23,8 +29,7 @@ West: There is a wall
 That's all
 """
 
-        room = Room()
-        result = room.look('around')
+        result = self.room.look('around')
 
         self.assertEqual(description, result.message())
 
@@ -37,13 +42,13 @@ class TestRooms(TestCase):
         self.assertEqual(0, self.rooms.count())
 
     def test_can_set_rooms_with_identifier(self):
-        room = Room()
+        room = Room(Walls())
         rooms = self.rooms.set('aRoom', room)
         self.assertEqual(1, rooms.count())
 
     def test_can_get_specific_room(self):
-        first = Room()
-        second = Room()
+        first = Room(Walls())
+        second = Room(Walls())
 
         self.rooms = self.rooms \
             .set('first', first) \

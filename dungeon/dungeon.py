@@ -4,7 +4,7 @@ from dungeon.room import Room, Dir, Rooms
 class Dungeon:
     def __init__(self, rooms):
         self._rooms = rooms
-        self._current = 0
+        self._current = 'start'
 
     def go(self, direction):
         return self._current_room().go(Dir(direction))
@@ -22,5 +22,5 @@ class DungeonBuilder:
 
     def build(self):
         rooms = Rooms()
-        rooms.append(Room())
+        rooms.set('start', Room())
         return Dungeon(rooms)

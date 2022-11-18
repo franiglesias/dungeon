@@ -39,13 +39,13 @@ class Rooms:
     def __init__(self):
         self._rooms = dict()
 
-    def append(self, room):
-        cloned = self
-        cloned._rooms[self.count()] = room
-        return cloned
-
     def get(self, key):
         return self._rooms[key]
 
     def count(self):
         return len(self._rooms)
+
+    def set(self, key, room):
+        cloned = self
+        cloned._rooms[key] = room
+        return cloned

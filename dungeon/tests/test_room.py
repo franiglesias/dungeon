@@ -30,22 +30,24 @@ That's all
 
 
 class TestRooms(TestCase):
-    def test_can_append_room_to_rooms_collection(self):
+    def setUp(self):
+        self.rooms = Rooms()
+
+    def test_new_collection_created_empty(self):
+        self.assertEqual(0, self.rooms.count())
+
+    def test_can_set_rooms_with_identifier(self):
         room = Room()
-        rooms = Rooms()
-
-        self.assertEqual(0, rooms.count())
-        rooms = rooms.append(room)
-
+        rooms = self.rooms.set('aRoom', room)
         self.assertEqual(1, rooms.count())
 
     def test_can_get_specific_room(self):
         first = Room()
         second = Room()
-        rooms = Rooms()
 
-        rooms = rooms.append(first)
-        rooms = rooms.append(second)
+        self.rooms = self.rooms \
+            .set('first', first) \
+            .set('second', second)
 
-        self.assertEqual(first, rooms.get(0))
-        self.assertEqual(second, rooms.get(1))
+        self.assertEqual(first, self.rooms.get('first'))
+        self.assertEqual(second, self.rooms.get('second'))

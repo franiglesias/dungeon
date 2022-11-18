@@ -1,15 +1,19 @@
-from dungeon.room import Room, Dir
+from dungeon.room import Room, Dir, Rooms
 
 
 class Dungeon:
-    def __init__(self):
-        self.start = Room()
+    def __init__(self, rooms):
+        self._rooms = rooms
+        self._current = 0
 
     def go(self, direction):
-        return self.start.go(Dir(direction))
+        return self._current_room().go(Dir(direction))
 
     def look(self, focus):
-        return self.start.look(focus)
+        return self._current_room().look(focus)
+
+    def _current_room(self):
+        return self._rooms.get(self._current)
 
 
 class DungeonBuilder:
@@ -17,4 +21,6 @@ class DungeonBuilder:
         pass
 
     def build(self):
-        return Dungeon()
+        rooms = Rooms()
+        rooms.append(Room())
+        return Dungeon(rooms)

@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from dungeon.room import Room, Dir
+from dungeon.room import Room, Dir, Rooms
 
 
 class TestRoom(TestCase):
@@ -27,3 +27,25 @@ That's all
         result = room.look('around')
 
         self.assertEqual(description, result.message())
+
+
+class TestRooms(TestCase):
+    def test_can_append_room_to_rooms_collection(self):
+        room = Room()
+        rooms = Rooms()
+
+        self.assertEqual(0, rooms.count())
+        rooms = rooms.append(room)
+
+        self.assertEqual(1, rooms.count())
+
+    def test_can_get_specific_room(self):
+        first = Room()
+        second = Room()
+        rooms = Rooms()
+
+        rooms = rooms.append(first)
+        rooms = rooms.append(second)
+
+        self.assertEqual(first, rooms.get(0))
+        self.assertEqual(second, rooms.get(1))

@@ -1,7 +1,7 @@
+from enum import Enum
 
 from dungeon.command.action_result import ActionResult
 from dungeon.wall import Exit, Wall
-from enum import Enum
 
 
 class Room:
@@ -33,3 +33,19 @@ class Dir(Enum):
     S = "south"
     E = "east"
     W = "west"
+
+
+class Rooms:
+    def __init__(self):
+        self._rooms = dict()
+
+    def append(self, room):
+        cloned = self
+        cloned._rooms[self.count()] = room
+        return cloned
+
+    def get(self, key):
+        return self._rooms[key]
+
+    def count(self):
+        return len(self._rooms)

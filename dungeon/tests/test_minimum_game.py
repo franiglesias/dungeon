@@ -1,13 +1,16 @@
 import unittest
 
 from dungeon.command.command import Command
+from dungeon.dungeon import DungeonBuilder
 from dungeon.game import Game
 
 
 class OneRoomDungeonTestCase(unittest.TestCase):
     def setUp(self):
+        builder = DungeonBuilder()
+        dungeon = builder.build()
         self.game = Game()
-        self.game.start()
+        self.game.start(dungeon)
 
     def execute_user_action(self, action):
         return self.game.do_command(Command.from_user_input(action)).message()

@@ -1,4 +1,5 @@
 from dungeon.command.action_result import ActionResult
+from dungeon.dungeon import DungeonBuilder
 from dungeon.game import Game
 
 
@@ -9,8 +10,10 @@ class Application:
 
     def run(self):
         self._show_output.put("Welcome to the Dungeon")
+        dungeon_builder = DungeonBuilder()
+        dungeon = dungeon_builder.build()
         game = Game()
-        game.start()
+        game.start(dungeon)
         action_result = ActionResult("")
         while not action_result.is_finished():
             command = self._obtain_user_command.command()

@@ -10,3 +10,11 @@ class Dungeon:
 
     def look(self, focus):
         return self.start.look(focus)
+
+
+class DungeonBuilder:
+    def __init__(self):
+        pass
+
+    def build(self):
+        return Dungeon()

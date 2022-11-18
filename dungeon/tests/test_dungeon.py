@@ -1,6 +1,6 @@
 import unittest
 
-from dungeon.dungeon import Dungeon
+from dungeon.dungeon import Dungeon, DungeonBuilder
 
 
 class DungeonTestCase(unittest.TestCase):
@@ -14,11 +14,12 @@ class DungeonTestCase(unittest.TestCase):
         self.assertTrue(exited.is_finished())
 
     def build_dungeon(self):
-        dungeon = Dungeon(2)
-        dungeon.connect(0, 'east', 1)
-        dungeon.connect(1, 'west', 0)
-        dungeon.exit(0, 'south')
-        dungeon.start(1)
+        builder = DungeonBuilder()
+        dungeon = builder.build()
+        # dungeon.connect(0, 'east', 1)
+        # dungeon.connect(1, 'west', 0)
+        # dungeon.exit(0, 'south')
+        # dungeon.start(1)
 
         return dungeon
 

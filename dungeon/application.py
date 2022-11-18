@@ -1,6 +1,8 @@
 from dungeon.command.action_result import ActionResult
+from dungeon.dir import Dir
 from dungeon.dungeon import DungeonBuilder
 from dungeon.game import Game
+from dungeon.wall import Exit
 
 
 class Application:
@@ -10,8 +12,10 @@ class Application:
 
     def run(self):
         self._show_output.put("Welcome to the Dungeon")
-        dungeon_builder = DungeonBuilder()
-        dungeon = dungeon_builder.build()
+        builder = DungeonBuilder()
+        builder.add('start')
+        builder.set('start', Dir.N, Exit())
+        dungeon = builder.build()
         game = Game()
         game.start(dungeon)
         action_result = ActionResult("")

@@ -1,13 +1,17 @@
 import unittest
 
 from dungeon.command.command import Command
+from dungeon.dir import Dir
 from dungeon.dungeon import DungeonBuilder
 from dungeon.game import Game
+from dungeon.wall import Exit
 
 
 class OneRoomDungeonTestCase(unittest.TestCase):
     def setUp(self):
         builder = DungeonBuilder()
+        builder.add('start')
+        builder.set('start', Dir.N, Exit())
         dungeon = builder.build()
         self.game = Game()
         self.game.start(dungeon)

@@ -1,5 +1,4 @@
 from dungeon.command.action_result import ActionResult
-from dungeon.dir import Dir
 
 
 class Command:
@@ -31,7 +30,7 @@ class InvalidCommand(Command):
         self._user_input = user_input
 
     def do(self, dungeon):
-        return ActionResult("I don't understand")
+        return ActionResult.player_acted("I don't understand")
 
     def __str__(self) -> str:
         return "You said: {}".format(self._user_input)

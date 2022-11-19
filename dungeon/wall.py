@@ -4,18 +4,18 @@ from dungeon.dir import Dir
 
 class Wall:
     def go(self):
-        return ActionResult("You hit a wall")
+        return ActionResult.player_acted("You hit a wall")
 
     def look(self):
-        return ActionResult("There is a wall")
+        return ActionResult.player_acted("There is a wall")
 
 
 class Exit(Wall):
     def go(self):
-        return ActionResult("Congrats. You're out")
+        return ActionResult.player_exited("Congrats. You're out")
 
     def look(self):
-        return ActionResult("There is a door")
+        return ActionResult.player_acted("There is a door")
 
 
 class Walls:

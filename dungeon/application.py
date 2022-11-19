@@ -18,7 +18,7 @@ class Application:
         dungeon = builder.build()
         game = Game()
         game.start(dungeon)
-        action_result = ActionResult("")
+        action_result = ActionResult.player_acted("")
         while not action_result.is_finished():
             command = self._obtain_user_command.command()
             action_result = game.do_command(command)

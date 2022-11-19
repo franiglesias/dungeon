@@ -1,6 +1,5 @@
 from dungeon.command.action_result import ActionResult
 from dungeon.dir import Dir
-from dungeon.wall import Exit, Wall
 
 
 class Room:
@@ -19,7 +18,7 @@ class Room:
         response += "West: " + self._walls.get(Dir.W).look().message() + "\n"
 
         response += "That's all" + "\n"
-        return ActionResult(response)
+        return ActionResult.player_acted(response)
 
 
 class Rooms:

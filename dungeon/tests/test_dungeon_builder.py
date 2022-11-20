@@ -39,3 +39,18 @@ class TestDungeonBuilder(TestCase):
 
         result = dungeon.go('north')
         self.assertTrue(result.is_finished())
+
+    def test_can_connect_rooms(self):
+        builder = DungeonBuilder()
+        builder.add('101')
+        builder.add('start')
+        builder.connect('start', Dir.N, '101')
+        builder.set('101', Dir.E, Exit())
+
+        dungeon = builder.build()
+        dungeon.go('north')
+        dungeon.go('south')
+        dungeon.go('north')
+        result = dungeon.go('east')
+
+        self.assertTrue(result.is_finished())

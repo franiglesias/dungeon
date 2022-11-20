@@ -25,6 +25,8 @@ class Door(Wall):
     def go(self):
         return ActionResult.player_moved("You move to room", self._destination)
 
+    def look(self):
+        return ActionResult.player_acted("There is a door")
 
 class Walls:
     def __init__(self):

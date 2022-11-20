@@ -1,8 +1,8 @@
 from unittest import TestCase
 
 from dungeon.dir import Dir
-from dungeon.dungeon import DungeonBuilder
-from dungeon.wall import Exit
+from dungeon.dungeon_pkg.dungeon_builder import DungeonBuilder
+from dungeon.dungeon_pkg.wall import Exit
 
 
 class TestDungeonBuilder(TestCase):

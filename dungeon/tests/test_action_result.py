@@ -14,7 +14,7 @@ class TestActionResult(TestCase):
         result = ActionResult.player_moved("message", 'room')
 
         self.assertFalse(result.is_finished())
-        self.assertEquals('room', result.moved_to())
+        self.assertEqual('room', result.moved_to())
 
     def test_exit_action_result(self):
         result = ActionResult.player_exited("message")

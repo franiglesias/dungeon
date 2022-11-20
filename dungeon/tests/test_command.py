@@ -7,7 +7,7 @@ class TestCommand(TestCase):
     def test_allow_look_command_with_no_parameter(self):
         command = Command.from_user_input('look')
         expected = Command('look', 'around')
-        self.assertEquals(CommandMatcher(expected), command)
+        self.assertEqual(CommandMatcher(expected), command)
 
 
 class CommandMatcher:

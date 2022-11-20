@@ -1,24 +1,7 @@
 from dungeon.dir import Dir
-from dungeon.room import Room, Rooms
-from dungeon.wall import Walls, Door
-
-
-class Dungeon:
-    def __init__(self, rooms):
-        self._rooms = rooms
-        self._current = 'start'
-
-    def go(self, direction):
-        result = self._current_room().go(Dir(direction))
-        if result.moved_to() is not None:
-            self._current = result.moved_to()
-        return result
-
-    def look(self, focus):
-        return self._current_room().look(focus)
-
-    def _current_room(self):
-        return self._rooms.get(self._current)
+from dungeon.dungeon_pkg.dungeon import Dungeon
+from dungeon.dungeon_pkg.room import Room, Rooms
+from dungeon.dungeon_pkg.wall import Door, Walls
 
 
 class DungeonBuilder:

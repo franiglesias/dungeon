@@ -9,7 +9,12 @@ class Command:
 
     @staticmethod
     def from_user_input(user_input):
-        command, argument = user_input.split(" ", 1)
+        try:
+            command, argument = user_input.split(" ", 1)
+        except ValueError:
+            command = user_input
+            argument = "around"
+
         if command != "go" and command != "look":
             return InvalidCommand(user_input)
 

@@ -23,10 +23,12 @@ class Door(Wall):
         self._destination = destination
 
     def go(self):
-        return ActionResult.player_moved("You move to room", self._destination)
+        message = "You move to room '{dest}'".format(dest=self._destination)
+        return ActionResult.player_moved(message, self._destination)
 
     def look(self):
         return ActionResult.player_acted("There is a door")
+
 
 class Walls:
     def __init__(self):

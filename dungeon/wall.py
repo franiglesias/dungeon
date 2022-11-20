@@ -18,6 +18,14 @@ class Exit(Wall):
         return ActionResult.player_acted("There is a door")
 
 
+class Door(Wall):
+    def __init__(self, destination):
+        self._destination = destination
+
+    def go(self):
+        return ActionResult.player_moved("You move to room", self._destination)
+
+
 class Walls:
     def __init__(self):
         self._walls = {

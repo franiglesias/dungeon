@@ -1,6 +1,7 @@
 import sys
 
 from dungeon.application import Application
+from dungeon.dungeon_pkg.dungeon_factory import DungeonFactory
 from dungeon.obtain_user_command import ConsoleObtainUserCommand
 from dungeon.show_output import ConsoleShowOutput
 
@@ -11,7 +12,8 @@ def main(args=None):
 
     application = Application(
         ConsoleObtainUserCommand(),
-        ConsoleShowOutput()
+        ConsoleShowOutput(),
+        DungeonFactory()
     )
     application.run()
 

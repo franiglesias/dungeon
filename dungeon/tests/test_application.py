@@ -2,6 +2,7 @@ from unittest import TestCase
 
 from dungeon.application import Application
 from dungeon.command.command import Command
+from dungeon.dungeon_pkg.dungeon_factory import DungeonFactory
 from dungeon.obtain_user_command import ObtainUserCommand
 from dungeon.show_output import ShowOutput
 
@@ -30,8 +31,8 @@ class TestApplication(TestCase):
         obtain_user_command = FixedObtainUserCommand("go north")
         show_output = TestShowOutput()
 
-        app = Application(obtain_user_command, show_output, 'test')
-        app.run()
+        app = Application(obtain_user_command, show_output, DungeonFactory())
+        app.run('test')
 
         self.assertIn("Welcome to the Dungeon", show_output.contents())
 
@@ -39,8 +40,8 @@ class TestApplication(TestCase):
         obtain_user_command = FixedObtainUserCommand("go north")
         show_output = TestShowOutput()
 
-        app = Application(obtain_user_command, show_output, 'test')
-        app.run()
+        app = Application(obtain_user_command, show_output, DungeonFactory())
+        app.run('test')
 
         self.assertIn("You said: go north", show_output.contents())
 
@@ -48,7 +49,7 @@ class TestApplication(TestCase):
         obtain_user_command = FixedObtainUserCommand("go north")
         show_output = TestShowOutput()
 
-        app = Application(obtain_user_command, show_output, 'test')
-        app.run()
+        app = Application(obtain_user_command, show_output, DungeonFactory())
+        app.run('test')
 
         self.assertIn("Congrats. You're out", show_output.contents())

@@ -1,4 +1,4 @@
-from dungeon.dir import Dir
+from dungeon.app.domain.dir import Dir
 
 
 class Dungeon:

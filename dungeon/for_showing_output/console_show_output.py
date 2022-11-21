@@ -1,6 +1,4 @@
-class ShowOutput:
-    def put(self, message):
-        pass
+from dungeon.app.show_output import ShowOutput
 
 
 class ConsoleShowOutput(ShowOutput):

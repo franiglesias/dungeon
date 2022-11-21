@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from dungeon.command.command import Command
+from dungeon.app.command.command import Command
 
 
 class TestCommand(TestCase):

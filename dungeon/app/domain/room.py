@@ -1,5 +1,21 @@
-from dungeon.command.action_result import ActionResult
-from dungeon.dir import Dir
+from dungeon.app.command.action_result import ActionResult
+from dungeon.app.domain.dir import Dir
+
+
+class Rooms:
+    def __init__(self):
+        self._rooms = dict()
+
+    def get(self, key):
+        return self._rooms[key]
+
+    def count(self):
+        return len(self._rooms)
+
+    def set(self, key, room):
+        cloned = self
+        cloned._rooms[key] = room
+        return cloned
 
 
 class Room:
@@ -19,19 +35,3 @@ class Room:
 
         response += "That's all" + "\n"
         return ActionResult.player_acted(response)
-
-
-class Rooms:
-    def __init__(self):
-        self._rooms = dict()
-
-    def get(self, key):
-        return self._rooms[key]
-
-    def count(self):
-        return len(self._rooms)
-
-    def set(self, key, room):
-        cloned = self
-        cloned._rooms[key] = room
-        return cloned

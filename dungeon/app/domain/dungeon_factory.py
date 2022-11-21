@@ -1,6 +1,6 @@
-from dungeon.dir import Dir
-from dungeon.dungeon_pkg.dungeon_builder import DungeonBuilder
-from dungeon.dungeon_pkg.wall import Exit
+from dungeon.app.domain.dungeon_builder import DungeonBuilder
+from dungeon.app.domain.dir import Dir
+from dungeon.app.domain.wall import Exit
 
 
 class DungeonFactory:

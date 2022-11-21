@@ -1,7 +1,6 @@
-from dungeon.dir import Dir
-from dungeon.dungeon_pkg.dungeon import Dungeon
-from dungeon.dungeon_pkg.room import Room, Rooms
-from dungeon.dungeon_pkg.wall import Door, Walls
+from dungeon.app.domain.dungeon import Dungeon
+from dungeon.app.domain.room import Rooms, Room
+from dungeon.app.domain.wall import Door, Walls
 
 
 class DungeonBuilder:

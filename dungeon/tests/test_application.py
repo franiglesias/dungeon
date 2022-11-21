@@ -1,10 +1,10 @@
 from unittest import TestCase
 
-from dungeon.application import Application
-from dungeon.command.command import Command
-from dungeon.dungeon_pkg.dungeon_factory import DungeonFactory
-from dungeon.obtain_user_command import ObtainUserCommand
-from dungeon.show_output import ShowOutput
+from dungeon.app.application import Application
+from dungeon.app.command.command import Command
+from dungeon.app.domain.dungeon_factory import DungeonFactory
+from dungeon.app.obtain_user_command import ObtainUserCommand
+from dungeon.app.show_output import ShowOutput
 
 
 class FixedObtainUserCommand(ObtainUserCommand):

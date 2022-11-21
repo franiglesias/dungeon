@@ -1,7 +1,7 @@
 from unittest import TestCase
 
-from dungeon.dir import Dir
-from dungeon.dungeon_pkg.wall import Wall, Exit, Door, Walls
+from dungeon.app.domain.dir import Dir
+from dungeon.app.domain.wall import Wall, Exit, Door, Walls
 
 
 class TestWalls(TestCase):

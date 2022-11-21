@@ -1,5 +1,5 @@
-from dungeon.command.action_result import ActionResult
-from dungeon.dir import Dir
+from dungeon.app.command.action_result import ActionResult
+from dungeon.app.domain.dir import Dir
 
 
 class Wall:

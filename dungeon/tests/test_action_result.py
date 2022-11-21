@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from dungeon.command.action_result import ActionResult
+from dungeon.app.command.action_result import ActionResult
 
 
 class TestActionResult(TestCase):

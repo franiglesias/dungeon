@@ -2,7 +2,7 @@ from unittest import TestCase
 
 from mock.mock import patch
 
-from dungeon.obtain_user_command import ConsoleObtainUserCommand
+from dungeon.for_obtaining_commands.console_obtain_user_command import ConsoleObtainUserCommand
 
 
 class TestConsoleObtainUserCommand(TestCase):

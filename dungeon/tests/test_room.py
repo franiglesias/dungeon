@@ -1,8 +1,8 @@
 from unittest import TestCase
 
-from dungeon.dir import Dir
-from dungeon.dungeon_pkg.room import Room, Rooms
-from dungeon.dungeon_pkg.wall import Exit, Walls
+from dungeon.app.domain.dir import Dir
+from dungeon.app.domain.room import Rooms, Room
+from dungeon.app.domain.wall import Exit, Walls
 
 
 class TestRoom(TestCase):

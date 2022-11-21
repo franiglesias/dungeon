@@ -1,9 +1,9 @@
 import sys
 
-from dungeon.application import Application
-from dungeon.dungeon_pkg.dungeon_factory import DungeonFactory
-from dungeon.obtain_user_command import ConsoleObtainUserCommand
-from dungeon.show_output import ConsoleShowOutput
+from dungeon.app.application import Application
+from dungeon.app.domain.dungeon_factory import DungeonFactory
+from dungeon.for_obtaining_commands.console_obtain_user_command import ConsoleObtainUserCommand
+from dungeon.for_showing_output.console_show_output import ConsoleShowOutput
 
 
 def main(args=None):

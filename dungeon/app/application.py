@@ -1,5 +1,5 @@
-from dungeon.command.action_result import ActionResult
-from dungeon.game import Game
+from dungeon.app.command.action_result import ActionResult
+from dungeon.app.domain.game import Game
 
 
 class Application:

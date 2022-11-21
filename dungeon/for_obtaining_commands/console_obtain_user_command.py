@@ -1,10 +1,5 @@
-from dungeon.command.command import Command
-
-
-class ObtainUserCommand:
-
-    def command(self):
-        pass
+from dungeon.app.command.command import Command
+from dungeon.app.obtain_user_command import ObtainUserCommand
 
 
 class ConsoleObtainUserCommand(ObtainUserCommand):

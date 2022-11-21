@@ -1,10 +1,10 @@
 import unittest
 
-from dungeon.command.command import Command
-from dungeon.dir import Dir
-from dungeon.dungeon_pkg.dungeon_builder import DungeonBuilder
-from dungeon.dungeon_pkg.wall import Exit
-from dungeon.game import Game
+from dungeon.app.command.command import Command
+from dungeon.app.domain.dir import Dir
+from dungeon.app.domain.dungeon_builder import DungeonBuilder
+from dungeon.app.domain.wall import Exit
+from dungeon.app.domain.game import Game
 
 
 class OneRoomDungeonTestCase(unittest.TestCase):

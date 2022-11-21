@@ -29,15 +29,4 @@ class DungeonBuilder:
 
     def connect(self, origin, direction, target):
         self.set(origin, direction, Door(target))
-        self.set(target, self._opposite(direction), Door(origin))
-
-    @staticmethod
-    def _opposite(direction):
-        opposite = {
-            Dir.N: Dir.S,
-            Dir.S: Dir.N,
-            Dir.E: Dir.W,
-            Dir.W: Dir.E
-        }
-
-        return opposite[direction]
+        self.set(target, direction.opposite(), Door(origin))

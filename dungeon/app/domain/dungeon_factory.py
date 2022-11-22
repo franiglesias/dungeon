@@ -29,7 +29,7 @@ class DungeonFactory:
         builder.connect('0', Dir.S, '5')
         builder.connect('1', Dir.E, '2')
         builder.connect('2', Dir.E, '3')
-        builder.connect('2', Dir.E, '7')
+        builder.connect('2', Dir.S, '7')
         builder.connect('3', Dir.E, '4')
         builder.connect('4', Dir.S, '9')
         builder.connect('5', Dir.S, '10')

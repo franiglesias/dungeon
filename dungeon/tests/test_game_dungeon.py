@@ -3,7 +3,7 @@ import unittest
 from dungeon.app.domain.dungeon_factory import DungeonFactory
 
 
-class MyTestCase(unittest.TestCase):
+class GameDungeonTestCase(unittest.TestCase):
     def test_we_can_complete_dungeon(self):
         dungeon = DungeonFactory().make('game')
         dungeon.go('north')
@@ -17,7 +17,7 @@ class MyTestCase(unittest.TestCase):
         dungeon.go('south')
         result = dungeon.go('east')
 
-        self.assertTrue(result.is_finished())  # add assertion here
+        self.assertTrue(result.is_finished())
 
 
 if __name__ == '__main__':

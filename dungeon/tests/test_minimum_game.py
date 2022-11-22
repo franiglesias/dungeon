@@ -1,10 +1,10 @@
 import unittest
 
-from dungeon.app.command.command import Command
+from dungeon.app.command.command_factory import CommandFactory
 from dungeon.app.domain.dir import Dir
 from dungeon.app.domain.dungeon_builder import DungeonBuilder
-from dungeon.app.domain.wall import Exit
 from dungeon.app.domain.game import Game
+from dungeon.app.domain.wall import Exit
 
 
 class OneRoomDungeonTestCase(unittest.TestCase):
@@ -17,7 +17,7 @@ class OneRoomDungeonTestCase(unittest.TestCase):
         self.game.start(dungeon)
 
     def execute_user_action(self, action):
-        return self.game.do_command(Command.from_user_input(action)).message()
+        return self.game.do_command(CommandFactory.from_user_input(action)).message()
 
     def test_player_finds_easy_way_out(self):
         self.assertEqual("Congrats. You're out", self.execute_user_action("go north"))

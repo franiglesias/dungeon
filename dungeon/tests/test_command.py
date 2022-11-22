@@ -1,11 +1,12 @@
 from unittest import TestCase
 
-from dungeon.app.command.command import Command, LookCommand
+from dungeon.app.command.command_factory import CommandFactory
+from dungeon.app.command.commands.look_command import LookCommand
 
 
 class TestCommand(TestCase):
     def test_allow_look_command_with_no_parameter(self):
-        command = Command.from_user_input('look')
+        command = CommandFactory.from_user_input('look')
         expected = LookCommand('around')
         self.assertEqual(CommandMatcher(expected), command)
 

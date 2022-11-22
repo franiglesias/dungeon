@@ -3,9 +3,8 @@ from dungeon.app.command.action_result import ActionResult
 
 class Command:
 
-    def __init__(self, command, argument):
+    def __init__(self, argument):
         self._argument = argument
-        self._command = command
 
     @staticmethod
     def from_user_input(user_input):
@@ -15,27 +14,51 @@ class Command:
             command = user_input
             argument = "around"
 
-        if command != "go" and command != "look":
-            return InvalidCommand(user_input)
+        if command == "go":
+            return GoCommand(argument)
+        if command == "look":
+            return LookCommand(argument)
 
-        return Command(command, argument)
+        return InvalidCommand(user_input)
 
-    def do(self, dungeon):
-        if self._command == "go":
-            return dungeon.go(self._argument)
-        if self._command == "look":
-            return dungeon.look(self._argument)
+    def do(self, receiver):
+        pass
 
     def __str__(self) -> str:
-        return "You said: {} {}".format(self._command, self._argument)
+        return "You said: {} {}".format(self._name(), self._argument)
+
+    def _name(self):
+        pass
+
+
+class GoCommand(Command):
+    def __init__(self, argument):
+        super().__init__(argument)
+
+    def do(self, receiver):
+        return receiver.go(self._argument)
+
+    def _name(self):
+        return "go"
+
+
+class LookCommand(Command):
+    def __init__(self, argument):
+        super().__init__(argument)
+
+    def do(self, receiver):
+        return receiver.look(self._argument)
+
+    def _name(self):
+        return "look"
 
 
 class InvalidCommand(Command):
     def __init__(self, user_input):
-        self._user_input = user_input
+        super().__init__(user_input)
 
     def do(self, dungeon):
         return ActionResult.player_acted("I don't understand")
 
     def __str__(self) -> str:
-        return "You said: {}".format(self._user_input)
+        return "You said: {}".format(self._argument)

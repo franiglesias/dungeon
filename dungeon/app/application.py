@@ -19,9 +19,7 @@ class Application:
             self._show_message(action_result.message())
 
     def _prepare_game_with_dungeon(self, dungeon):
-        game = Game()
-        game.start(self._build_dungeon(dungeon))
-        return game
+        return Game(self._build_dungeon(dungeon))
 
     def _obtain_command(self):
         return self._obtain_user_command.command()

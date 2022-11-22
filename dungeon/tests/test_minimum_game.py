@@ -9,12 +9,10 @@ from dungeon.app.domain.wall import Exit
 
 class OneRoomDungeonTestCase(unittest.TestCase):
     def setUp(self):
-        builder = DungeonBuilder()
-        builder.add('start')
-        builder.set('start', Dir.N, Exit())
-        dungeon = builder.build()
-        self.game = Game()
-        self.game.start(dungeon)
+        dungeon_builder = DungeonBuilder()
+        dungeon_builder.add('start')
+        dungeon_builder.set('start', Dir.N, Exit())
+        self.game = Game(dungeon_builder.build())
 
     def execute_user_action(self, action):
         return self.game.do_command(CommandFactory.from_user_input(action)).message()

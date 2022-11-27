@@ -10,6 +10,12 @@ class Application:
         self._factory = factory
 
     def run(self, dungeon='game'):
+        if not self._toggles.is_active('with_player'):
+            self.run_with_game(dungeon)
+        else:
+            self.run_with_game(dungeon)
+
+    def run_with_game(self, dungeon):
         self._show_message("Welcome to the Dungeon")
         game = self._prepare_game_with_dungeon(dungeon)
         action_result = ActionResult.player_acted("")

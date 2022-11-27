@@ -30,9 +30,11 @@ class TestShowOutput(ShowOutput):
 class TestApplication(TestCase):
 
     def setUp(self) -> None:
-        self.toggles = Toggles()
         self.obtain_user_command = FixedObtainUserCommand("go north")
         self.show_output = TestShowOutput()
+        self.toggles = Toggles()
+        self.toggles.activate('with_player')
+
         self.application = Application(self.obtain_user_command, self.show_output, DungeonFactory(), self.toggles)
 
     def test_should_show_title(self):

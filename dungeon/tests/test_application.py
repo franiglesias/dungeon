@@ -28,32 +28,21 @@ class TestShowOutput(ShowOutput):
 
 
 class TestApplication(TestCase):
+
+    def setUp(self) -> None:
+        self.toggles = Toggles()
+        self.obtain_user_command = FixedObtainUserCommand("go north")
+        self.show_output = TestShowOutput()
+        self.application = Application(self.obtain_user_command, self.show_output, DungeonFactory(), self.toggles)
+
     def test_should_show_title(self):
-        obtain_user_command = FixedObtainUserCommand("go north")
-        show_output = TestShowOutput()
-        toggles = Toggles()
-
-        app = Application(obtain_user_command, show_output, DungeonFactory(), toggles)
-        app.run('test')
-
-        self.assertIn("Welcome to the Dungeon", show_output.contents())
+        self.application.run('test')
+        self.assertIn("Welcome to the Dungeon", self.show_output.contents())
 
     def test_should_show_command_echo(self):
-        obtain_user_command = FixedObtainUserCommand("go north")
-        show_output = TestShowOutput()
-        toggles = Toggles()
-
-        app = Application(obtain_user_command, show_output, DungeonFactory(), toggles)
-        app.run('test')
-
-        self.assertIn("You said: go north", show_output.contents())
+        self.application.run('test')
+        self.assertIn("You said: go north", self.show_output.contents())
 
     def test_should_show_ending_message(self):
-        obtain_user_command = FixedObtainUserCommand("go north")
-        show_output = TestShowOutput()
-        toggles = Toggles()
-
-        app = Application(obtain_user_command, show_output, DungeonFactory(), toggles)
-        app.run('test')
-
-        self.assertIn("Congrats. You're out", show_output.contents())
+        self.application.run('test')
+        self.assertIn("Congrats. You're out", self.show_output.contents())

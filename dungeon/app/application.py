@@ -1,5 +1,4 @@
-from dungeon.app.command.action_result import ActionResult
-from dungeon.app.domain.game import Game
+from dungeon.app.domain.player import Player
 
 
 class Application:
@@ -10,23 +9,18 @@ class Application:
         self._factory = factory
 
     def run(self, dungeon='game'):
-        if not self._toggles.is_active('with_player'):
-            self.run_with_game(dungeon)
-        else:
-            self.run_with_game(dungeon)
+        self.run_with_player(dungeon)
 
-    def run_with_game(self, dungeon):
+    def run_with_player(self, dungeon_name):
         self._show_message("Welcome to the Dungeon")
-        game = self._prepare_game_with_dungeon(dungeon)
-        action_result = ActionResult.player_acted("")
-        while not action_result.is_finished():
-            command = self._obtain_command()
-            action_result = game.do_command(command)
-            self._show_message(str(command))
-            self._show_message(action_result.message())
+        dungeon = self._build_dungeon(dungeon_name)
+        player = Player()
 
-    def _prepare_game_with_dungeon(self, dungeon):
-        return Game(self._build_dungeon(dungeon))
+        while player.is_alive() and not player.has_won():
+            command = self._obtain_command()
+            player.do(command, dungeon)
+            self._show_message(str(command))
+            self._show_message(player.said())
 
     def _obtain_command(self):
         return self._obtain_user_command.command()

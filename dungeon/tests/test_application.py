@@ -5,6 +5,7 @@ from dungeon.app.command.command_factory import CommandFactory
 from dungeon.app.domain.dungeon_factory import DungeonFactory
 from dungeon.app.obtain_user_command import ObtainUserCommand
 from dungeon.app.show_output import ShowOutput
+from dungeon.app.toggles.toggles import Toggles
 
 
 class FixedObtainUserCommand(ObtainUserCommand):
@@ -30,8 +31,9 @@ class TestApplication(TestCase):
     def test_should_show_title(self):
         obtain_user_command = FixedObtainUserCommand("go north")
         show_output = TestShowOutput()
+        toggles = Toggles()
 
-        app = Application(obtain_user_command, show_output, DungeonFactory())
+        app = Application(obtain_user_command, show_output, DungeonFactory(), toggles)
         app.run('test')
 
         self.assertIn("Welcome to the Dungeon", show_output.contents())
@@ -39,8 +41,9 @@ class TestApplication(TestCase):
     def test_should_show_command_echo(self):
         obtain_user_command = FixedObtainUserCommand("go north")
         show_output = TestShowOutput()
+        toggles = Toggles()
 
-        app = Application(obtain_user_command, show_output, DungeonFactory())
+        app = Application(obtain_user_command, show_output, DungeonFactory(), toggles)
         app.run('test')
 
         self.assertIn("You said: go north", show_output.contents())
@@ -48,8 +51,9 @@ class TestApplication(TestCase):
     def test_should_show_ending_message(self):
         obtain_user_command = FixedObtainUserCommand("go north")
         show_output = TestShowOutput()
+        toggles = Toggles()
 
-        app = Application(obtain_user_command, show_output, DungeonFactory())
+        app = Application(obtain_user_command, show_output, DungeonFactory(), toggles)
         app.run('test')
 
         self.assertIn("Congrats. You're out", show_output.contents())

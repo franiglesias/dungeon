@@ -3,7 +3,8 @@ from dungeon.app.domain.game import Game
 
 
 class Application:
-    def __init__(self, obtain_user_command, show_output, factory):
+    def __init__(self, obtain_user_command, show_output, factory, toggles):
+        self._toggles = toggles
         self._obtain_user_command = obtain_user_command
         self._show_output = show_output
         self._factory = factory

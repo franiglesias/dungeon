@@ -25,6 +25,9 @@ class Energy:
     def decrease(self, delta):
         self._energy = self._energy.subtract(delta)
 
+    def __str__(self):
+        return str(self._energy.value())
+
 
 class Player:
     def __init__(self, starting_energy):
@@ -53,4 +56,4 @@ class Player:
         return self._exited
 
     def said(self):
-        return self._last_message
+        return "{message}\nRemaining energy: {energy}".format(message=self._last_message, energy=self._energy)

@@ -24,7 +24,8 @@ class PlayerTestCase(unittest.TestCase):
 
         self.assertTrue(player.is_alive())
         self.assertFalse(player.has_won())
-        self.assertEqual("I'm ready", player.said())
+        self.assertIn("I'm ready", player.said())
+        self.assertIn("Remaining energy: 100", player.said())
 
     def test_player_should_be_able_to_exit_dungeon(self):
         player = Player.awake()
@@ -33,14 +34,16 @@ class PlayerTestCase(unittest.TestCase):
 
         self.assertTrue(player.is_alive())
         self.assertTrue(player.has_won())
-        self.assertEqual("You're out", player.said())
+        self.assertIn("You're out", player.said())
+        self.assertIn("Remaining energy: 99", player.said())
 
     def test_player_dies_if_action_consumes_all_energy(self):
         player = Player.awake_with_energy(EnergyUnit(10))
         player.do(KillerCommand(EnergyUnit(15)), player)
         self.assertFalse(player.is_alive())
         self.assertFalse(player.has_won())
-        self.assertEqual("You're dead!", player.said())
+        self.assertIn("You're dead!", player.said())
+        self.assertIn("Remaining energy: -5", player.said())
 
     def test_player_does_not_die_if_action_does_not_consume_all_energy(self):
         player = Player.awake_with_energy(EnergyUnit(10))

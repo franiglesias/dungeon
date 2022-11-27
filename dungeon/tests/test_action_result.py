@@ -1,6 +1,7 @@
 from unittest import TestCase
 
-from dungeon.app.command.action_result import ActionResult
+from dungeon.app.command.action_result import ActionResult, WithCost
+from dungeon.app.domain.player import EnergyUnit
 
 
 class TestActionResult(TestCase):
@@ -27,3 +28,8 @@ class TestActionResult(TestCase):
 
         self.assertFalse(result.is_finished())
         self.assertIsNone(result.moved_to())
+
+    def test_action_result_with_cost(self):
+        result = ActionResult.player_acted("Action")
+        result = WithCost(result, EnergyUnit(3))
+        self.assertEqual(EnergyUnit(3), result.cost())

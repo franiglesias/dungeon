@@ -14,7 +14,7 @@ class Application:
     def run_with_player(self, dungeon_name):
         self._show_message("Welcome to the Dungeon")
         dungeon = self._build_dungeon(dungeon_name)
-        player = Player()
+        player = Player.awake()
 
         while player.is_alive() and not player.has_won():
             command = self._obtain_command()

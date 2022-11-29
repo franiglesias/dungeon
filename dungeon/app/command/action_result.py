@@ -1,6 +1,3 @@
-from dungeon.app.domain.player import EnergyUnit
-
-
 class Result:
     def message(self):
         pass
@@ -13,6 +10,17 @@ class Result:
 
     def cost(self):
         pass
+
+
+class ResultBag():
+    def __init__(self):
+        self._results = dict()
+
+    def set(self, key, data):
+        self._results[key] = data
+
+    def get(self, key):
+        return self._results[key]
 
 
 class ActionResult(Result):
@@ -33,18 +41,25 @@ class ActionResult(Result):
         return cls("")
 
     def __init__(self, message, destination=None, exited=False):
-        self._message = message
-        self._destination = destination
-        self._exited = exited
+        self._bag = ResultBag()
+        self._bag.set("message", message)
+        self._bag.set("destination", destination)
+        self._bag.set("exited", exited)
 
     def message(self):
-        return self._message
+        return self._bag.get("message")
 
     def is_finished(self):
-        return self._exited
+        return self._bag.get("exited")
 
     def moved_to(self):
-        return self._destination
+        return self._bag.get("destination")
+
+    def get(self, key):
+        return self._bag.get(key)
+
+    def set(self, key, data):
+        self._bag.set(key, data)
 
 
 class WithCost(Result):

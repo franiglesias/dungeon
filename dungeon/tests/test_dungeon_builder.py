@@ -13,7 +13,7 @@ class TestDungeonBuilder(TestCase):
 
         dungeon = builder.build()
         result = dungeon.go('north')
-        self.assertTrue(result.is_finished())
+        self.assertTrue(result.get("exited"))
 
     def test_can_add_room_with_several_doors(self):
         builder = DungeonBuilder()
@@ -24,9 +24,9 @@ class TestDungeonBuilder(TestCase):
         dungeon = builder.build()
 
         result = dungeon.go('north')
-        self.assertTrue(result.is_finished())
+        self.assertTrue(result.get("exited"))
         result = dungeon.go('south')
-        self.assertTrue(result.is_finished())
+        self.assertTrue(result.get("exited"))
 
     def test_can_add_several_rooms(self):
         builder = DungeonBuilder()
@@ -38,7 +38,7 @@ class TestDungeonBuilder(TestCase):
         dungeon = builder.build()
 
         result = dungeon.go('north')
-        self.assertTrue(result.is_finished())
+        self.assertTrue(result.get("exited"))
 
     def test_can_connect_rooms(self):
         builder = DungeonBuilder()
@@ -53,4 +53,4 @@ class TestDungeonBuilder(TestCase):
         dungeon.go('north')
         result = dungeon.go('east')
 
-        self.assertTrue(result.is_finished())
+        self.assertTrue(result.get("exited"))

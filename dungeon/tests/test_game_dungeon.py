@@ -17,7 +17,7 @@ class GameDungeonTestCase(unittest.TestCase):
         dungeon.go('south')
         result = dungeon.go('east')
 
-        self.assertTrue(result.is_finished())
+        self.assertTrue(result.get("exited"))
 
 
 if __name__ == '__main__':

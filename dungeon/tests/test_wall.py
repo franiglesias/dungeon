@@ -22,4 +22,4 @@ class TestWalls(TestCase):
         door = Door('destination')
         result = door.go()
 
-        self.assertEqual('destination', result.moved_to())
+        self.assertEqual('destination', result._bag.get("destination"))

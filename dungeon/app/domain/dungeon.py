@@ -8,8 +8,8 @@ class Dungeon:
 
     def go(self, direction):
         result = self._current_room().go(Dir(direction))
-        if result.moved_to() is not None:
-            self._current = result.moved_to()
+        if result.get("destination") is not None:
+            self._current = result.get("destination")
         return result
 
     def look(self, focus):

@@ -48,6 +48,7 @@ class Player:
     def do(self, command, receiver):
         self._last_result = command.do(receiver)
         self._energy.decrease(self._last_action_cost())
+        self._last_result.set("energy", str(self._energy))
 
     def _last_action_cost(self):
         return self._last_result.get("cost")

@@ -11,3 +11,6 @@ class Command:
 
     def _name(self):
         pass
+
+    def _to_str(self):
+        return "{} {}".format(self._name(), self._argument)

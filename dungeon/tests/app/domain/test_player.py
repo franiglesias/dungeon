@@ -9,6 +9,7 @@ class ExitDungeonCommand(Command):
     def do(self, receiver):
         result = ActionResult.player_exited("You're out")
         result.set('cost', EnergyUnit(1))
+        result.set('command', self._to_str())
         return result
 
 
@@ -19,6 +20,7 @@ class KillerCommand(Command):
     def do(self, receiver):
         result = ActionResult.player_acted("You're dead!")
         result.set('cost', self._energy_consumption)
+        result.set('command', "kill command")
         return result
 
 

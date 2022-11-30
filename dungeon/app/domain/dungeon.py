@@ -10,6 +10,7 @@ class Dungeon:
         result = self._current_room().go(Dir(direction))
         if result.get("destination") is not None:
             self._current = result.get("destination")
+        result.set("title", self._current)
         return result
 
     def look(self, focus):

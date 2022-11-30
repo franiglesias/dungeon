@@ -19,6 +19,8 @@ class Application:
         while player.is_alive() and not player.has_won():
             command = self._obtain_command()
             player.do(command, dungeon)
+            result = player.last_result()
+
             self._show_message(str(command))
             self._show_message(player.said())
 

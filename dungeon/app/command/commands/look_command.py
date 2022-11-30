@@ -9,6 +9,7 @@ class LookCommand(Command):
     def do(self, receiver):
         result = receiver.look(self._argument)
         result.set('cost', EnergyUnit(1))
+        result.set('command', self._to_str())
         return result
 
     def _name(self):

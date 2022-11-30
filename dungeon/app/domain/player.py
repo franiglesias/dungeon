@@ -47,7 +47,7 @@ class Player:
         result = command.do(receiver)
         self._energy.decrease(result.cost())
         self._exited = result.is_finished()
-        self._last_message = result.message()
+        self._last_message = result.get("message")
 
     def is_alive(self):
         return self._energy.is_alive()

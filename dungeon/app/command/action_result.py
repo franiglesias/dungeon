@@ -32,9 +32,6 @@ class ActionResult():
         self._bag.set("destination", destination)
         self._bag.set("exited", exited)
 
-    def message(self):
-        return self._bag.get("message")
-
     def is_finished(self):
         return self._bag.get("exited")
 

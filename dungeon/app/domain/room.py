@@ -28,10 +28,10 @@ class Room:
 
     def look(self, argument):
         response = ""
-        response += "North: " + self._walls.get(Dir.N).look().message() + "\n"
-        response += "East: " + self._walls.get(Dir.E).look().message() + "\n"
-        response += "South: " + self._walls.get(Dir.S).look().message() + "\n"
-        response += "West: " + self._walls.get(Dir.W).look().message() + "\n"
+        response += "North: " + self._walls.get(Dir.N).look().get("message") + "\n"
+        response += "East: " + self._walls.get(Dir.E).look().get("message") + "\n"
+        response += "South: " + self._walls.get(Dir.S).look().get("message") + "\n"
+        response += "West: " + self._walls.get(Dir.W).look().get("message") + "\n"
 
         response += "That's all" + "\n"
         return ActionResult.player_acted(response)

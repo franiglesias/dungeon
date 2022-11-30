@@ -13,13 +13,13 @@ class TestRoom(TestCase):
 
     def test_wall_in_all_directions(self):
         result = self.room.go(Dir.N)
-        self.assertEqual("Congrats. You're out", result.message())
+        self.assertEqual("Congrats. You're out", result.get("message"))
         result = self.room.go(Dir.E)
-        self.assertEqual('You hit a wall', result.message())
+        self.assertEqual('You hit a wall', result.get("message"))
         result = self.room.go(Dir.S)
-        self.assertEqual('You hit a wall', result.message())
+        self.assertEqual('You hit a wall', result.get("message"))
         result = self.room.go(Dir.W)
-        self.assertEqual('You hit a wall', result.message())
+        self.assertEqual('You hit a wall', result.get("message"))
 
     def test_can_provide_description(self):
         description = """North: There is a door
@@ -31,7 +31,7 @@ That's all
 
         result = self.room.look('around')
 
-        self.assertEqual(description, result.message())
+        self.assertEqual(description, result.get("message"))
 
 
 class TestRooms(TestCase):

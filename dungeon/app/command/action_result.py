@@ -32,9 +32,6 @@ class ActionResult():
         self._bag.set("destination", destination)
         self._bag.set("exited", exited)
 
-    def cost(self):
-        return self._bag.get("cost")
-
     def get(self, key):
         return self._bag.get(key)
 

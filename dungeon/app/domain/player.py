@@ -45,7 +45,7 @@ class Player:
 
     def do(self, command, receiver):
         result = command.do(receiver)
-        self._energy.decrease(result.cost())
+        self._energy.decrease(result.get("cost"))
         self._exited = result.get("exited")
         self._last_message = result.get("message")
 

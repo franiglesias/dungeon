@@ -32,4 +32,4 @@ class TestActionResult(TestCase):
     def test_action_result_with_cost(self):
         result = ActionResult.player_acted("Action")
         result.set('cost', EnergyUnit(3))
-        self.assertEqual(EnergyUnit(3), result.cost())
+        self.assertEqual(EnergyUnit(3), result._bag.get("cost"))

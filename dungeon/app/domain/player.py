@@ -1,3 +1,6 @@
+from dungeon.app.command.action_result import ActionResult
+
+
 class EnergyUnit:
     def __init__(self, value):
         self._value = value
@@ -31,9 +34,8 @@ class Energy:
 
 class Player:
     def __init__(self, starting_energy):
-        self._last_message = "I'm ready"
         self._energy = Energy(starting_energy)
-        self._exited = False
+        self._last_result = ActionResult.player_acted("I'm ready")
 
     @classmethod
     def awake(cls):
@@ -44,16 +46,23 @@ class Player:
         return cls(starting_energy)
 
     def do(self, command, receiver):
-        result = command.do(receiver)
-        self._energy.decrease(result.get("cost"))
-        self._exited = result.get("exited")
-        self._last_message = result.get("message")
+        self._last_result = command.do(receiver)
+        self._energy.decrease(self._last_action_cost())
+
+    def _last_action_cost(self):
+        return self._last_result.get("cost")
+
+    def last_result(self):
+        return self._last_result
 
     def is_alive(self):
         return self._energy.is_alive()
 
     def has_won(self):
-        return self._exited
+        return self._last_result.get("exited")
 
     def said(self):
-        return "{message}\nRemaining energy: {energy}".format(message=self._last_message, energy=self._energy)
+        return "{message}\nRemaining energy: {energy}".format(message=self._message(), energy=self._energy)
+
+    def _message(self):
+        return self._last_result.get("message")

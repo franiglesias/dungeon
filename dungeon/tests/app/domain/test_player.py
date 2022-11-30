@@ -1,13 +1,15 @@
 import unittest
 
-from dungeon.app.command.action_result import ActionResult, WithCost
+from dungeon.app.command.action_result import ActionResult
 from dungeon.app.command.command import Command
 from dungeon.app.domain.player import Player, EnergyUnit
 
 
 class ExitDungeonCommand(Command):
     def do(self, receiver):
-        return WithCost(ActionResult.player_exited("You're out"), EnergyUnit(1))
+        result = ActionResult.player_exited("You're out")
+        result.set('cost', EnergyUnit(1))
+        return result
 
 
 class KillerCommand(Command):
@@ -15,7 +17,9 @@ class KillerCommand(Command):
         self._energy_consumption = energy_consumption
 
     def do(self, receiver):
-        return WithCost(ActionResult.player_acted("You're dead!"), self._energy_consumption)
+        result = ActionResult.player_acted("You're dead!")
+        result.set('cost', self._energy_consumption)
+        return result
 
 
 class PlayerTestCase(unittest.TestCase):

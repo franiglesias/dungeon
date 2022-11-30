@@ -1,17 +1,3 @@
-class Result:
-    def message(self):
-        pass
-
-    def is_finished(self):
-        pass
-
-    def moved_to(self):
-        pass
-
-    def cost(self):
-        pass
-
-
 class ResultBag():
     def __init__(self):
         self._results = dict()
@@ -23,7 +9,7 @@ class ResultBag():
         return self._results[key]
 
 
-class ActionResult(Result):
+class ActionResult():
     @classmethod
     def player_acted(cls, message):
         return cls(message, None, False)
@@ -55,26 +41,11 @@ class ActionResult(Result):
     def moved_to(self):
         return self._bag.get("destination")
 
+    def cost(self):
+        return self._bag.get("cost")
+
     def get(self, key):
         return self._bag.get(key)
 
     def set(self, key, data):
         self._bag.set(key, data)
-
-
-class WithCost(Result):
-    def __init__(self, origin, cost):
-        self._origin = origin
-        self._cost = cost
-
-    def message(self):
-        return self._origin.message()
-
-    def is_finished(self):
-        return self._origin.is_finished()
-
-    def moved_to(self):
-        return self._origin.moved_to()
-
-    def cost(self):
-        return self._cost

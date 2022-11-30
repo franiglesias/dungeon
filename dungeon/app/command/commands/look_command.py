@@ -1,4 +1,3 @@
-from dungeon.app.command.action_result import WithCost
 from dungeon.app.command.command import Command
 from dungeon.app.domain.player import EnergyUnit
 
@@ -8,7 +7,9 @@ class LookCommand(Command):
         super().__init__(argument)
 
     def do(self, receiver):
-        return WithCost(receiver.look(self._argument), EnergyUnit(1))
+        result = receiver.look(self._argument)
+        result.set('cost', EnergyUnit(1))
+        return result
 
     def _name(self):
         return "look"

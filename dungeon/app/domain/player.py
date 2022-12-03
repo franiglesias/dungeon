@@ -61,9 +61,3 @@ class Player:
 
     def has_won(self):
         return self._last_result.get("exited")
-
-    def said(self):
-        return "{message}\nRemaining energy: {energy}".format(message=self._message(), energy=self._energy)
-
-    def _message(self):
-        return self._last_result.get("message")

@@ -14,7 +14,9 @@ class Dungeon:
         return result
 
     def look(self, focus):
-        return self._current_room().look(focus)
+        result = self._current_room().look(focus)
+        result.set("title", self._current)
+        return result
 
     def _current_room(self):
         return self._rooms.get(self._current)

@@ -1,3 +1,4 @@
+from dungeon.app.Scene import Scene
 from dungeon.app.domain.player import Player
 
 
@@ -8,27 +9,21 @@ class Application:
         self._show_output = show_output
         self._factory = factory
 
-    def run(self, dungeon='game'):
-        self.run_with_player(dungeon)
-
-    def run_with_player(self, dungeon_name):
-        self._show_message("Welcome to the Dungeon")
+    def run(self, dungeon_name='game'):
+        self._show_scene(Scene(title="Welcome to the Dungeon", command="", description="", energy="100"))
         dungeon = self._build_dungeon(dungeon_name)
         player = Player.awake()
-
         while player.is_alive() and not player.has_won():
             command = self._obtain_command()
             player.do(command, dungeon)
             result = player.last_result()
-
-            self._show_message(str(command))
-            self._show_message(player.said())
+            self._show_scene(Scene.from_result(result))
 
     def _obtain_command(self):
         return self._obtain_user_command.command()
 
-    def _show_message(self, message):
-        self._show_output.put(message)
+    def _show_scene(self, scene):
+        self._show_output.put(scene)
 
     def _build_dungeon(self, dungeon):
         return self._factory.make(dungeon)

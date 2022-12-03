@@ -20,8 +20,12 @@ class TestShowOutput(ShowOutput):
     def __init__(self):
         self._contents = ""
 
-    def put(self, message):
-        self._contents = self._contents + message + "\n\n"
+    def put(self, scene):
+        self._contents = self._contents + scene.title() + "\n"
+        self._contents = self._contents + scene.command() + "\n"
+        self._contents = self._contents + scene.description() + "\n"
+        self._contents = self._contents + scene.energy() + ""
+
 
     def contents(self):
         return self._contents
@@ -42,7 +46,7 @@ class TestApplication(TestCase):
 
     def test_should_show_command_echo(self):
         self.application.run('test')
-        self.assertIn("You said: go north", self.show_output.contents())
+        self.assertIn("go north", self.show_output.contents())
 
     def test_should_show_ending_message(self):
         self.application.run('test')

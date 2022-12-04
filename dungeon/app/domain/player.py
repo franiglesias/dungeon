@@ -32,7 +32,7 @@ class Energy:
         return str(self._energy.value())
 
     def current(self):
-        return self._energy.value()
+        return self._energy
 
 
 class Player:
@@ -81,3 +81,21 @@ class PlayerEnergyChanged():
 
     def name(self):
         return "player_energy_changed"
+
+    def energy(self):
+        return self._updated_energy
+
+
+class PlayerSentCommand:
+    def __init__(self, command, argument):
+        self._command = command
+        self._argument = argument
+
+    def name(self):
+        return "player_sent_command"
+
+    def command(self):
+        return self._command
+
+    def argument(self):
+        return self._argument

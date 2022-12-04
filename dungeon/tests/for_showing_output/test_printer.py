@@ -1,5 +1,6 @@
 import unittest
 
+from dungeon.app.domain.dungeon import PlayerMoved
 from dungeon.app.domain.player import PlayerEnergyChanged, EnergyUnit, PlayerSentCommand, PlayerGotDescription
 from dungeon.app.printer import Printer
 from dungeon.tests.fakes.show_output.fake_show_output import FakeShowOutput
@@ -37,6 +38,13 @@ class PrinterAsObserverTestCase(unittest.TestCase):
         self.printer.notify(event)
         self.printer.draw()
         self.assertIn("scene description", self.show_output.contents())
+
+    def test_handles_player_moved_event(self):
+        event = PlayerMoved("another room")
+
+        self.printer.notify(event)
+        self.printer.draw()
+        self.assertIn("another room", self.show_output.contents())
 
 
 if __name__ == '__main__':

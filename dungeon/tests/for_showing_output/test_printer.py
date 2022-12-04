@@ -2,35 +2,34 @@ import unittest
 
 from dungeon.app.domain.player import PlayerEnergyChanged, EnergyUnit, PlayerSentCommand
 from dungeon.app.printer import Printer
+from dungeon.tests.fakes.show_output.fake_show_output import FakeShowOutput
 
 
 class PrinterAsObserverTestCase(unittest.TestCase):
+    def setUp(self):
+        self.show_output = FakeShowOutput()
+        self.printer = Printer(self.show_output)
+
     def test_handles_energy_changed_event(self):
         event = PlayerEnergyChanged(EnergyUnit(50))
 
-        printer = Printer()
-        printer.notify(event)
-
-        output = printer.draw()
-        self.assertIn("50", output)
+        self.printer.notify(event)
+        self.printer.draw()
+        self.assertIn("50", self.show_output.contents())
 
     def test_handles_different_energy_changed_event(self):
         event = PlayerEnergyChanged(EnergyUnit(60))
 
-        printer = Printer()
-        printer.notify(event)
-
-        output = printer.draw()
-        self.assertIn("60", output)
+        self.printer.notify(event)
+        self.printer.draw()
+        self.assertIn("60", self.show_output.contents())
 
     def test_handles_command_sent_event(self):
         event = PlayerSentCommand("command", "argument")
 
-        printer = Printer()
-        printer.notify(event)
-
-        output = printer.draw()
-        self.assertIn("command argument", output)
+        self.printer.notify(event)
+        self.printer.draw()
+        self.assertIn("command argument", self.show_output.contents())
 
 
 if __name__ == '__main__':

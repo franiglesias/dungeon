@@ -1,5 +1,9 @@
+from dungeon.app.Scene import Scene
+
+
 class Printer:
-    def __init__(self):
+    def __init__(self, show_output):
+        self.show_output = show_output
         self._command = ""
         self._energy = ""
 
@@ -10,6 +14,6 @@ class Printer:
             self._command = "{} {}".format(event.command(), event.argument())
 
     def draw(self):
-        output = self._command
-        output += self._energy
-        return output
+        scene = Scene(title="", command=self._command, description="", energy=self._energy)
+
+        return self.show_output.put(scene)

@@ -9,8 +9,7 @@ class GoCommand(Command):
     def do(self, receiver):
         result = receiver.go(self._argument)
         result.set('cost', EnergyUnit(5))
-        result.set('command', self._to_str())
         return result
 
-    def _name(self):
+    def name(self):
         return "go"

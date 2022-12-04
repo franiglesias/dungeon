@@ -10,7 +10,6 @@ class InvalidCommand(Command):
     def do(self, dungeon):
         result = ActionResult.player_acted("I don't understand")
         result.set('cost', EnergyUnit(1))
-        result.set('command', self._to_str())
         return result
 
     def __str__(self) -> str:

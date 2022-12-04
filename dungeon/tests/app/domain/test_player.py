@@ -9,7 +9,6 @@ class ExitDungeonCommand(Command):
     def do(self, receiver):
         result = ActionResult.player_exited("You're out")
         result.set('cost', EnergyUnit(1))
-        result.set('command', self._to_str())
         return result
 
 

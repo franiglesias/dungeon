@@ -16,5 +16,5 @@ class CommandMatcher:
         self.expected = expected
 
     def __eq__(self, other):
-        return self.expected._name() == other._name() and \
-               self.expected._argument == other._argument
+        return self.expected.name() == other.name() and \
+               self.expected.argument() == other.argument()

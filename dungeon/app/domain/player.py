@@ -67,9 +67,6 @@ class Player:
     def _last_action_cost(self):
         return self._last_result.get("cost")
 
-    def last_result(self):
-        return self._last_result
-
     def is_alive(self):
         return self._energy.is_alive()
 

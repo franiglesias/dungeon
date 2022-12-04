@@ -13,13 +13,10 @@ class Dungeon:
         if result.get("destination") is not None:
             self._current = result.get("destination")
             self._notify_observers(PlayerMoved(self._current))
-        result.set("title", self._current)
         return result
 
     def look(self, focus):
-        result = self._current_room().look(focus)
-        result.set("title", self._current)
-        return result
+        return self._current_room().look(focus)
 
     def _current_room(self):
         return self._rooms.get(self._current)

@@ -1,4 +1,5 @@
 from dungeon.app.command.action_result import ActionResult
+from dungeon.app.events.subject import Subject
 
 
 class EnergyUnit:
@@ -39,7 +40,7 @@ class Player:
     def __init__(self, starting_energy):
         self._energy = Energy(starting_energy)
         self._last_result = ActionResult.player_acted("I'm ready")
-        self._observers = []
+        self._subject = Subject()
 
     @classmethod
     def awake(cls):
@@ -76,11 +77,10 @@ class Player:
         return self._last_result.get("exited")
 
     def register(self, observer):
-        self._observers.append(observer)
+        self._subject.register(observer)
 
     def _notify_observers(self, event):
-        for observer in self._observers:
-            observer.notify(event)
+        self._subject.notify_observers(event)
 
 
 class PlayerEnergyChanged:

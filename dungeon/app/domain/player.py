@@ -50,7 +50,15 @@ class Player:
         return cls(starting_energy)
 
     def do(self, command, receiver):
+        self._execute_command(command, receiver)
+        self._update_energy()
+
+    def _execute_command(self, command, receiver):
         self._last_result = command.do(receiver)
+        self._notify_observers(PlayerSentCommand(command.name(), command.argument()))
+        self._notify_observers(PlayerGotDescription(self._last_result.get('message')))
+
+    def _update_energy(self):
         self._energy.decrease(self._last_action_cost())
         self._notify_observers(PlayerEnergyChanged(self._energy.current()))
         self._last_result.set("energy", str(self._energy))
@@ -75,7 +83,7 @@ class Player:
             observer.notify(event)
 
 
-class PlayerEnergyChanged():
+class PlayerEnergyChanged:
     def __init__(self, updated_energy):
         self._updated_energy = updated_energy
 
@@ -99,3 +107,14 @@ class PlayerSentCommand:
 
     def argument(self):
         return self._argument
+
+
+class PlayerGotDescription:
+    def __init__(self, description):
+        self._description = description
+
+    def name(self):
+        return "player_got_description"
+
+    def description(self):
+        return self._description

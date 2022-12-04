@@ -16,7 +16,7 @@ class TestCommand(Command):
         return result
 
 
-class FakeEnergyObserver:
+class FakeObserver:
     def __init__(self):
         self._events = dict()
 
@@ -29,7 +29,7 @@ class FakeEnergyObserver:
 
 class PlayerAsSubjectTestCase(unittest.TestCase):
     def test_can_register_an_observer_and_notify(self):
-        fake_observer = FakeEnergyObserver()
+        fake_observer = FakeObserver()
 
         player = Player.awake_with_energy(EnergyUnit(100))
         player.register(fake_observer)
@@ -37,6 +37,26 @@ class PlayerAsSubjectTestCase(unittest.TestCase):
         player.do(TestCommand(EnergyUnit(50)), player)
 
         self.assertTrue(fake_observer.is_aware_of("player_energy_changed"))
+
+    def test_notifies_player_sent_command_event(self):
+        fake_observer = FakeObserver()
+
+        player = Player.awake_with_energy(EnergyUnit(100))
+        player.register(fake_observer)
+
+        player.do(TestCommand(EnergyUnit(50)), player)
+
+        self.assertTrue(fake_observer.is_aware_of("player_sent_command"))
+
+    def test_notifies_player_got_description_event(self):
+        fake_observer = FakeObserver()
+
+        player = Player.awake_with_energy(EnergyUnit(100))
+        player.register(fake_observer)
+
+        player.do(TestCommand(EnergyUnit(50)), player)
+
+        self.assertTrue(fake_observer.is_aware_of("player_got_description"))
 
 
 if __name__ == '__main__':

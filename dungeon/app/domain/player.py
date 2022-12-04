@@ -31,11 +31,15 @@ class Energy:
     def __str__(self):
         return str(self._energy.value())
 
+    def current(self):
+        return self._energy.value()
+
 
 class Player:
     def __init__(self, starting_energy):
         self._energy = Energy(starting_energy)
         self._last_result = ActionResult.player_acted("I'm ready")
+        self._observers = []
 
     @classmethod
     def awake(cls):
@@ -48,6 +52,7 @@ class Player:
     def do(self, command, receiver):
         self._last_result = command.do(receiver)
         self._energy.decrease(self._last_action_cost())
+        self._notify_observers(PlayerEnergyChanged(self._energy.current()))
         self._last_result.set("energy", str(self._energy))
 
     def _last_action_cost(self):
@@ -61,3 +66,18 @@ class Player:
 
     def has_won(self):
         return self._last_result.get("exited")
+
+    def register(self, observer):
+        self._observers.append(observer)
+
+    def _notify_observers(self, event):
+        for observer in self._observers:
+            observer.notify(event)
+
+
+class PlayerEnergyChanged():
+    def __init__(self, updated_energy):
+        self._updated_energy = updated_energy
+
+    def name(self):
+        return "player_energy_changed"

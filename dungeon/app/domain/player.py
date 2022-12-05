@@ -41,6 +41,7 @@ class Player:
         self._energy = Energy(starting_energy)
         self._last_result = ActionResult.player_acted("I'm ready")
         self._subject = Subject()
+        self._receiver = None
 
     @classmethod
     def awake(cls):
@@ -50,8 +51,13 @@ class Player:
     def awake_with_energy(cls, starting_energy):
         return cls(starting_energy)
 
+    def awake_in(self, dungeon):
+        self._receiver = dungeon
+
     def do(self, command, receiver):
-        self._execute_command(command, receiver)
+        if self._receiver is None:
+            self._receiver = receiver
+        self._execute_command(command, self._receiver)
         self._update_energy()
 
     def _execute_command(self, command, receiver):

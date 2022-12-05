@@ -34,6 +34,7 @@ class Application:
         player = Player.awake()
         player.register(self._printer)
         dungeon.register(self._printer)
+        player.awake_in(dungeon)
         game = Game(player=player, printer=self._printer, input=self._obtain_user_command, dungeon=dungeon)
         game.run()
 

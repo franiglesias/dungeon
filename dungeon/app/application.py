@@ -3,6 +3,23 @@ from dungeon.app.domain.player import Player
 from dungeon.app.printer import Printer
 
 
+class Game:
+    def __init__(self, player, input, printer, dungeon):
+        self._dungeon = dungeon
+        self._player = player
+        self._input = input
+        self._printer = printer
+
+    def run(self):
+        while self.not_finished():
+            command = self._input.command()
+            self._player.do(command, self._dungeon)
+            self._printer.draw()
+
+    def not_finished(self):
+        return self._player.is_alive() and not self._player.has_won()
+
+
 class Application:
     def __init__(self, obtain_user_command, show_output, factory, toggles):
         self._toggles = toggles
@@ -17,13 +34,8 @@ class Application:
         player = Player.awake()
         player.register(self._printer)
         dungeon.register(self._printer)
-        while player.is_alive() and not player.has_won():
-            command = self._obtain_command()
-            player.do(command, dungeon)
-            self._printer.draw()
-
-    def _obtain_command(self):
-        return self._obtain_user_command.command()
+        game = Game(player=player, printer=self._printer, input=self._obtain_user_command, dungeon=dungeon)
+        game.run()
 
     def _show_scene(self, scene):
         self._show_output.put(scene)

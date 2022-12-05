@@ -9,6 +9,9 @@ class EnergyUnit:
     def is_greater_than(self, other):
         return self._value > other.value()
 
+    def is_lower_than(self, other):
+        return self._value < other.value()
+
     def value(self):
         return self._value
 
@@ -25,6 +28,9 @@ class Energy:
 
     def is_alive(self):
         return self._energy.is_greater_than(EnergyUnit(0))
+
+    def is_dead(self):
+        return self._energy.is_lower_than(EnergyUnit(1))
 
     def decrease(self, delta):
         self._energy = self._energy.subtract(delta)
@@ -66,7 +72,8 @@ class Player:
     def _update_energy(self):
         self._energy.decrease(self._last_action_cost())
         self._notify_observers(PlayerEnergyChanged(self._energy.current()))
-        self._last_result.set("energy", str(self._energy))
+        if self._energy.is_dead():
+            self._notify_observers(PlayerDied())
 
     def _last_action_cost(self):
         return self._last_result.get("cost")
@@ -119,3 +126,11 @@ class PlayerGotDescription:
 
     def description(self):
         return self._description
+
+
+class PlayerDied:
+    def __init__(self):
+        pass
+
+    def name(self):
+        return "player_died"

@@ -13,7 +13,7 @@ class Game:
     def run(self):
         while self.not_finished():
             command = self._input.command()
-            self._player.do(command, self._dungeon)
+            self._player.do(command)
             self._printer.draw()
 
     def not_finished(self):

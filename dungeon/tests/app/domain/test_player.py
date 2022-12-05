@@ -33,20 +33,20 @@ class PlayerTestCase(unittest.TestCase):
     def test_player_should_be_able_to_exit_dungeon(self):
         player = Player.awake()
 
-        player.do(ExitDungeonCommand(""), player)
+        player.do(ExitDungeonCommand(""))
 
         self.assertTrue(player.is_alive())
         self.assertTrue(player.has_won())
 
     def test_player_dies_if_action_consumes_all_energy(self):
         player = Player.awake_with_energy(EnergyUnit(10))
-        player.do(KillerCommand(EnergyUnit(15)), player)
+        player.do(KillerCommand(EnergyUnit(15)))
         self.assertFalse(player.is_alive())
         self.assertFalse(player.has_won())
 
     def test_player_does_not_die_if_action_does_not_consume_all_energy(self):
         player = Player.awake_with_energy(EnergyUnit(10))
-        player.do(KillerCommand(EnergyUnit(5)), player)
+        player.do(KillerCommand(EnergyUnit(5)))
         self.assertTrue(player.is_alive())
 
 

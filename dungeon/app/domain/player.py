@@ -54,9 +54,7 @@ class Player:
     def awake_in(self, dungeon):
         self._receiver = dungeon
 
-    def do(self, command, receiver):
-        if self._receiver is None:
-            self._receiver = receiver
+    def do(self, command):
         self._execute_command(command, self._receiver)
         self._update_energy()
 

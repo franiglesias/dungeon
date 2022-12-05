@@ -34,7 +34,7 @@ class PlayerAsSubjectTestCase(unittest.TestCase):
         player = Player.awake_with_energy(EnergyUnit(100))
         player.register(fake_observer)
 
-        player.do(TestCommand(EnergyUnit(50)), player)
+        player.do(TestCommand(EnergyUnit(50)))
 
         self.assertTrue(fake_observer.is_aware_of("player_energy_changed"))
 
@@ -44,7 +44,7 @@ class PlayerAsSubjectTestCase(unittest.TestCase):
         player = Player.awake_with_energy(EnergyUnit(100))
         player.register(fake_observer)
 
-        player.do(TestCommand(EnergyUnit(50)), player)
+        player.do(TestCommand(EnergyUnit(50)))
 
         self.assertTrue(fake_observer.is_aware_of("player_sent_command"))
 
@@ -54,7 +54,7 @@ class PlayerAsSubjectTestCase(unittest.TestCase):
         player = Player.awake_with_energy(EnergyUnit(100))
         player.register(fake_observer)
 
-        player.do(TestCommand(EnergyUnit(50)), player)
+        player.do(TestCommand(EnergyUnit(50)))
 
         self.assertTrue(fake_observer.is_aware_of("player_got_description"))
 

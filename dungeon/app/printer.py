@@ -1,4 +1,4 @@
-from dungeon.app.Scene import Scene
+from dungeon.app.scene import Scene
 
 
 class Printer:

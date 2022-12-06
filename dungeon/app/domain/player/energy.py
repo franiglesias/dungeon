@@ -2,9 +2,6 @@ class EnergyUnit:
     def __init__(self, value):
         self._value = value
 
-    def is_greater_than(self, other):
-        return self._value > other.value()
-
     def is_lower_than(self, other):
         return self._value < other.value()
 
@@ -21,9 +18,6 @@ class EnergyUnit:
 class Energy:
     def __init__(self, starting_energy):
         self._energy = starting_energy
-
-    def is_alive(self):
-        return self._energy.is_greater_than(EnergyUnit(0))
 
     def is_dead(self):
         return self._energy.is_lower_than(EnergyUnit(1))

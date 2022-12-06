@@ -1,4 +1,4 @@
-from dungeon.app.Scene import Scene
+from dungeon.app.scene import Scene
 from dungeon.app.domain.player.player import Player
 from dungeon.app.game import Game
 from dungeon.app.printer import Printer

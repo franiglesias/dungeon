@@ -41,12 +41,6 @@ class Player:
     def _last_action_cost(self):
         return self._last_result.get("cost")
 
-    def is_alive(self):
-        return self._energy.is_alive()
-
-    def has_won(self):
-        return self._last_result.get("exited")
-
     def register(self, observer):
         self._subject.register(observer)
 

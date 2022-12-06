@@ -6,12 +6,9 @@ class Game:
         self._printer = printer
 
     def run(self):
-        while self.not_finished():
+        while not self.finished():
             self._player.do(self._input.command())
             self._printer.draw()
-
-    def not_finished(self):
-        return self._player.is_alive() and not self._player.has_won()
 
     def notify(self, event):
         if event.name() == "player_exited":

@@ -14,12 +14,13 @@ class Application:
 
     def run(self, dungeon_name='game'):
         self._show_scene(Scene(title="Welcome to the Dungeon", command="", description="", energy="100"))
-        player = self.set_up_player(dungeon_name)
+        dungeon = self._build_dungeon(dungeon_name)
+        player = self._setup_player(dungeon)
         game = Game(player=player, obtain_input=self._obtain_user_command, printer=self._printer)
+        dungeon.register(game)
         game.run()
 
-    def set_up_player(self, dungeon_name):
-        dungeon = self._build_dungeon(dungeon_name)
+    def _setup_player(self, dungeon):
         player = Player.awake()
         player.register(self._printer)
         dungeon.register(self._printer)

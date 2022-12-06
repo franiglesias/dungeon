@@ -1,7 +1,8 @@
 import unittest
 
-from dungeon.app.domain.dungeon import PlayerMoved
-from dungeon.app.domain.player import PlayerEnergyChanged, EnergyUnit, PlayerSentCommand, PlayerGotDescription
+from dungeon.app.domain.player.energy import EnergyUnit
+from dungeon.app.domain.player.player_events import PlayerEnergyChanged, PlayerSentCommand, PlayerGotDescription
+from dungeon.app.domain.player.player_events import PlayerMoved
 from dungeon.app.printer import Printer
 from dungeon.tests.fakes.show_output.fake_show_output import FakeShowOutput
 

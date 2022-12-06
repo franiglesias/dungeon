@@ -1,5 +1,5 @@
 from dungeon.app.command.command import Command
-from dungeon.app.domain.player import EnergyUnit
+from dungeon.app.domain.player.energy import EnergyUnit
 
 
 class GoCommand(Command):

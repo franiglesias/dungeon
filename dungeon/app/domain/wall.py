@@ -1,5 +1,6 @@
 from dungeon.app.command.action_result import ActionResult
 from dungeon.app.domain.dir import Dir
+from dungeon.app.domain.player.player_events import PlayerExited
 from dungeon.app.events.subject import Subject
 
 
@@ -9,14 +10,6 @@ class Wall:
 
     def look(self):
         return ActionResult.player_acted("There is a wall")
-
-
-class PlayerExited:
-    def __init__(self):
-        pass
-
-    def name(self):
-        return "player_exited"
 
 
 class Exit(Wall):

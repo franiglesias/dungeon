@@ -2,7 +2,7 @@ import unittest
 
 from dungeon.app.command.action_result import ActionResult
 from dungeon.app.command.command import Command
-from dungeon.app.domain.player import Player, EnergyUnit
+from dungeon.app.domain.player.player import Player, EnergyUnit
 
 
 class ExitDungeonCommand(Command):

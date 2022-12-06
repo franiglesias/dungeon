@@ -16,7 +16,7 @@ class Printer:
             self._description = event.description()
         elif event.name() == "player_moved":
             self._title = event.room()
-        else:
+        elif event.name() == "player_sent_command":
             self._command = "{} {}".format(event.command(), event.argument())
 
     def draw(self):

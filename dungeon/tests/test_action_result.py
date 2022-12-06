@@ -1,7 +1,7 @@
 from unittest import TestCase
 
 from dungeon.app.command.action_result import ActionResult
-from dungeon.app.domain.player import EnergyUnit
+from dungeon.app.domain.player.energy import EnergyUnit
 
 
 class TestActionResult(TestCase):

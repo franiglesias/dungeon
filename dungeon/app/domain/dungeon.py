@@ -1,4 +1,5 @@
 from dungeon.app.domain.dir import Dir
+from dungeon.app.domain.player.player_events import PlayerMoved
 from dungeon.app.events.subject import Subject
 
 
@@ -27,14 +28,3 @@ class Dungeon:
     def register(self, observer):
         self._subject.register(observer)
         self._rooms.register(observer)
-
-
-class PlayerMoved:
-    def __init__(self, room):
-        self._room = room
-
-    def room(self):
-        return self._room
-
-    def name(self):
-        return "player_moved"

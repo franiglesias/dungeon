@@ -17,6 +17,10 @@ class Rooms:
         cloned._rooms[key] = room
         return cloned
 
+    def register(self, observer):
+        for name, room in self._rooms.items():
+            room.register(observer)
+
 
 class Room:
     def __init__(self, walls):
@@ -35,3 +39,6 @@ class Room:
 
         response += "That's all" + "\n"
         return ActionResult.player_acted(response)
+
+    def register(self, observer):
+        self._walls.register(observer)

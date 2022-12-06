@@ -1,5 +1,6 @@
 from dungeon.app.command.action_result import ActionResult
 from dungeon.app.domain.dir import Dir
+from dungeon.app.events.subject import Subject
 
 
 class Wall:
@@ -10,12 +11,30 @@ class Wall:
         return ActionResult.player_acted("There is a wall")
 
 
+class PlayerExited:
+    def __init__(self):
+        pass
+
+    def name(self):
+        return "player_exited"
+
+
 class Exit(Wall):
+    def __init__(self):
+        self._subject = Subject()
+
     def go(self):
+        self._notify_observers(PlayerExited())
         return ActionResult.player_exited("Congrats. You're out")
 
     def look(self):
         return ActionResult.player_acted("There is a door")
+
+    def register(self, observer):
+        self._subject.register(observer)
+
+    def _notify_observers(self, event):
+        self._subject.notify_observers(event)
 
 
 class Door(Wall):
@@ -46,3 +65,8 @@ class Walls:
         cloned = self
         cloned._walls[direction] = wall
         return cloned
+
+    def register(self, observer):
+        for d, wall in self._walls.items():
+            if hasattr(wall, "register"):
+                wall.register(observer)

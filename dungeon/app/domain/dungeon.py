@@ -26,6 +26,7 @@ class Dungeon:
 
     def register(self, observer):
         self._subject.register(observer)
+        self._rooms.register(observer)
 
 
 class PlayerMoved:

@@ -1,5 +1,4 @@
 from dungeon.app.domain.dir import Dir
-from dungeon.app.domain.player.player_events import PlayerMoved
 from dungeon.app.events.subject import Subject
 
 
@@ -11,9 +10,6 @@ class Dungeon:
 
     def go(self, direction):
         result = self._current_room().go(Dir(direction))
-        if result.get("destination") is not None:
-            self._current = result.get("destination")
-            self._notify_observers(PlayerMoved(self._current))
         return result
 
     def look(self, focus):
@@ -26,5 +22,10 @@ class Dungeon:
         self._subject.notify_observers(event)
 
     def register(self, observer):
-        self._subject.register(observer)
+        self._subject.register(self)
+        self._rooms.register(self)
         self._rooms.register(observer)
+
+    def notify(self, event):
+        if event.name() == "player_moved":
+            self._current = event.room()

@@ -3,6 +3,7 @@ import unittest
 from dungeon.app.command.action_result import ActionResult
 from dungeon.app.command.command import Command
 from dungeon.app.domain.player.player import Player, EnergyUnit
+from dungeon.tests.fakes.observers.fake_observer import FakeObserver
 
 
 class TestCommand(Command):
@@ -14,17 +15,6 @@ class TestCommand(Command):
         result.set('cost', self._energy_consumption)
         result.set('command', "test command")
         return result
-
-
-class FakeObserver:
-    def __init__(self):
-        self._events = dict()
-
-    def notify(self, event):
-        self._events[event.name()] = event
-
-    def is_aware_of(self, event_name):
-        return event_name in self._events.keys()
 
 
 class PlayerAsSubjectTestCase(unittest.TestCase):

@@ -3,6 +3,9 @@ class Subject:
         self._observers = []
 
     def register(self, observer):
+        if observer in self._observers:
+            return
+
         self._observers.append(observer)
 
     def notify_observers(self, event):

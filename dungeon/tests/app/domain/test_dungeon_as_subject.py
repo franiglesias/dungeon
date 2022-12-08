@@ -3,7 +3,7 @@ import unittest
 from dungeon.app.domain.dir import Dir
 from dungeon.app.domain.dungeon_builder import DungeonBuilder
 from dungeon.app.domain.wall import Exit
-from dungeon.tests.app.domain.test_player_as_subject import FakeObserver
+from dungeon.tests.fakes.observers.fake_observer import FakeObserver
 
 
 class DungeonAsSubjectTestCase(unittest.TestCase):
@@ -28,7 +28,6 @@ class DungeonAsSubjectTestCase(unittest.TestCase):
         builder = DungeonBuilder()
         builder.add('start')
         builder.set('start', Dir.N, Exit())
-
         dungeon = builder.build()
 
         dungeon.register(fake_observer)

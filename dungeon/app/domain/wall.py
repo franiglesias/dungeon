@@ -66,6 +66,14 @@ class Walls:
         cloned._walls[direction] = wall
         return cloned
 
+    def look(self):
+        response = ""
+        for dirs in Dir:
+            response += str(dirs.value).capitalize() + ": " + self._walls[dirs].look().get("message") + "\n"
+
+        response += "That's all" + "\n"
+        return response
+
     def register(self, observer):
         for d, wall in self._walls.items():
             if hasattr(wall, "register"):

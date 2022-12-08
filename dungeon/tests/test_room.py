@@ -33,6 +33,11 @@ That's all
 
         self.assertEqual(description, result.get("message"))
 
+    def test_can_provide_description_of_objects_in_empty_room(self):
+        description = "There are no objects"
+        result = self.room.look('objects')
+        self.assertEqual(description, result.get("message"))
+
 
 class TestRooms(TestCase):
     def setUp(self):

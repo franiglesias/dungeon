@@ -31,13 +31,15 @@ class Room:
         return wall.go()
 
     def look(self, argument):
-        response = ""
-        response += "North: " + self._walls.get(Dir.N).look().get("message") + "\n"
-        response += "East: " + self._walls.get(Dir.E).look().get("message") + "\n"
-        response += "South: " + self._walls.get(Dir.S).look().get("message") + "\n"
-        response += "West: " + self._walls.get(Dir.W).look().get("message") + "\n"
+        if argument == "objects":
+            return self._look_objects()
+        return self._look_around()
 
-        response += "That's all" + "\n"
+    def _look_objects(self):
+        return ActionResult.player_acted("There are no objects")
+
+    def _look_around(self):
+        response = self._walls.look()
         return ActionResult.player_acted(response)
 
     def register(self, observer):

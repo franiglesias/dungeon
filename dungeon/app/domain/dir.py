@@ -3,8 +3,8 @@ from enum import Enum
 
 class Dir(Enum):
     N = "north"
-    S = "south"
     E = "east"
+    S = "south"
     W = "west"
 
     def opposite(self):

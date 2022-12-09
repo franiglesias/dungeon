@@ -7,6 +7,7 @@ class Dungeon:
         self._rooms = rooms
         self._current = 'start'
         self._subject = Subject()
+        self._rooms.register(self)
 
     def go(self, direction):
         result = self._current_room().go(Dir(direction))
@@ -23,7 +24,6 @@ class Dungeon:
 
     def register(self, observer):
         self._subject.register(self)
-        self._rooms.register(self)
         self._rooms.register(observer)
 
     def notify(self, event):

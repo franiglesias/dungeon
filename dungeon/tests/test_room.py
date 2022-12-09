@@ -2,6 +2,7 @@ from unittest import TestCase
 
 from dungeon.app.domain.dir import Dir
 from dungeon.app.domain.room import Rooms, Room
+from dungeon.app.domain.thing import Thing
 from dungeon.app.domain.wall import Exit, Walls
 
 
@@ -22,22 +23,29 @@ class TestRoom(TestCase):
         self.assertEqual('You hit a wall', result.get("message"))
 
     def test_can_provide_description(self):
-        description = """North: There is a door
-East: There is a wall
-South: There is a wall
-West: There is a wall
-That's all
-"""
-
         result = self.room.look('around')
 
-        self.assertEqual(description, result.get("message"))
+        self.assertIn("North: There is a door", result.get("message"))
+        self.assertIn("East: There is a wall", result.get("message"))
+        self.assertIn("South: There is a wall", result.get("message"))
+        self.assertIn("West: There is a wall", result.get("message"))
 
     def test_can_provide_description_of_objects_in_empty_room(self):
-        description = "There are no objects"
+        description = "There are no objects\n"
         result = self.room.look('objects')
         self.assertEqual(description, result.get("message"))
 
+    def test_can_put_objects_in_a_room(self):
+        description = """There are:
+* Food
+* Wood Sword
+* Gold Coin
+"""
+        self.room.put(Thing("Food"))
+        self.room.put(Thing("Wood Sword"))
+        self.room.put(Thing("Gold Coin"))
+        result = self.room.look('objects')
+        self.assertEqual(description, result.get("message"))
 
 class TestRooms(TestCase):
     def setUp(self):

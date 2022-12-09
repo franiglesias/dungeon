@@ -1,5 +1,4 @@
 from dungeon.app.command.action_result import ActionResult
-from dungeon.app.domain.dir import Dir
 
 
 class Rooms:
@@ -25,6 +24,7 @@ class Rooms:
 class Room:
     def __init__(self, walls):
         self._walls = walls
+        self._things = Things()
 
     def go(self, direction):
         wall = self._walls.get(direction)
@@ -36,11 +36,33 @@ class Room:
         return self._look_around()
 
     def _look_objects(self):
-        return ActionResult.player_acted("There are no objects")
+        response = self._things.look()
+        return ActionResult.player_acted(response)
 
     def _look_around(self):
-        response = self._walls.look()
+        response = self._things.look()
+        response += self._walls.look()
         return ActionResult.player_acted(response)
 
     def register(self, observer):
         self._walls.register(observer)
+
+    def put(self, an_object):
+        self._things.put(an_object)
+
+
+class Things:
+    def __init__(self):
+        self._things = dict()
+
+    def put(self, a_thing):
+        self._things[a_thing.name()] = a_thing
+
+    def look(self):
+        if len(self._things) > 0:
+            response = "There are:\n"
+            for thing in self._things.values():
+                response += "* {}\n".format(thing.name())
+        else:
+            response = "There are no objects\n"
+        return response

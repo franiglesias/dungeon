@@ -60,3 +60,14 @@ class PlayerExited:
 
     def name(self):
         return "player_exited"
+
+
+class PlayerGotThing:
+    def __init__(self, thing):
+        self._thing = thing
+
+    def name(self):
+        return "player_got_thing"
+
+    def thing(self):
+        return self._thing

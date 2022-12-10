@@ -11,6 +11,7 @@ class Player:
         self._last_result = ActionResult.player_acted("I'm ready")
         self._subject = Subject()
         self._receiver = None
+        self._holds = None
 
     @classmethod
     def awake(cls):
@@ -21,11 +22,15 @@ class Player:
         return cls(starting_energy)
 
     def awake_in(self, dungeon):
+        dungeon.register(self)
         self._receiver = dungeon
 
     def do(self, command):
         self._execute_command(command, self._receiver)
         self._update_energy()
+
+    def holds(self):
+        return self._holds
 
     def _execute_command(self, command, receiver):
         self._last_result = command.do(receiver)
@@ -46,3 +51,7 @@ class Player:
 
     def _notify_observers(self, event):
         self._subject.notify_observers(event)
+
+    def notify(self, event):
+        if "player_got_thing" == event.name():
+            self._holds = event.thing()

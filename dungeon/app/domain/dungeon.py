@@ -1,4 +1,5 @@
 from dungeon.app.domain.dir import Dir
+from dungeon.app.domain.player.player_events import PlayerGotThing
 from dungeon.app.events.subject import Subject
 
 
@@ -16,6 +17,10 @@ class Dungeon:
     def look(self, focus):
         return self._current_room().look(focus)
 
+    def get(self, thing_name):
+        thing = self._current_room().get(thing_name)
+        self._notify_observers(PlayerGotThing(thing))
+
     def _current_room(self):
         return self._rooms.get(self._current)
 
@@ -23,7 +28,7 @@ class Dungeon:
         self._subject.notify_observers(event)
 
     def register(self, observer):
-        self._subject.register(self)
+        self._subject.register(observer)
         self._rooms.register(observer)
 
     def notify(self, event):

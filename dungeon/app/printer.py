@@ -21,6 +21,8 @@ class Printer:
             self._command = "{} {}".format(event.command(), event.argument())
         elif event.name() == "player_exited":
             self._description = "Congrats. You're out"
+        elif event.name() == "player_got_thing":
+            self._description = "You've got {}".format(event.thing().name())
 
     def draw(self):
         scene = Scene(

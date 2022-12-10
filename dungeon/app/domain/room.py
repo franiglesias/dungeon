@@ -50,13 +50,16 @@ class Room:
     def put(self, an_object):
         self._things.put(an_object)
 
+    def get(self, thing_name):
+        return self._things.get(thing_name)
+
 
 class Things:
     def __init__(self):
         self._things = dict()
 
     def put(self, a_thing):
-        self._things[a_thing.name()] = a_thing
+        self._things[a_thing.name().lower()] = a_thing
 
     def look(self):
         if len(self._things) > 0:
@@ -66,3 +69,6 @@ class Things:
         else:
             response = "There are no objects\n"
         return response
+
+    def get(self, thing_name):
+        return self._things.pop(thing_name.lower())

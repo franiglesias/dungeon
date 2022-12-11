@@ -1,5 +1,5 @@
 from dungeon.app.domain.dir import Dir
-from dungeon.app.domain.player.player_events import PlayerGotThing
+from dungeon.app.domain.player.player_events import PlayerGotThing, PlayerGotDescription
 from dungeon.app.events.subject import Subject
 
 
@@ -15,7 +15,10 @@ class Dungeon:
         return result
 
     def look(self, focus):
-        return self._current_room().look(focus)
+        result = self._current_room().look(focus)
+        description = result.get("message")
+        self._notify_observers(PlayerGotDescription(description))
+        return result
 
     def get(self, thing_name):
         thing = self._current_room().get(thing_name)

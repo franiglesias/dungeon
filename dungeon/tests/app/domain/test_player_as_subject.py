@@ -39,16 +39,6 @@ class PlayerAsSubjectTestCase(unittest.TestCase):
 
         self.assertTrue(fake_observer.is_aware_of("player_sent_command"))
 
-    def test_notifies_player_got_description_event(self):
-        fake_observer = FakeObserver()
-
-        player = Player.awake_with_energy(EnergyUnit(100))
-        player.register(fake_observer)
-
-        player.do(TestCommand(EnergyUnit(50)))
-
-        self.assertTrue(fake_observer.is_aware_of("player_got_description"))
-
     def test_notifies_player_died_event_when_energy_is_0(self):
         fake_observer = FakeObserver()
 

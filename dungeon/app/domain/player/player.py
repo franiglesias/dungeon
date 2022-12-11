@@ -43,13 +43,13 @@ class Player:
         self._last_result = command.do(receiver)
         self._last_command = command
         self._notify_observers(PlayerSentCommand(command.name(), command.argument()))
-        self._notify_observers(PlayerGotDescription(self._last_result.get('message')))
+        # self._notify_observers(PlayerGotDescription(self._last_result.get('message')))
 
     def use(self, thing_name):
         if self._holds is None:
             self._notify_observers(ActionNotCompleted("You need an object to use it."))
             return
-        if self._holds is not None and self._holds.name().lower() != thing_name.lower():
+        if self._holds.name().lower() != thing_name.lower():
             return
         self._holds.apply_on(self)
         self._holds = None

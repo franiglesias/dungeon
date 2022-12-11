@@ -6,7 +6,7 @@ class LookCommand(Command):
         super().__init__(argument)
 
     def do(self, receiver):
-        return receiver.look(self._argument)
+        receiver.look(self._argument)
 
     def name(self):
         return "look"

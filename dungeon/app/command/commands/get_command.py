@@ -8,7 +8,6 @@ class GetCommand(Command):
 
     def do(self, receiver):
         receiver.get(self._argument)
-        return ActionResult("Got thing")
 
     def name(self):
         return "get"

@@ -1,14 +1,13 @@
 from dungeon.app.command.action_result import ActionResult
 from dungeon.app.domain.player.energy import EnergyUnit, Energy
 from dungeon.app.domain.player.player_events import PlayerDied, PlayerEnergyChanged, PlayerSentCommand, \
-    PlayerGotDescription, ActionNotCompleted
+    ActionNotCompleted
 from dungeon.app.events.subject import Subject
 
 
 class Player:
     def __init__(self, starting_energy):
         self._energy = Energy(starting_energy)
-        self._last_result = ActionResult.player_acted("I'm ready")
         self._subject = Subject()
         self._receiver = None
         self._holds = None
@@ -34,16 +33,14 @@ class Player:
         return self._holds
 
     def _execute_command(self, command, receiver):
-        self._last_result = None
         if command.name() == "use":
             command.do(self)
             self._last_command = command
             self._notify_observers(PlayerSentCommand(command.name(), command.argument()))
             return
-        self._last_result = command.do(receiver)
+        command.do(receiver)
         self._last_command = command
         self._notify_observers(PlayerSentCommand(command.name(), command.argument()))
-        # self._notify_observers(PlayerGotDescription(self._last_result.get('message')))
 
     def use(self, thing_name):
         if self._holds is None:

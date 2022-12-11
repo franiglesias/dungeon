@@ -1,6 +1,5 @@
 import unittest
 
-from dungeon.app.command.action_result import ActionResult
 from dungeon.app.command.command import Command
 from dungeon.app.domain.player.player import Player, EnergyUnit
 from dungeon.tests.fakes.observers.fake_observer import FakeObserver
@@ -9,10 +8,6 @@ from dungeon.tests.fakes.observers.fake_observer import FakeObserver
 class TestCommand(Command):
     def __init__(self, energy_consumption):
         self._energy_consumption = energy_consumption
-
-    def do(self, receiver):
-        result = ActionResult.player_acted("You did something")
-        return result
 
     def cost(self):
         return self._energy_consumption

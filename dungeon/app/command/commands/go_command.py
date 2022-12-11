@@ -7,9 +7,10 @@ class GoCommand(Command):
         super().__init__(argument)
 
     def do(self, receiver):
-        result = receiver.go(self._argument)
-        result.set('cost', EnergyUnit(5))
-        return result
+        return receiver.go(self._argument)
+
+    def cost(self):
+        return EnergyUnit(5)
 
     def name(self):
         return "go"

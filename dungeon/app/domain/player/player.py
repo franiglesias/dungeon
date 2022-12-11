@@ -38,6 +38,7 @@ class Player:
         if command.name() == "use":
             command.do(self)
             self._last_command = command
+            self._notify_observers(PlayerSentCommand(command.name(), command.argument()))
             return
         self._last_result = command.do(receiver)
         self._last_command = command
@@ -63,8 +64,6 @@ class Player:
             self._notify_observers(PlayerDied())
 
     def _last_action_cost(self):
-        if self._last_result is not None:
-            return self._last_result.get("cost")
         if self._last_command is not None:
             if hasattr(self._last_command, "cost"):
                 return self._last_command.cost()

@@ -22,10 +22,6 @@ class ActionResult():
     def player_exited(cls, message):
         return cls(message, None, True)
 
-    @classmethod
-    def game_started(cls):
-        return cls("")
-
     def __init__(self, message, destination=None, exited=False):
         self._bag = ResultBag()
         self._bag.set("message", message)

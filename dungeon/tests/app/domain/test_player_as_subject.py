@@ -12,9 +12,10 @@ class TestCommand(Command):
 
     def do(self, receiver):
         result = ActionResult.player_acted("You did something")
-        result.set('cost', self._energy_consumption)
-        result.set('command', "test command")
         return result
+
+    def cost(self):
+        return self._energy_consumption
 
 
 class PlayerAsSubjectTestCase(unittest.TestCase):

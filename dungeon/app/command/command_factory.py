@@ -2,6 +2,7 @@ from dungeon.app.command.commands.get_command import GetCommand
 from dungeon.app.command.commands.go_command import GoCommand
 from dungeon.app.command.commands.invalid_command import InvalidCommand
 from dungeon.app.command.commands.look_command import LookCommand
+from dungeon.app.command.commands.use_command import UseCommand
 
 
 class CommandFactory:
@@ -20,5 +21,7 @@ class CommandFactory:
             return LookCommand(argument)
         if command == "get":
             return GetCommand(argument)
+        if command == "use":
+            return UseCommand(argument)
 
         return InvalidCommand(user_input)

@@ -11,6 +11,9 @@ class EnergyUnit:
     def subtract(self, delta):
         return EnergyUnit(self._value - delta.value())
 
+    def increase(self, delta):
+        return EnergyUnit(self._value + delta.value())
+
     def __eq__(self, other):
         return self._value == other.value()
 
@@ -30,3 +33,6 @@ class Energy:
 
     def current(self):
         return self._energy
+
+    def increase(self, delta):
+        self._energy = self._energy.increase(delta)

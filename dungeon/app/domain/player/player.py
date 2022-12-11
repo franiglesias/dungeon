@@ -33,9 +33,21 @@ class Player:
         return self._holds
 
     def _execute_command(self, command, receiver):
+        if command.name() == "use":
+            command.do(self)
+            return
         self._last_result = command.do(receiver)
         self._notify_observers(PlayerSentCommand(command.name(), command.argument()))
         self._notify_observers(PlayerGotDescription(self._last_result.get('message')))
+
+    def use(self, thing_name):
+        if self._holds is not None and self._holds.name().lower() != thing_name.lower():
+            return
+        self._holds.apply_on(self)
+        self._holds = None
+
+    def increase_energy(self, delta_energy):
+        self._energy.increase(delta_energy)
 
     def _update_energy(self):
         self._energy.decrease(self._last_action_cost())

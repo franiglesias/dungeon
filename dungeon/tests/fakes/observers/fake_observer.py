@@ -7,3 +7,7 @@ class FakeObserver:
 
     def is_aware_of(self, event_name):
         return event_name in self._events.keys()
+
+    def last(self, event_name):
+        if self.is_aware_of(event_name):
+            return self._events[event_name]

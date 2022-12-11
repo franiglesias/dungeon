@@ -71,3 +71,14 @@ class PlayerGotThing:
 
     def thing(self):
         return self._thing
+
+
+class ActionNotCompleted:
+    def __init__(self, reason):
+        self._reason = reason
+
+    def name(self):
+        return "action_not_completed"
+
+    def reason(self):
+        return self._reason

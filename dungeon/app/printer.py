@@ -23,6 +23,8 @@ class Printer:
             self._description = "Congrats. You're out"
         elif event.name() == "player_got_thing":
             self._description = "You've got {}".format(event.thing().name())
+        elif event.name() == "action_not_completed":
+            self._description = "Action was not finished because {}".format(event.reason())
 
     def draw(self):
         scene = Scene(

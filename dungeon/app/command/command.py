@@ -1,3 +1,6 @@
+from dungeon.app.domain.player.energy import EnergyUnit
+
+
 class Command:
 
     def __init__(self, argument):
@@ -8,6 +11,9 @@ class Command:
 
     def name(self):
         return None
+
+    def cost(self):
+        return EnergyUnit(1)
 
     def argument(self):
         if hasattr(self, "_argument"):

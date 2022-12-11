@@ -26,6 +26,21 @@ class PlayerUsingFoodTestCase(unittest.TestCase):
         self.assertEqual(58, last_energy_event.energy().value())
         self.assertIsNone(player.holds())
 
+    def test_trying_to_use_an_object_but_holding_none(self):
+        fake_observer = FakeObserver()
+        dungeon = self.dungeon_with_object(Thing("Food"))
+
+        player = Player.awake_with_energy(EnergyUnit(50))
+        player.awake_in(dungeon)
+        player.register(fake_observer)
+
+        player.do(UseCommand("food"))
+
+        self.assertTrue(fake_observer.is_aware_of("action_not_completed"))
+        last_energy_event = fake_observer.last("player_energy_changed")
+        self.assertEqual(49, last_energy_event.energy().value())
+        self.assertIsNone(player.holds())
+
     def dungeon_with_object(self, thing):
         builder = DungeonBuilder()
         builder.add('start')

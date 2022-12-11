@@ -1,7 +1,7 @@
 from dungeon.app.command.action_result import ActionResult
 from dungeon.app.domain.player.energy import EnergyUnit, Energy
 from dungeon.app.domain.player.player_events import PlayerDied, PlayerEnergyChanged, PlayerSentCommand, \
-    PlayerGotDescription
+    PlayerGotDescription, ActionNotCompleted
 from dungeon.app.events.subject import Subject
 
 
@@ -12,6 +12,7 @@ class Player:
         self._subject = Subject()
         self._receiver = None
         self._holds = None
+        self._last_command = None
 
     @classmethod
     def awake(cls):
@@ -33,14 +34,20 @@ class Player:
         return self._holds
 
     def _execute_command(self, command, receiver):
+        self._last_result = None
         if command.name() == "use":
             command.do(self)
+            self._last_command = command
             return
         self._last_result = command.do(receiver)
+        self._last_command = command
         self._notify_observers(PlayerSentCommand(command.name(), command.argument()))
         self._notify_observers(PlayerGotDescription(self._last_result.get('message')))
 
     def use(self, thing_name):
+        if self._holds is None:
+            self._notify_observers(ActionNotCompleted("You need an object to use it."))
+            return
         if self._holds is not None and self._holds.name().lower() != thing_name.lower():
             return
         self._holds.apply_on(self)
@@ -56,7 +63,11 @@ class Player:
             self._notify_observers(PlayerDied())
 
     def _last_action_cost(self):
-        return self._last_result.get("cost")
+        if self._last_result is not None:
+            return self._last_result.get("cost")
+        if self._last_command is not None:
+            if hasattr(self._last_command, "cost"):
+                return self._last_command.cost()
 
     def register(self, observer):
         self._subject.register(observer)

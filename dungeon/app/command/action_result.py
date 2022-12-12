@@ -9,24 +9,14 @@ class ResultBag():
         return self._results[key]
 
 
-class ActionResult():
+class ActionResult:
     @classmethod
     def player_acted(cls, message):
         return cls(message, None, False)
 
-    @classmethod
-    def player_moved(cls, message, destination):
-        return cls(message, destination, False)
-
-    @classmethod
-    def player_exited(cls, message):
-        return cls(message, None, True)
-
     def __init__(self, message, destination=None, exited=False):
         self._bag = ResultBag()
         self._bag.set("message", message)
-        self._bag.set("destination", destination)
-        self._bag.set("exited", exited)
 
     def get(self, key):
         return self._bag.get(key)

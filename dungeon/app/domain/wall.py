@@ -1,6 +1,5 @@
-from dungeon.app.command.action_result import ActionResult
 from dungeon.app.domain.dir import Dir
-from dungeon.app.domain.player.player_events import PlayerExited, PlayerMoved, PlayerHitWall
+from dungeon.app.domain.player.player_events import PlayerExited, PlayerMoved, PlayerHitWall, PlayerGotDescription
 from dungeon.app.events.subject import Subject
 
 
@@ -12,7 +11,10 @@ class Wall:
         self._notify_observers(PlayerHitWall())
 
     def look(self):
-        return ActionResult.player_acted("There is a wall")
+        self._notify_observers(PlayerGotDescription(self.description()))
+
+    def description(self):
+        return "There is a wall"
 
     def register(self, observer):
         self._subject.register(observer)
@@ -20,39 +22,28 @@ class Wall:
     def _notify_observers(self, event):
         self._subject.notify_observers(event)
 
+
 class Exit(Wall):
     def __init__(self):
-        self._subject = Subject()
+        super().__init__()
 
     def go(self):
         self._notify_observers(PlayerExited())
 
-    def look(self):
-        return ActionResult.player_acted("There is a door")
-
-    def register(self, observer):
-        self._subject.register(observer)
-
-    def _notify_observers(self, event):
-        self._subject.notify_observers(event)
+    def description(self):
+        return "There is a door"
 
 
 class Door(Wall):
     def __init__(self, destination):
+        super().__init__()
         self._destination = destination
-        self._subject = Subject()
 
     def go(self):
         self._notify_observers(PlayerMoved(self._destination))
 
-    def look(self):
-        return ActionResult.player_acted("There is a door")
-
-    def register(self, observer):
-        self._subject.register(observer)
-
-    def _notify_observers(self, event):
-        self._subject.notify_observers(event)
+    def description(self):
+        return "There is a door"
 
 
 class Walls:
@@ -75,7 +66,7 @@ class Walls:
     def look(self):
         response = ""
         for dirs in Dir:
-            response += str(dirs.value).capitalize() + ": " + self._walls[dirs].look().get("message") + "\n"
+            response += "{0}: {1}\n".format(str(dirs.value).capitalize(), self._walls[dirs].description())
 
         response += "That's all" + "\n"
         return response

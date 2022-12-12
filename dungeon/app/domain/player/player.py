@@ -1,4 +1,3 @@
-from dungeon.app.command.action_result import ActionResult
 from dungeon.app.domain.player.energy import EnergyUnit, Energy
 from dungeon.app.domain.player.player_events import PlayerDied, PlayerEnergyChanged, PlayerSentCommand, \
     ActionNotCompleted

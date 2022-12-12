@@ -9,10 +9,12 @@ from dungeon.tests.fakes.observers.fake_observer import FakeObserver
 
 class TestRoom(TestCase):
     def setUp(self):
-        self.fake_observer = FakeObserver()
         walls = Walls()
         walls.set(Dir.N, Exit())
+
         self.room = Room(walls)
+
+        self.fake_observer = FakeObserver()
         self.room.register(self.fake_observer)
 
     def test_wall_in_all_directions(self):
@@ -29,29 +31,36 @@ class TestRoom(TestCase):
         self.assertTrue(self.fake_observer.is_aware_of("player_hit_wall"))
 
     def test_can_provide_description(self):
-        result = self.room.look('around')
+        self.room.look('around')
 
-        self.assertIn("North: There is a door", result.get("message"))
-        self.assertIn("East: There is a wall", result.get("message"))
-        self.assertIn("South: There is a wall", result.get("message"))
-        self.assertIn("West: There is a wall", result.get("message"))
+        event = self.fake_observer.last("player_got_description")
+        description = event.description()
+
+        self.assertIn("North: There is a door", description)
+        self.assertIn("East: There is a wall", description)
+        self.assertIn("South: There is a wall", description)
+        self.assertIn("West: There is a wall", description)
 
     def test_can_provide_description_of_objects_in_empty_room(self):
-        description = "There are no objects\n"
-        result = self.room.look('objects')
-        self.assertEqual(description, result.get("message"))
+        self.room.look('objects')
+
+        event = self.fake_observer.last("player_got_description")
+        description = event.description()
+
+        self.assertIn("There are no objects", description)
 
     def test_can_put_objects_in_a_room(self):
-        description = """There are:
-* Food
-* Wood Sword
-* Gold Coin
-"""
         self.room.put(Thing("Food"))
         self.room.put(Thing("Wood Sword"))
         self.room.put(Thing("Gold Coin"))
-        result = self.room.look('objects')
-        self.assertEqual(description, result.get("message"))
+        self.room.look('objects')
+
+        event = self.fake_observer.last("player_got_description")
+        description = event.description()
+
+        self.assertIn("Food", description)
+        self.assertIn("Wood Sword", description)
+        self.assertIn("Gold Coin", description)
 
 class TestRooms(TestCase):
     def setUp(self):

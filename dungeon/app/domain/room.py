@@ -1,4 +1,5 @@
-from dungeon.app.command.action_result import ActionResult
+from dungeon.app.domain.player.player_events import PlayerGotDescription
+from dungeon.app.events.subject import Subject
 
 
 class Rooms:
@@ -25,6 +26,7 @@ class Room:
     def __init__(self, walls):
         self._walls = walls
         self._things = Things()
+        self._subject = Subject()
 
     def go(self, direction):
         wall = self._walls.get(direction)
@@ -37,21 +39,25 @@ class Room:
 
     def _look_objects(self):
         response = self._things.look()
-        return ActionResult.player_acted(response)
+        self._notify_observers(PlayerGotDescription(response))
 
     def _look_around(self):
         response = self._things.look()
         response += self._walls.look()
-        return ActionResult.player_acted(response)
+        self._notify_observers(PlayerGotDescription(response))
 
     def register(self, observer):
         self._walls.register(observer)
+        self._subject.register(observer)
 
     def put(self, an_object):
         self._things.put(an_object)
 
     def get(self, thing_name):
         return self._things.get(thing_name)
+
+    def _notify_observers(self, event):
+        self._subject.notify_observers(event)
 
 
 class Things:

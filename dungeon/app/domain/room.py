@@ -28,7 +28,7 @@ class Room:
 
     def go(self, direction):
         wall = self._walls.get(direction)
-        return wall.go()
+        wall.go()
 
     def look(self, argument):
         if argument == "objects":

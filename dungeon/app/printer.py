@@ -25,6 +25,8 @@ class Printer:
             self._description = "You've got {}".format(event.thing().name())
         elif event.name() == "action_not_completed":
             self._description = "Action was not finished because {}".format(event.reason())
+        elif event.name() == "player_hit_wall":
+            self._description = "You hit a wall. There is no door."
 
     def draw(self):
         scene = Scene(

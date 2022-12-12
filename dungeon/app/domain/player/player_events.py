@@ -82,3 +82,11 @@ class ActionNotCompleted:
 
     def reason(self):
         return self._reason
+
+
+class PlayerHitWall:
+    def __init__(self):
+        pass
+
+    def name(self):
+        return "player_hit_wall"

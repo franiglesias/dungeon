@@ -4,23 +4,29 @@ from dungeon.app.domain.dir import Dir
 from dungeon.app.domain.room import Rooms, Room
 from dungeon.app.domain.thing import Thing
 from dungeon.app.domain.wall import Exit, Walls
+from dungeon.tests.fakes.observers.fake_observer import FakeObserver
 
 
 class TestRoom(TestCase):
     def setUp(self):
+        self.fake_observer = FakeObserver()
         walls = Walls()
         walls.set(Dir.N, Exit())
         self.room = Room(walls)
+        self.room.register(self.fake_observer)
 
     def test_wall_in_all_directions(self):
-        result = self.room.go(Dir.N)
-        self.assertEqual("Congrats. You're out", result.get("message"))
-        result = self.room.go(Dir.E)
-        self.assertEqual('You hit a wall', result.get("message"))
-        result = self.room.go(Dir.S)
-        self.assertEqual('You hit a wall', result.get("message"))
-        result = self.room.go(Dir.W)
-        self.assertEqual('You hit a wall', result.get("message"))
+        self.room.go(Dir.N)
+        self.assertTrue(self.fake_observer.is_aware_of("player_exited"))
+
+        self.room.go(Dir.E)
+        self.assertTrue(self.fake_observer.is_aware_of("player_hit_wall"))
+
+        self.room.go(Dir.S)
+        self.assertTrue(self.fake_observer.is_aware_of("player_hit_wall"))
+
+        self.room.go(Dir.W)
+        self.assertTrue(self.fake_observer.is_aware_of("player_hit_wall"))
 
     def test_can_provide_description(self):
         result = self.room.look('around')

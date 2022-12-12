@@ -1,16 +1,24 @@
 from dungeon.app.command.action_result import ActionResult
 from dungeon.app.domain.dir import Dir
-from dungeon.app.domain.player.player_events import PlayerExited, PlayerMoved
+from dungeon.app.domain.player.player_events import PlayerExited, PlayerMoved, PlayerHitWall
 from dungeon.app.events.subject import Subject
 
 
 class Wall:
+    def __init__(self):
+        self._subject = Subject()
+
     def go(self):
-        return ActionResult.player_acted("You hit a wall")
+        self._notify_observers(PlayerHitWall())
 
     def look(self):
         return ActionResult.player_acted("There is a wall")
 
+    def register(self, observer):
+        self._subject.register(observer)
+
+    def _notify_observers(self, event):
+        self._subject.notify_observers(event)
 
 class Exit(Wall):
     def __init__(self):
@@ -18,7 +26,6 @@ class Exit(Wall):
 
     def go(self):
         self._notify_observers(PlayerExited())
-        return ActionResult.player_exited("Congrats. You're out")
 
     def look(self):
         return ActionResult.player_acted("There is a door")
@@ -37,7 +44,6 @@ class Door(Wall):
 
     def go(self):
         self._notify_observers(PlayerMoved(self._destination))
-        return ActionResult.player_moved("", self._destination)
 
     def look(self):
         return ActionResult.player_acted("There is a door")

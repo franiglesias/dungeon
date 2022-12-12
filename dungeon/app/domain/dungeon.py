@@ -11,8 +11,7 @@ class Dungeon:
         self._rooms.register(self)
 
     def go(self, direction):
-        result = self._current_room().go(Dir(direction))
-        return result
+        self._current_room().go(Dir(direction))
 
     def look(self, focus):
         result = self._current_room().look(focus)

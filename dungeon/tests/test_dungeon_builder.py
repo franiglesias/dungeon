@@ -9,28 +9,35 @@ from dungeon.tests.fakes.observers.fake_observer import FakeObserver
 
 class TestDungeonBuilder(TestCase):
     def test_can_add_room_with_exit_to_North(self):
+        fake_observer = FakeObserver()
         builder = DungeonBuilder()
         builder.add('start')
         builder.set('start', Dir.N, Exit())
 
         dungeon = builder.build()
-        result = dungeon.go('north')
-        self.assertTrue(result.get("exited"))
+        dungeon.register(fake_observer)
+
+        dungeon.go('north')
+        self.assertTrue(fake_observer.is_aware_of("player_exited"))
 
     def test_can_add_room_with_several_doors(self):
+        fake_observer = FakeObserver()
         builder = DungeonBuilder()
         builder.add('start')
         builder.set('start', Dir.N, Exit())
         builder.set('start', Dir.S, Exit())
 
         dungeon = builder.build()
+        dungeon.register(fake_observer)
 
-        result = dungeon.go('north')
-        self.assertTrue(result.get("exited"))
-        result = dungeon.go('south')
-        self.assertTrue(result.get("exited"))
+        dungeon.go('north')
+        self.assertTrue(fake_observer.is_aware_of("player_exited"))
+
+        dungeon.go('south')
+        self.assertTrue(fake_observer.is_aware_of("player_exited"))
 
     def test_can_add_several_rooms(self):
+        fake_observer = FakeObserver()
         builder = DungeonBuilder()
         builder.add('101')
         builder.add('start')
@@ -38,9 +45,10 @@ class TestDungeonBuilder(TestCase):
         builder.set('start', Dir.N, Exit())
 
         dungeon = builder.build()
+        dungeon.register(fake_observer)
 
-        result = dungeon.go('north')
-        self.assertTrue(result.get("exited"))
+        dungeon.go('north')
+        self.assertTrue(fake_observer.is_aware_of("player_exited"))
 
     def test_can_connect_rooms(self):
         builder = DungeonBuilder()

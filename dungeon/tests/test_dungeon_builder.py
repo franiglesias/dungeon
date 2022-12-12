@@ -63,6 +63,8 @@ class TestDungeonBuilder(TestCase):
         self.assertTrue(fake_observer.is_aware_of("player_exited"))
 
     def test_can_put_things_in_rooms(self):
+        fake_observer = FakeObserver()
+
         builder = DungeonBuilder()
         builder.add('101')
         builder.add('start')
@@ -71,8 +73,10 @@ class TestDungeonBuilder(TestCase):
         builder.set('101', Dir.E, Exit())
 
         dungeon = builder.build()
+        dungeon.register(fake_observer)
 
         dungeon.go('north')
-        response = dungeon.look('objects')
+        dungeon.look('objects')
 
-        self.assertIn("Sword", response.get("message"))
+        last_event = fake_observer.last("player_got_description")
+        self.assertIn("Sword", last_event.description())

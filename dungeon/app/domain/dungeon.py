@@ -18,7 +18,6 @@ class Dungeon:
         result = self._current_room().look(focus)
         description = result.get("message")
         self._notify_observers(PlayerGotDescription(description))
-        return result
 
     def get(self, thing_name):
         thing = self._current_room().get(thing_name)

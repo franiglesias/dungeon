@@ -19,7 +19,7 @@ class PlayerAsSubjectTestCase(unittest.TestCase):
     def test_can_register_an_observer_and_notify(self):
         fake_observer = FakeObserver()
 
-        player = Player.awake_with_energy(EnergyUnit(100))
+        player = Player(EnergyUnit(100))
         player.register(fake_observer)
 
         player.do(TestCommand(EnergyUnit(50)))
@@ -29,7 +29,7 @@ class PlayerAsSubjectTestCase(unittest.TestCase):
     def test_notifies_player_sent_command_event(self):
         fake_observer = FakeObserver()
 
-        player = Player.awake_with_energy(EnergyUnit(100))
+        player = Player(EnergyUnit(100))
         player.register(fake_observer)
 
         player.do(TestCommand(EnergyUnit(50)))
@@ -39,7 +39,7 @@ class PlayerAsSubjectTestCase(unittest.TestCase):
     def test_notifies_player_died_event_when_energy_is_0(self):
         fake_observer = FakeObserver()
 
-        player = Player.awake_with_energy(EnergyUnit(100))
+        player = Player(EnergyUnit(100))
         player.register(fake_observer)
 
         player.do(TestCommand(EnergyUnit(100)))
@@ -49,7 +49,7 @@ class PlayerAsSubjectTestCase(unittest.TestCase):
     def test_notifies_player_awake(self):
         fake_observer = FakeObserver()
 
-        player = Player.awake_with_energy(EnergyUnit(100))
+        player = Player(EnergyUnit(100))
         player.register(fake_observer)
 
         player.awake_in(Dungeon(Rooms()))

@@ -15,7 +15,7 @@ class PlayerUsingFoodTestCase(unittest.TestCase):
         fake_observer = FakeObserver()
         dungeon = self.dungeon_with_object(thing)
 
-        player = Player.awake_with_energy(EnergyUnit(50))
+        player = Player(EnergyUnit(50))
         player.awake_in(dungeon)
         player.register(fake_observer)
 
@@ -30,7 +30,7 @@ class PlayerUsingFoodTestCase(unittest.TestCase):
         fake_observer = FakeObserver()
         dungeon = self.dungeon_with_object(Thing("Food"))
 
-        player = Player.awake_with_energy(EnergyUnit(50))
+        player = Player(EnergyUnit(50))
         player.awake_in(dungeon)
         player.register(fake_observer)
 

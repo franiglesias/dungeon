@@ -12,7 +12,7 @@ from dungeon.tests.fakes.show_output.fake_show_output import FakeShowOutput
 class GameTestCase(unittest.TestCase):
     def test_game_handles_player_exited_event(self):
         dungeon = DungeonFactory().make('test')
-        player = Player.awake()
+        player = Player()
         player.awake_in(dungeon)
 
         game = Game(obtain_input=FixedObtainUserCommand("go north"), printer=Printer(FakeShowOutput()))
@@ -22,7 +22,7 @@ class GameTestCase(unittest.TestCase):
 
     def test_game_handles_player_died_event(self):
         dungeon = DungeonFactory().make('test')
-        player = Player.awake()
+        player = Player()
         player.awake_in(dungeon)
 
         game = Game(obtain_input=FixedObtainUserCommand("go north"), printer=Printer(FakeShowOutput()))

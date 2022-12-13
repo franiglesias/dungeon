@@ -10,7 +10,7 @@ from dungeon.tests.fakes.observers.fake_observer import FakeObserver
 class PlayerGettingThingsTestCase(unittest.TestCase):
     def test_player_get_object_removes_from_room(self):
         fake_observer = FakeObserver()
-        player = Player.awake()
+        player = Player()
         dungeon = self.dungeon_with_object(Thing("Food"))
         dungeon.register(fake_observer)
         player.awake_in(dungeon)
@@ -22,7 +22,7 @@ class PlayerGettingThingsTestCase(unittest.TestCase):
 
     def test_player_get_object_and_holds(self):
         thing = Thing("Food")
-        player = Player.awake()
+        player = Player()
         dungeon = self.dungeon_with_object(thing)
         player.awake_in(dungeon)
         get_command = GetCommand("food")

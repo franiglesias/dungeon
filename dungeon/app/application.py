@@ -1,4 +1,3 @@
-from dungeon.app.scene import Scene
 from dungeon.app.domain.player.player import Player
 from dungeon.app.game import Game
 from dungeon.app.printer import Printer
@@ -18,7 +17,7 @@ class Application:
         game.run(player, dungeon)
 
     def _setup_player(self):
-        player = Player.awake()
+        player = Player()
         player.register(self._printer)
         return player
 

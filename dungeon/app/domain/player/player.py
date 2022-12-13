@@ -5,20 +5,12 @@ from dungeon.app.events.subject import Subject
 
 
 class Player:
-    def __init__(self, starting_energy):
+    def __init__(self, starting_energy=EnergyUnit(100)):
         self._energy = Energy(starting_energy)
         self._subject = Subject()
         self._receiver = None
         self._holds = None
         self._last_command = None
-
-    @classmethod
-    def awake(cls):
-        return cls(EnergyUnit(100))
-
-    @classmethod
-    def awake_with_energy(cls, starting_energy):
-        return cls(starting_energy)
 
     def awake_in(self, dungeon):
         dungeon.register(self)

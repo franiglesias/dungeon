@@ -15,7 +15,7 @@ class GameTestCase(unittest.TestCase):
         player = Player.awake()
         player.awake_in(dungeon)
 
-        game = Game(player=Player, obtain_input=FixedObtainUserCommand("go north"), printer=Printer(FakeShowOutput()))
+        game = Game(obtain_input=FixedObtainUserCommand("go north"), printer=Printer(FakeShowOutput()))
         game.notify(PlayerExited())
 
         self.assertTrue(game.finished())
@@ -25,7 +25,7 @@ class GameTestCase(unittest.TestCase):
         player = Player.awake()
         player.awake_in(dungeon)
 
-        game = Game(player=Player, obtain_input=FixedObtainUserCommand("go north"), printer=Printer(FakeShowOutput()))
+        game = Game(obtain_input=FixedObtainUserCommand("go north"), printer=Printer(FakeShowOutput()))
         game.notify(PlayerDied())
 
         self.assertTrue(game.finished())

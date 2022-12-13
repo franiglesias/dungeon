@@ -14,11 +14,10 @@ class Application:
 
     def run(self, dungeon_name='game'):
         self._show_scene(Scene(title="Welcome to the Dungeon", command="", description="", energy="100"))
-        dungeon = self._build_dungeon(dungeon_name)
+        game = Game(obtain_input=self._obtain_user_command, printer=self._printer)
+        dungeon = self._build_dungeon(dungeon_name, game)
         player = self._setup_player(dungeon)
-        game = Game(player=player, obtain_input=self._obtain_user_command, printer=self._printer)
-        dungeon.register(game)
-        game.run()
+        game.run(player)
 
     def _setup_player(self, dungeon):
         player = Player.awake()
@@ -26,9 +25,10 @@ class Application:
         player.awake_in(dungeon)
         return player
 
-    def _build_dungeon(self, dungeon_name):
+    def _build_dungeon(self, dungeon_name, game):
         dungeon = self._factory.make(dungeon_name)
         dungeon.register(self._printer)
+        dungeon.register(game)
         return dungeon
 
     def _show_scene(self, scene):

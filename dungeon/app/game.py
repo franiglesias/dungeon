@@ -1,13 +1,12 @@
 class Game:
-    def __init__(self, player, obtain_input, printer):
+    def __init__(self, obtain_input, printer):
         self._finished = False
-        self._player = player
         self._input = obtain_input
         self._printer = printer
 
-    def run(self):
+    def run(self, player):
         while not self.finished():
-            self._player.do(self._input.command())
+            player.do(self._input.command())
             self._printer.draw()
 
     def notify(self, event):

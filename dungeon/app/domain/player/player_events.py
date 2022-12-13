@@ -90,3 +90,11 @@ class PlayerHitWall:
 
     def name(self):
         return "player_hit_wall"
+
+
+class PlayerAwake:
+    def __init__(self):
+        pass
+
+    def name(self):
+        return "player_awake"

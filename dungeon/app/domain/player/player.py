@@ -1,6 +1,6 @@
 from dungeon.app.domain.player.energy import EnergyUnit, Energy
 from dungeon.app.domain.player.player_events import PlayerDied, PlayerEnergyChanged, PlayerSentCommand, \
-    ActionNotCompleted
+    ActionNotCompleted, PlayerAwake
 from dungeon.app.events.subject import Subject
 
 
@@ -23,6 +23,7 @@ class Player:
     def awake_in(self, dungeon):
         dungeon.register(self)
         self._receiver = dungeon
+        self._notify_observers(PlayerAwake())
 
     def do(self, command):
         self._execute_command(command, self._receiver)

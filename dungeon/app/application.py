@@ -23,12 +23,13 @@ class Application:
     def _setup_player(self, dungeon):
         player = Player.awake()
         player.register(self._printer)
-        dungeon.register(self._printer)
         player.awake_in(dungeon)
         return player
 
+    def _build_dungeon(self, dungeon_name):
+        dungeon = self._factory.make(dungeon_name)
+        dungeon.register(self._printer)
+        return dungeon
+
     def _show_scene(self, scene):
         self._show_output.put(scene)
-
-    def _build_dungeon(self, dungeon):
-        return self._factory.make(dungeon)

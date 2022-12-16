@@ -6,39 +6,37 @@ from dungeon.app.domain.dungeon_builder import DungeonBuilder
 from dungeon.app.domain.player.energy import EnergyUnit
 from dungeon.app.domain.player.player import Player
 from dungeon.app.domain.thing import Thing
+from dungeon.tests.decorators import expect_event_equal, expect_event
 from dungeon.tests.fakes.observers.fake_observer import FakeObserver
 
 
 class PlayerUsingFoodTestCase(unittest.TestCase):
+    def setUp(self):
+        self.observer = FakeObserver()
+
+    @expect_event_equal("player_energy_changed", "energy", EnergyUnit(58))
     def test_using_food_makes_player_increase_energy(self):
-        thing = Thing("Food")
-        fake_observer = FakeObserver()
-        dungeon = self.dungeon_with_object(thing)
-
-        player = Player(EnergyUnit(50))
-        player.awake_in(dungeon)
-        player.register(fake_observer)
-
-        player.do(GetCommand("Food"))
-        player.do(UseCommand("food"))
-
-        last_energy_event = fake_observer.last("player_energy_changed")
-        self.assertEqual(58, last_energy_event.energy().value())
-        self.assertIsNone(player.holds())
-
-    def test_trying_to_use_an_object_but_holding_none(self):
-        fake_observer = FakeObserver()
         dungeon = self.dungeon_with_object(Thing("Food"))
 
         player = Player(EnergyUnit(50))
         player.awake_in(dungeon)
-        player.register(fake_observer)
+        player.register(self.observer)
 
+        player.do(GetCommand("Food"))
         player.do(UseCommand("food"))
 
-        self.assertTrue(fake_observer.is_aware_of("action_not_completed"))
-        last_energy_event = fake_observer.last("player_energy_changed")
-        self.assertEqual(49, last_energy_event.energy().value())
+        self.assertIsNone(player.holds())
+
+    @expect_event("action_not_completed")
+    @expect_event_equal("player_energy_changed", "energy", EnergyUnit(49))
+    def test_trying_to_use_an_object_but_holding_none(self):
+        dungeon = self.dungeon_with_object(Thing("Food"))
+
+        player = Player(EnergyUnit(50))
+        player.awake_in(dungeon)
+        player.register(self.observer)
+        player.do(UseCommand("food"))
+
         self.assertIsNone(player.holds())
 
     def dungeon_with_object(self, thing):

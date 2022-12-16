@@ -1,60 +1,34 @@
 import unittest
 
-from dungeon.app.command.command import Command
 from dungeon.app.domain.dungeon import Dungeon
 from dungeon.app.domain.player.player import Player, EnergyUnit
 from dungeon.app.domain.room import Rooms
+from dungeon.tests.decorators import expect_event
+from dungeon.tests.fakes.commands.fake_command import FakeCommand
 from dungeon.tests.fakes.observers.fake_observer import FakeObserver
 
 
-class TestCommand(Command):
-    def __init__(self, energy_consumption):
-        self._energy_consumption = energy_consumption
-
-    def cost(self):
-        return self._energy_consumption
-
-
 class PlayerAsSubjectTestCase(unittest.TestCase):
+    def setUp(self):
+        self.player = Player()
+        self.observer = FakeObserver()
+        self.player.register(self.observer)
+
+    @expect_event("player_energy_changed")
     def test_can_register_an_observer_and_notify(self):
-        fake_observer = FakeObserver()
+        self.player.do(FakeCommand(EnergyUnit(50)))
 
-        player = Player(EnergyUnit(100))
-        player.register(fake_observer)
-
-        player.do(TestCommand(EnergyUnit(50)))
-
-        self.assertTrue(fake_observer.is_aware_of("player_energy_changed"))
-
+    @expect_event("player_sent_command")
     def test_notifies_player_sent_command_event(self):
-        fake_observer = FakeObserver()
+        self.player.do(FakeCommand(EnergyUnit(50)))
 
-        player = Player(EnergyUnit(100))
-        player.register(fake_observer)
-
-        player.do(TestCommand(EnergyUnit(50)))
-
-        self.assertTrue(fake_observer.is_aware_of("player_sent_command"))
-
+    @expect_event("player_died")
     def test_notifies_player_died_event_when_energy_is_0(self):
-        fake_observer = FakeObserver()
+        self.player.do(FakeCommand(EnergyUnit(100)))
 
-        player = Player(EnergyUnit(100))
-        player.register(fake_observer)
-
-        player.do(TestCommand(EnergyUnit(100)))
-
-        self.assertTrue(fake_observer.is_aware_of("player_died"))
-
+    @expect_event("player_awake")
     def test_notifies_player_awake(self):
-        fake_observer = FakeObserver()
-
-        player = Player(EnergyUnit(100))
-        player.register(fake_observer)
-
-        player.awake_in(Dungeon(Rooms()))
-
-        self.assertTrue(fake_observer.is_aware_of("player_awake"))
+        self.player.awake_in(Dungeon(Rooms()))
 
 
 if __name__ == '__main__':

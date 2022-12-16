@@ -62,6 +62,7 @@ class TestRoom(TestCase):
         self.assertIn("Wood Sword", description)
         self.assertIn("Gold Coin", description)
 
+
 class TestRooms(TestCase):
     def setUp(self):
         self.rooms = Rooms()

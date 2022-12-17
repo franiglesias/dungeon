@@ -1,3 +1,5 @@
+from importlib import import_module
+
 from dungeon.app.command.commands.get_command import GetCommand
 from dungeon.app.command.commands.go_command import GoCommand
 from dungeon.app.command.commands.invalid_command import InvalidCommand
@@ -25,3 +27,16 @@ class CommandFactory:
             return UseCommand(argument)
 
         return InvalidCommand(user_input)
+
+
+class Autodiscover:
+    def __init__(self, path_to_commands):
+        self._path_to_commands = path_to_commands
+
+    def by_name(self, command, argument):
+        try:
+            module = import_module("{path}.{command}_command".format(path=self._path_to_commands, command=command))
+            command_class = getattr(module, "{name}Command".format(name=command.capitalize()))
+        except ModuleNotFoundError:
+            command_class = InvalidCommand
+        return command_class(argument)

@@ -1,6 +1,7 @@
 import sys
 
 from dungeon.app.application import Application
+from dungeon.app.command.command_factory import CommandFactory, Autodiscover
 from dungeon.app.domain.dungeon_factory import DungeonFactory
 from dungeon.app.toggles.toggles import Toggles
 from dungeon.for_obtaining_commands.console_obtain_user_command import ConsoleObtainUserCommand
@@ -12,7 +13,9 @@ def main(args=None):
         args = sys.argv[1:]
 
     toggles = Toggles()
-    application = Application(ConsoleObtainUserCommand(), RichConsoleShowOutput(), DungeonFactory(), toggles)
+    factory = CommandFactory(Autodiscover("dungeon.app.command.commands"))
+    obtain_user_command = ConsoleObtainUserCommand(factory)
+    application = Application(obtain_user_command, RichConsoleShowOutput(), DungeonFactory(), toggles)
     application.run()
 
 

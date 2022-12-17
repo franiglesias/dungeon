@@ -7,20 +7,6 @@ from dungeon.app.command.commands.look_command import LookCommand
 from dungeon.app.command.commands.use_command import UseCommand
 
 
-class CommandFactory:
-    def __init__(self):
-        self._engine = Custom()
-
-    def from_user_input(self, user_input):
-        try:
-            command, argument = user_input.split(" ", 1)
-        except ValueError:
-            command = user_input
-            argument = "around"
-
-        return self._engine.by_name(command, argument)
-
-
 class CommandFactoryEngine:
     def by_name(self, command, argument):
         pass
@@ -51,3 +37,17 @@ class Autodiscover(CommandFactoryEngine):
         except ModuleNotFoundError:
             command_class = InvalidCommand
         return command_class(argument)
+
+
+class CommandFactory:
+    def __init__(self, engine=Custom()):
+        self._engine = engine
+
+    def from_user_input(self, user_input):
+        try:
+            command, argument = user_input.split(" ", 1)
+        except ValueError:
+            command = user_input
+            argument = "around"
+
+        return self._engine.by_name(command, argument)

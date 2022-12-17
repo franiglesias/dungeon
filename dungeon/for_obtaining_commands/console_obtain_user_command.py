@@ -7,4 +7,5 @@ class ConsoleObtainUserCommand(ObtainUserCommand):
     def command(self):
         raw = input("What should I do? >")
         user_input = " ".join(raw.lower().strip().split())
-        return CommandFactory.from_user_input(user_input)
+        factory = CommandFactory()
+        return factory.from_user_input(user_input)

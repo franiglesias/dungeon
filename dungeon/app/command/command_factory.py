@@ -8,15 +8,26 @@ from dungeon.app.command.commands.use_command import UseCommand
 
 
 class CommandFactory:
+    def __init__(self):
+        self._engine = Custom()
 
-    @staticmethod
-    def from_user_input(user_input):
+    def from_user_input(self, user_input):
         try:
             command, argument = user_input.split(" ", 1)
         except ValueError:
             command = user_input
             argument = "around"
 
+        return self._engine.by_name(command, argument)
+
+
+class CommandFactoryEngine:
+    def by_name(self, command, argument):
+        pass
+
+
+class Custom(CommandFactoryEngine):
+    def by_name(self, command, argument):
         if command == "go":
             return GoCommand(argument)
         if command == "look":
@@ -26,10 +37,10 @@ class CommandFactory:
         if command == "use":
             return UseCommand(argument)
 
-        return InvalidCommand(user_input)
+        return InvalidCommand("{} {}".format(command, argument))
 
 
-class Autodiscover:
+class Autodiscover(CommandFactoryEngine):
     def __init__(self, path_to_commands):
         self._path_to_commands = path_to_commands
 

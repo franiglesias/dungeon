@@ -7,4 +7,5 @@ class FixedObtainUserCommand(ObtainUserCommand):
         self._instruction = instruction
 
     def command(self):
-        return CommandFactory.from_user_input(self._instruction)
+        factory = CommandFactory()
+        return factory.from_user_input(self._instruction)

@@ -6,7 +6,8 @@ from dungeon.app.command.commands.look_command import LookCommand
 
 class TestCommand(TestCase):
     def test_allow_look_command_with_no_parameter(self):
-        command = CommandFactory.from_user_input('look')
+        factory = CommandFactory()
+        command = factory.from_user_input("look")
         expected = LookCommand('around')
         self.assertEqual(CommandMatcher(expected), command)
 

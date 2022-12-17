@@ -7,10 +7,11 @@ class Command:
         self._argument = argument
 
     def do(self, receiver):
-        pass
+        if hasattr(receiver, self.name()):
+            getattr(receiver, self.name())(self.argument())
 
     def name(self):
-        return None
+        return ""
 
     def cost(self):
         return EnergyUnit(1)

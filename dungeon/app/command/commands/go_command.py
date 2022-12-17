@@ -6,9 +6,6 @@ class GoCommand(Command):
     def __init__(self, argument):
         super().__init__(argument)
 
-    def do(self, receiver):
-        receiver.go(self._argument)
-
     def cost(self):
         return EnergyUnit(5)
 

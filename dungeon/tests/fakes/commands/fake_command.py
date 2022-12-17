@@ -7,3 +7,6 @@ class FakeCommand(Command):
 
     def cost(self):
         return self._energy_consumption
+
+    def name(self):
+        return "fake"

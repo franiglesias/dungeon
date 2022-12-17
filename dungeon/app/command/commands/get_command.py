@@ -5,8 +5,5 @@ class GetCommand(Command):
     def __init__(self, argument):
         super().__init__(argument)
 
-    def do(self, receiver):
-        receiver.get(self._argument)
-
     def name(self):
         return "get"

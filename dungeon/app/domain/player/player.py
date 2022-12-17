@@ -25,8 +25,8 @@ class Player:
         return self._holds
 
     def _execute_command(self, command, receiver):
-        effective_receiver = self if command.name() == "use" else receiver
-        command.do(effective_receiver)
+        command.do(self)
+        command.do(receiver)
         self._last_command = command
         self._notify_observers(PlayerSentCommand(command.name(), command.argument()))
 

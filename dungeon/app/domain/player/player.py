@@ -1,7 +1,22 @@
 from dungeon.app.domain.player.energy import EnergyUnit, Energy
 from dungeon.app.domain.player.player_events import PlayerDied, PlayerEnergyChanged, PlayerSentCommand, \
-    ActionNotCompleted, PlayerAwake
+    ActionNotCompleted, PlayerAwake, BackPackChanged
 from dungeon.app.events.subject import Subject
+
+
+class Backpack:
+    def __init__(self):
+        self._items = dict()
+
+    def append(self, item):
+        self._items[item.name()] = item
+
+    def content(self):
+        content = []
+        for key, item in self._items.items():
+            content.append(item.name())
+
+        return ", ".join(content)
 
 
 class Player:
@@ -11,6 +26,7 @@ class Player:
         self._receiver = None
         self._holds = None
         self._last_command = None
+        self._backpack = Backpack()
 
     def awake_in(self, dungeon):
         dungeon.register(self)
@@ -21,14 +37,14 @@ class Player:
         self._execute_command(command, self._receiver)
         self._update_energy()
 
-    def holds(self):
-        return self._holds
-
     def _execute_command(self, command, receiver):
         command.do(self)
         command.do(receiver)
         self._last_command = command
         self._notify_observers(PlayerSentCommand(command.name(), command.argument()))
+
+    def holds(self):
+        return self._holds
 
     def use(self, thing_name):
         if self._holds is None:
@@ -62,3 +78,6 @@ class Player:
     def notify(self, event):
         if "player_got_thing" == event.name():
             self._holds = event.thing()
+        if "player_collected_thing" == event.name():
+            self._backpack.append(event.thing())
+            self._notify_observers(BackPackChanged(self._backpack.content()))

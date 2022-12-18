@@ -30,6 +30,8 @@ class Printer:
         elif event.name() == "player_awake":
             self._title = "Welcome to the Dungeon"
             self._energy = "100"
+        elif event.name() == "backpack_changed":
+            self._description = "Your backpack now contains: {}".format(event.content())
 
     def draw(self):
         scene = Scene(

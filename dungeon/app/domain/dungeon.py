@@ -1,5 +1,5 @@
 from dungeon.app.domain.dir import Dir
-from dungeon.app.domain.player.player_events import PlayerGotThing, PlayerGotDescription
+from dungeon.app.domain.player.player_events import PlayerGotThing, PlayerCollectedThing
 from dungeon.app.events.subject import Subject
 
 
@@ -19,6 +19,11 @@ class Dungeon:
     def get(self, thing_name):
         thing = self._current_room().get(thing_name)
         self._notify_observers(PlayerGotThing(thing))
+
+    def collect(self, thing_name):
+        thing = self._current_room().get(thing_name)
+        self._notify_observers(PlayerCollectedThing(thing))
+
 
     def _current_room(self):
         return self._rooms.get(self._current)

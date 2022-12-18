@@ -98,3 +98,25 @@ class PlayerAwake:
 
     def name(self):
         return "player_awake"
+
+
+class PlayerCollectedThing:
+    def __init__(self, thing):
+        self._thing = thing
+
+    def name(self):
+        return "player_collected_thing"
+
+    def thing(self):
+        return self._thing
+
+
+class BackPackChanged:
+    def __init__(self, content):
+        self._content = content
+
+    def name(self):
+        return "backpack_changed"
+
+    def content(self):
+        return self._content

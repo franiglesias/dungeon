@@ -14,7 +14,6 @@ class PlayerUsingFoodTestCase(unittest.TestCase):
     def setUp(self):
         self.observer = FakeObserver()
 
-    @expect_event_equal("player_energy_changed", "energy", EnergyUnit(58))
     def test_using_food_makes_player_increase_energy(self):
         dungeon = self.dungeon_with_object(Thing("Food"))
 
@@ -24,6 +23,9 @@ class PlayerUsingFoodTestCase(unittest.TestCase):
 
         player.do(GetCommand("Food"))
         player.do(UseCommand("food"))
+
+        last = self.observer.last('player_energy_changed')
+        self.assertEqual(58, last.energy().value())
 
         self.assertIsNone(player.holds())
 

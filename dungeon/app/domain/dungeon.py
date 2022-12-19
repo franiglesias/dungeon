@@ -18,12 +18,12 @@ class Dungeon:
 
     def get(self, thing_name):
         thing = self._current_room().get(thing_name)
-        self._notify_observers(PlayerGotThing(thing))
+        if thing is not None:
+            self._notify_observers(PlayerGotThing(thing))
 
     def collect(self, thing_name):
         thing = self._current_room().get(thing_name)
         self._notify_observers(PlayerCollectedThing(thing))
-
 
     def _current_room(self):
         return self._rooms.get(self._current)

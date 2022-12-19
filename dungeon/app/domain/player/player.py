@@ -9,7 +9,7 @@ class Backpack:
         self._items = dict()
 
     def append(self, item):
-        self._items[item.name()] = item
+        self._items[item.name().lower()] = item
 
     def content(self):
         content = []
@@ -18,6 +18,9 @@ class Backpack:
 
         return ", ".join(content)
 
+    def get(self, thing_name):
+        if thing_name.lower() in self._items.keys():
+            return self._items.pop(thing_name.lower())
 
 class Player:
     def __init__(self, starting_energy=EnergyUnit(100)):
@@ -54,6 +57,9 @@ class Player:
             return
         self._holds.apply_on(self)
         self._holds = None
+
+    def get(self, thing_name):
+        self._holds = self._backpack.get(thing_name)
 
     def increase_energy(self, delta_energy):
         self._energy.increase(delta_energy)

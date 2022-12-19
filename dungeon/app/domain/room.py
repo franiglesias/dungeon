@@ -77,4 +77,6 @@ class Things:
         return response
 
     def get(self, thing_name):
-        return self._things.pop(thing_name.lower())
+        if thing_name.lower() in self._things.keys():
+            return self._things.pop(thing_name.lower())
+        return None

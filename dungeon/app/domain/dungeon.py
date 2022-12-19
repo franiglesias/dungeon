@@ -25,6 +25,9 @@ class Dungeon:
         thing = self._current_room().get(thing_name)
         self._notify_observers(PlayerCollectedThing(thing))
 
+    def drop(self, thing):
+        self._current_room().put(thing)
+
     def _current_room(self):
         return self._rooms.get(self._current)
 

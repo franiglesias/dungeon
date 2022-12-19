@@ -22,6 +22,7 @@ class Backpack:
         if thing_name.lower() in self._items.keys():
             return self._items.pop(thing_name.lower())
 
+
 class Player:
     def __init__(self, starting_energy=EnergyUnit(100)):
         self._energy = Energy(starting_energy)
@@ -59,7 +60,9 @@ class Player:
         self._holds = None
 
     def get(self, thing_name):
-        self._holds = self._backpack.get(thing_name)
+        thing = self._backpack.get(thing_name)
+        if thing is not None:
+            self._holds = thing
 
     def increase_energy(self, delta_energy):
         self._energy.increase(delta_energy)
@@ -83,6 +86,9 @@ class Player:
 
     def notify(self, event):
         if "player_got_thing" == event.name():
+            if self._holds is not None:
+                self._receiver.drop(self._holds)
+                self._holds = None
             self._holds = event.thing()
         if "player_collected_thing" == event.name():
             self._backpack.append(event.thing())

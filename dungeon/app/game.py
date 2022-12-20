@@ -1,3 +1,6 @@
+from dungeon.app.domain.player.player_events import PlayerExited, PlayerDied
+
+
 class Game:
     def __init__(self, obtain_input, printer):
         self._finished = False
@@ -13,9 +16,9 @@ class Game:
             self._printer.draw()
 
     def notify(self, event):
-        if event.name() == "player_exited":
+        if event.of_type(PlayerExited):
             self._finished = True
-        if event.name() == "player_died":
+        if event.of_type(PlayerDied):
             self._finished = True
 
     def finished(self):

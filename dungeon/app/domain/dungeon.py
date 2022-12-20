@@ -1,5 +1,5 @@
 from dungeon.app.domain.dir import Dir
-from dungeon.app.domain.player.player_events import PlayerGotThing, PlayerCollectedThing
+from dungeon.app.domain.player.player_events import PlayerGotThing, PlayerCollectedThing, PlayerMoved
 from dungeon.app.events.subject import Subject
 
 
@@ -39,5 +39,5 @@ class Dungeon:
         self._rooms.register(observer)
 
     def notify(self, event):
-        if event.name() == "player_moved":
+        if event.of_type(PlayerMoved):
             self._current = event.room()

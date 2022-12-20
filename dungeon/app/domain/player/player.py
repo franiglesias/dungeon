@@ -1,26 +1,8 @@
+from dungeon.app.domain.player.backpack import Backpack
 from dungeon.app.domain.player.energy import EnergyUnit, Energy
 from dungeon.app.domain.player.player_events import PlayerDied, PlayerEnergyChanged, PlayerSentCommand, \
-    ActionNotCompleted, PlayerAwake, BackPackChanged
+    ActionNotCompleted, PlayerAwake, BackpackChanged, PlayerGotThing, PlayerCollectedThing
 from dungeon.app.events.subject import Subject
-
-
-class Backpack:
-    def __init__(self):
-        self._items = dict()
-
-    def append(self, item):
-        self._items[item.name().lower()] = item
-
-    def content(self):
-        content = []
-        for key, item in self._items.items():
-            content.append(item.name())
-
-        return ", ".join(content)
-
-    def get(self, thing_name):
-        if thing_name.lower() in self._items.keys():
-            return self._items.pop(thing_name.lower())
 
 
 class Player:
@@ -54,10 +36,13 @@ class Player:
         if self._holds is None:
             self._notify_observers(ActionNotCompleted("You need an object to use it."))
             return
-        if self._holds.name().lower() != thing_name.lower():
+        if self._is_a_different_object(thing_name):
             return
         self._holds.apply_on(self)
         self._holds = None
+
+    def _is_a_different_object(self, thing_name):
+        return self._holds.name().lower() != thing_name.lower()
 
     def get(self, thing_name):
         thing = self._backpack.get(thing_name)
@@ -66,7 +51,7 @@ class Player:
                 self._backpack.append(self._holds)
                 self._holds = None
             self._holds = thing
-            self._notify_observers(BackPackChanged(self._backpack.content()))
+            self._notify_observers(BackpackChanged(self._backpack.content()))
 
     def increase_energy(self, delta_energy):
         self._energy.increase(delta_energy)
@@ -89,11 +74,17 @@ class Player:
         self._subject.notify_observers(event)
 
     def notify(self, event):
-        if "player_got_thing" == event.name():
-            if self._holds is not None:
-                self._receiver.drop(self._holds)
-                self._holds = None
-            self._holds = event.thing()
-        if "player_collected_thing" == event.name():
-            self._backpack.append(event.thing())
-            self._notify_observers(BackPackChanged(self._backpack.content()))
+        if event.of_type(PlayerGotThing):
+            self._do_get_thing(event)
+        if event.of_type(PlayerCollectedThing):
+            self.do_collect_thing(event)
+
+    def do_collect_thing(self, event):
+        self._backpack.append(event.thing())
+        self._notify_observers(BackpackChanged(self._backpack.content()))
+
+    def _do_get_thing(self, event):
+        if self._holds is not None:
+            self._receiver.drop(self._holds)
+            self._holds = None
+        self._holds = event.thing()

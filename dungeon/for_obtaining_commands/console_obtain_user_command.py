@@ -1,4 +1,3 @@
-from dungeon.app.command.command_factory import CommandFactory, Autodiscover
 from dungeon.app.obtain_user_command import ObtainUserCommand
 
 

@@ -1,3 +1,5 @@
+from dungeon.app.domain.player.player_events import PlayerEnergyChanged, PlayerGotDescription, PlayerMoved, \
+    PlayerSentCommand, PlayerExited, PlayerGotThing, ActionNotCompleted, PlayerHitWall, PlayerAwake, BackpackChanged
 from dungeon.app.scene import Scene
 
 
@@ -10,27 +12,27 @@ class Printer:
         self._title = ""
 
     def notify(self, event):
-        if event.name() == "player_energy_changed":
+        if event.of_type(PlayerEnergyChanged):
             self._energy = str(event.energy().value())
-        elif event.name() == "player_got_description":
+        elif event.of_type(PlayerGotDescription):
             self._description = event.description()
-        elif event.name() == "player_moved":
+        elif event.of_type(PlayerMoved):
             self._title = event.room()
             self._description = "You moved to room '{dest}'".format(dest=event.room())
-        elif event.name() == "player_sent_command":
+        elif event.of_type(PlayerSentCommand):
             self._command = "{} {}".format(event.command(), event.argument())
-        elif event.name() == "player_exited":
+        elif event.of_type(PlayerExited):
             self._description = "Congrats. You're out"
-        elif event.name() == "player_got_thing":
+        elif event.of_type(PlayerGotThing):
             self._description = "You've got {}".format(event.thing().name())
-        elif event.name() == "action_not_completed":
+        elif event.of_type(ActionNotCompleted):
             self._description = "Action was not finished because {}".format(event.reason())
-        elif event.name() == "player_hit_wall":
+        elif event.of_type(PlayerHitWall):
             self._description = "You hit a wall. There is no door."
-        elif event.name() == "player_awake":
+        elif event.of_type(PlayerAwake):
             self._title = "Welcome to the Dungeon"
             self._energy = "100"
-        elif event.name() == "backpack_changed":
+        elif event.of_type(BackpackChanged):
             self._description = "Your backpack now contains: {}".format(event.content())
 
     def draw(self):

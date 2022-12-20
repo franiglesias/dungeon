@@ -38,7 +38,6 @@ class CollectingThingsTestCase(unittest.TestCase):
         self.player.awake_in(dungeon)
         self.player.do(CollectCommand("food"))
 
-
     def dungeon_with_object(self, thing=Thing("Food")):
         builder = DungeonBuilder()
         builder.add('start')

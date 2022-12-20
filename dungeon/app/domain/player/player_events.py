@@ -1,4 +1,12 @@
-class PlayerDied:
+class Event:
+    def name(self):
+        pass
+
+    def of_type(self, cls):
+        return isinstance(self, cls)
+
+
+class PlayerDied(Event):
     def __init__(self):
         pass
 
@@ -6,7 +14,7 @@ class PlayerDied:
         return "player_died"
 
 
-class PlayerEnergyChanged:
+class PlayerEnergyChanged(Event):
     def __init__(self, updated_energy):
         self._updated_energy = updated_energy
 
@@ -17,7 +25,7 @@ class PlayerEnergyChanged:
         return self._updated_energy
 
 
-class PlayerSentCommand:
+class PlayerSentCommand(Event):
     def __init__(self, command, argument):
         self._command = command
         self._argument = argument
@@ -32,7 +40,7 @@ class PlayerSentCommand:
         return self._argument
 
 
-class PlayerGotDescription:
+class PlayerGotDescription(Event):
     def __init__(self, description):
         self._description = description
 
@@ -43,7 +51,7 @@ class PlayerGotDescription:
         return self._description
 
 
-class PlayerMoved:
+class PlayerMoved(Event):
     def __init__(self, room):
         self._room = room
 
@@ -54,7 +62,7 @@ class PlayerMoved:
         return "player_moved"
 
 
-class PlayerExited:
+class PlayerExited(Event):
     def __init__(self):
         pass
 
@@ -62,7 +70,7 @@ class PlayerExited:
         return "player_exited"
 
 
-class PlayerGotThing:
+class PlayerGotThing(Event):
     def __init__(self, thing):
         self._thing = thing
 
@@ -73,7 +81,7 @@ class PlayerGotThing:
         return self._thing
 
 
-class ActionNotCompleted:
+class ActionNotCompleted(Event):
     def __init__(self, reason):
         self._reason = reason
 
@@ -84,7 +92,7 @@ class ActionNotCompleted:
         return self._reason
 
 
-class PlayerHitWall:
+class PlayerHitWall(Event):
     def __init__(self):
         pass
 
@@ -92,7 +100,7 @@ class PlayerHitWall:
         return "player_hit_wall"
 
 
-class PlayerAwake:
+class PlayerAwake(Event):
     def __init__(self):
         pass
 
@@ -100,7 +108,7 @@ class PlayerAwake:
         return "player_awake"
 
 
-class PlayerCollectedThing:
+class PlayerCollectedThing(Event):
     def __init__(self, thing):
         self._thing = thing
 
@@ -111,7 +119,7 @@ class PlayerCollectedThing:
         return self._thing
 
 
-class BackPackChanged:
+class BackpackChanged(Event):
     def __init__(self, content):
         self._content = content
 

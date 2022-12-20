@@ -62,7 +62,11 @@ class Player:
     def get(self, thing_name):
         thing = self._backpack.get(thing_name)
         if thing is not None:
+            if self._holds is not None:
+                self._backpack.append(self._holds)
+                self._holds = None
             self._holds = thing
+            self._notify_observers(BackPackChanged(self._backpack.content()))
 
     def increase_energy(self, delta_energy):
         self._energy.increase(delta_energy)

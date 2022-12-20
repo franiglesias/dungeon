@@ -6,7 +6,7 @@ from dungeon.app.command.commands.look_command import LookCommand
 from dungeon.app.domain.dungeon_builder import DungeonBuilder
 from dungeon.app.domain.player.player import Player
 from dungeon.app.domain.thing import Thing
-from dungeon.tests.decorators import expect_event_containing
+from dungeon.tests.decorators import expect_event_containing, expect_event_equal
 from dungeon.tests.fakes.observers.fake_observer import FakeObserver
 
 
@@ -58,6 +58,19 @@ class PlayerGettingThingsTestCase(unittest.TestCase):
         self.player.do(GetCommand("sword"))
         self.player.do(LookCommand("objects"))
         self.assertEqual(second, self.player.holds())
+
+    @expect_event_equal("backpack_changed", "content", "Sword")
+    def test_player_collects_two_objects_and_holds_the_last_one(self):
+        food = Thing("Food")
+        sword = Thing("Sword")
+        dungeon = self.dungeon_with_objects(food, sword)
+        dungeon.register(self.observer)
+        self.player.awake_in(dungeon)
+        self.player.do(CollectCommand("food"))
+        self.player.do(CollectCommand("sword"))
+        self.player.do(GetCommand("sword"))
+        self.player.do(GetCommand("food"))
+        self.assertEqual(food, self.player.holds())
 
     def dungeon_with_object(self, thing=Thing("Food")):
         builder = DungeonBuilder()

@@ -5,9 +5,9 @@ class FakeObserver:
     def notify(self, event):
         self._events[event.name()] = event
 
-    def is_aware_of(self, event_name):
-        return event_name in self._events.keys()
+    def is_aware_of(self, event_class):
+        return event_class.__name__ in self._events.keys()
 
-    def last(self, event_name):
-        if self.is_aware_of(event_name):
-            return self._events[event_name]
+    def last(self, event_class):
+        if self.is_aware_of(event_class):
+            return self._events[event_class.__name__]

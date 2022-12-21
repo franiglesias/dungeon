@@ -1,6 +1,7 @@
 from unittest import TestCase
 
 from dungeon.app.domain.dir import Dir
+from dungeon.app.domain.player.player_events import PlayerGotDescription, PlayerExited, PlayerHitWall
 from dungeon.app.domain.room import Rooms, Room
 from dungeon.app.domain.thing import Thing
 from dungeon.app.domain.wall import Exit, Walls
@@ -14,26 +15,26 @@ class TestRoom(TestCase):
 
         self.room = Room(walls)
 
-        self.fake_observer = FakeObserver()
-        self.room.register(self.fake_observer)
+        self.observer = FakeObserver()
+        self.room.register(self.observer)
 
     def test_wall_in_all_directions(self):
         self.room.go(Dir.N)
-        self.assertTrue(self.fake_observer.is_aware_of("player_exited"))
+        self.assertTrue(self.observer.is_aware_of(PlayerExited))
 
         self.room.go(Dir.E)
-        self.assertTrue(self.fake_observer.is_aware_of("player_hit_wall"))
+        self.assertTrue(self.observer.is_aware_of(PlayerHitWall))
 
         self.room.go(Dir.S)
-        self.assertTrue(self.fake_observer.is_aware_of("player_hit_wall"))
+        self.assertTrue(self.observer.is_aware_of(PlayerHitWall))
 
         self.room.go(Dir.W)
-        self.assertTrue(self.fake_observer.is_aware_of("player_hit_wall"))
+        self.assertTrue(self.observer.is_aware_of(PlayerHitWall))
 
     def test_can_provide_description(self):
         self.room.look('around')
 
-        event = self.fake_observer.last("player_got_description")
+        event = self.observer.last(PlayerGotDescription)
         description = event.description()
 
         self.assertIn("North: There is a door", description)
@@ -44,7 +45,7 @@ class TestRoom(TestCase):
     def test_can_provide_description_of_objects_in_empty_room(self):
         self.room.look('objects')
 
-        event = self.fake_observer.last("player_got_description")
+        event = self.observer.last(PlayerGotDescription)
         description = event.description()
 
         self.assertIn("There are no objects", description)
@@ -55,7 +56,7 @@ class TestRoom(TestCase):
         self.room.put(Thing("Gold Coin"))
         self.room.look('objects')
 
-        event = self.fake_observer.last("player_got_description")
+        event = self.observer.last(PlayerGotDescription)
         description = event.description()
 
         self.assertIn("Food", description)

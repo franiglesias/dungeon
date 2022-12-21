@@ -5,6 +5,7 @@ from dungeon.app.command.commands.get_command import GetCommand
 from dungeon.app.command.commands.look_command import LookCommand
 from dungeon.app.domain.dungeon_builder import DungeonBuilder
 from dungeon.app.domain.player.player import Player
+from dungeon.app.domain.player.player_events import PlayerGotDescription, BackpackChanged
 from dungeon.app.domain.thing import Thing
 from dungeon.tests.decorators import expect_event_containing, expect_event_equal
 from dungeon.tests.fakes.observers.fake_observer import FakeObserver
@@ -16,7 +17,7 @@ class PlayerGettingThingsTestCase(unittest.TestCase):
         self.observer = FakeObserver()
         self.player.register(self.observer)
 
-    @expect_event_containing("player_got_description", "description", "There are no objects")
+    @expect_event_containing(PlayerGotDescription, "description", "There are no objects")
     def test_player_get_object_removes_from_room(self):
         dungeon = self.dungeon_with_object(Thing("Food"))
         dungeon.register(self.observer)
@@ -39,7 +40,7 @@ class PlayerGettingThingsTestCase(unittest.TestCase):
         self.player.do(GetCommand("food"))
         self.assertEqual(thing, self.player.holds())
 
-    @expect_event_containing("backpack_changed", "content", "")
+    @expect_event_containing(BackpackChanged, "content", "")
     def test_player_get_object_removes_from_backpack(self):
         dungeon = self.dungeon_with_object(Thing("Food"))
         dungeon.register(self.observer)
@@ -47,7 +48,7 @@ class PlayerGettingThingsTestCase(unittest.TestCase):
         self.player.do(CollectCommand("food"))
         self.player.do(GetCommand("food"))
 
-    @expect_event_containing("player_got_description", "description", "Food")
+    @expect_event_containing(PlayerGotDescription, "description", "Food")
     def test_player_get_two_objects_and_holds_the_last_one(self):
         first = Thing("Food")
         second = Thing("Sword")
@@ -59,7 +60,7 @@ class PlayerGettingThingsTestCase(unittest.TestCase):
         self.player.do(LookCommand("objects"))
         self.assertEqual(second, self.player.holds())
 
-    @expect_event_equal("backpack_changed", "content", "Sword")
+    @expect_event_equal(BackpackChanged, "content", "Sword")
     def test_player_collects_two_objects_and_holds_the_last_one(self):
         food = Thing("Food")
         sword = Thing("Sword")

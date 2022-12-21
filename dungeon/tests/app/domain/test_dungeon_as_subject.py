@@ -2,6 +2,7 @@ import unittest
 
 from dungeon.app.domain.dir import Dir
 from dungeon.app.domain.dungeon_builder import DungeonBuilder
+from dungeon.app.domain.player.player_events import PlayerMoved, PlayerExited
 from dungeon.app.domain.wall import Exit
 from dungeon.tests.decorators import expect_event
 from dungeon.tests.fakes.observers.fake_observer import FakeObserver
@@ -12,7 +13,7 @@ class DungeonAsSubjectTestCase(unittest.TestCase):
         self.builder = DungeonBuilder()
         self.observer = FakeObserver()
 
-    @expect_event("player_moved")
+    @expect_event(PlayerMoved)
     def test_supports_current_room_changed_event(self):
         self.builder.add('start')
         self.builder.add('other')
@@ -22,7 +23,7 @@ class DungeonAsSubjectTestCase(unittest.TestCase):
         dungeon.register(self.observer)
         dungeon.go(Dir.N)
 
-    @expect_event("player_exited")
+    @expect_event(PlayerExited)
     def test_supports_player_exited_event(self):
         self.builder.add('start')
         self.builder.set('start', Dir.N, Exit())

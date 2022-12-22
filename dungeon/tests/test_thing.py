@@ -22,6 +22,12 @@ class TestThingId(TestCase):
         identifier = ThingId.from_name(ThingName("A Thing"))
         self.assertEqual("a thing", identifier.to_s())
 
+    def test_could_compare_for_equality(self):
+        an_id = ThingId("example")
+        another_id = ThingId("example")
+
+        self.assertEqual(an_id, another_id)
+
 
 class TestThing(TestCase):
     def test_could_be_created_from_raw_name(self):

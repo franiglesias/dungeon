@@ -43,7 +43,7 @@ class Player:
         self._holds = None
 
     def _is_a_different_object(self, thing_name):
-        return self._holds.id().to_s() != ThingId.normalized(thing_name).to_s()
+        return self._holds.id() != ThingId.normalized(thing_name)
 
     def get(self, thing_name):
         thing = self._backpack.get(thing_name)

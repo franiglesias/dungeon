@@ -17,6 +17,9 @@ class ThingId:
             raise ValueError("Things must have identifier")
         self._id = id
 
+    def __eq__(self, other):
+        return self.to_s() == other.to_s()
+
     def to_s(self):
         return self._id
 

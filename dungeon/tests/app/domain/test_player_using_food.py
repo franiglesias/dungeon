@@ -17,7 +17,7 @@ class PlayerUsingFoodTestCase(unittest.TestCase):
 
     @expect_event_equal(PlayerEnergyChanged, "energy", EnergyUnit(58))
     def test_using_food_makes_player_increase_energy(self):
-        dungeon = self.dungeon_with_object(Thing("Food"))
+        dungeon = self.dungeon_with_object(Thing.from_raw("Food"))
 
         player = Player(EnergyUnit(50))
         player.awake_in(dungeon)
@@ -31,7 +31,7 @@ class PlayerUsingFoodTestCase(unittest.TestCase):
     @expect_event(ActionNotCompleted)
     @expect_event_equal(PlayerEnergyChanged, "energy", EnergyUnit(49))
     def test_trying_to_use_an_object_but_holding_none(self):
-        dungeon = self.dungeon_with_object(Thing("Food"))
+        dungeon = self.dungeon_with_object(Thing.from_raw("Food"))
 
         player = Player(EnergyUnit(50))
         player.awake_in(dungeon)

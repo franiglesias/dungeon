@@ -51,9 +51,9 @@ class TestRoom(TestCase):
         self.assertIn("There are no objects", description)
 
     def test_can_put_objects_in_a_room(self):
-        self.room.put(Thing("Food"))
-        self.room.put(Thing("Wood Sword"))
-        self.room.put(Thing("Gold Coin"))
+        self.room.put(Thing.from_raw("Food"))
+        self.room.put(Thing.from_raw("Wood Sword"))
+        self.room.put(Thing.from_raw("Gold Coin"))
         self.room.look('objects')
 
         event = self.observer.last(PlayerGotDescription)

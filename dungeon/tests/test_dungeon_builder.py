@@ -73,7 +73,7 @@ class TestDungeonBuilder(TestCase):
         builder.add('101')
         builder.add('start')
         builder.connect('start', Dir.N, '101')
-        builder.put('101', Thing("Sword"))
+        builder.put('101', Thing.from_raw("Sword"))
         builder.set('101', Dir.E, Exit())
 
         dungeon = builder.build()

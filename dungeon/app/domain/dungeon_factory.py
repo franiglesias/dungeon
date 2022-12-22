@@ -53,7 +53,7 @@ class DungeonFactory:
         builder.connect('21', Dir.E, '22')
 
         builder.set('exit', Dir.E, Exit())
-        builder.put('10', Thing("Food"))
-        builder.put('17', Thing("Sword"))
-        builder.put('1', Thing("Food"))
+        builder.put('10', Thing.from_raw("Food"))
+        builder.put('17', Thing.from_raw("Sword"))
+        builder.put('1', Thing.from_raw("Food"))
         return builder.build()

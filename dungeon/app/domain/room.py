@@ -1,4 +1,5 @@
 from dungeon.app.domain.player.player_events import PlayerGotDescription
+from dungeon.app.domain.thing import ThingId
 from dungeon.app.events.subject import Subject
 
 
@@ -65,18 +66,19 @@ class Things:
         self._things = dict()
 
     def put(self, a_thing):
-        self._things[a_thing.name().lower()] = a_thing
+        self._things[a_thing.id().to_s()] = a_thing
 
     def look(self):
         if len(self._things) > 0:
             response = "There are:\n"
             for thing in self._things.values():
-                response += "* {}\n".format(thing.name())
+                response += "* {}\n".format(thing.name().to_s())
         else:
             response = "There are no objects\n"
         return response
 
     def get(self, thing_name):
-        if thing_name.lower() in self._things.keys():
-            return self._things.pop(thing_name.lower())
+        thing_id = ThingId.normalized(thing_name)
+        if thing_id.to_s() in self._things.keys():
+            return self._things.pop(thing_id.to_s())
         return None

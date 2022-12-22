@@ -2,6 +2,7 @@ from dungeon.app.domain.player.backpack import Backpack
 from dungeon.app.domain.player.energy import EnergyUnit, Energy
 from dungeon.app.domain.player.player_events import PlayerDied, PlayerEnergyChanged, PlayerSentCommand, \
     ActionNotCompleted, PlayerAwake, BackpackChanged, PlayerGotThing, PlayerCollectedThing
+from dungeon.app.domain.thing import ThingId
 from dungeon.app.events.subject import Subject
 
 
@@ -42,7 +43,7 @@ class Player:
         self._holds = None
 
     def _is_a_different_object(self, thing_name):
-        return self._holds.name().lower() != thing_name.lower()
+        return self._holds.id().to_s() != ThingId.normalized(thing_name).to_s()
 
     def get(self, thing_name):
         thing = self._backpack.get(thing_name)

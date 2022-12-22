@@ -19,21 +19,21 @@ class PlayerGettingThingsTestCase(unittest.TestCase):
 
     @expect_event_containing(PlayerGotDescription, "description", "There are no objects")
     def test_player_get_object_removes_from_room(self):
-        dungeon = self.dungeon_with_object(Thing("Food"))
+        dungeon = self.dungeon_with_object(Thing.from_raw("Food"))
         dungeon.register(self.observer)
         self.player.awake_in(dungeon)
         self.player.do(GetCommand("food"))
         dungeon.look('objects')
 
     def test_player_get_object_and_holds(self):
-        thing = Thing("Food")
+        thing = Thing.from_raw("Food")
         dungeon = self.dungeon_with_object(thing)
         self.player.awake_in(dungeon)
         self.player.do(GetCommand("food"))
         self.assertEqual(thing, self.player.holds())
 
     def test_player_get_object_from_backpack_and_holds(self):
-        thing = Thing("Food")
+        thing = Thing.from_raw("Food")
         dungeon = self.dungeon_with_object(thing)
         self.player.awake_in(dungeon)
         self.player.do(CollectCommand("food"))
@@ -42,7 +42,7 @@ class PlayerGettingThingsTestCase(unittest.TestCase):
 
     @expect_event_containing(BackpackChanged, "content", "")
     def test_player_get_object_removes_from_backpack(self):
-        dungeon = self.dungeon_with_object(Thing("Food"))
+        dungeon = self.dungeon_with_object(Thing.from_raw("Food"))
         dungeon.register(self.observer)
         self.player.awake_in(dungeon)
         self.player.do(CollectCommand("food"))
@@ -50,8 +50,8 @@ class PlayerGettingThingsTestCase(unittest.TestCase):
 
     @expect_event_containing(PlayerGotDescription, "description", "Food")
     def test_player_get_two_objects_and_holds_the_last_one(self):
-        first = Thing("Food")
-        second = Thing("Sword")
+        first = Thing.from_raw("Food")
+        second = Thing.from_raw("Sword")
         dungeon = self.dungeon_with_objects(first, second)
         dungeon.register(self.observer)
         self.player.awake_in(dungeon)
@@ -62,8 +62,8 @@ class PlayerGettingThingsTestCase(unittest.TestCase):
 
     @expect_event_equal(BackpackChanged, "content", "Sword")
     def test_player_collects_two_objects_and_holds_the_last_one(self):
-        food = Thing("Food")
-        sword = Thing("Sword")
+        food = Thing.from_raw("Food")
+        sword = Thing.from_raw("Sword")
         dungeon = self.dungeon_with_objects(food, sword)
         dungeon.register(self.observer)
         self.player.awake_in(dungeon)
@@ -73,7 +73,7 @@ class PlayerGettingThingsTestCase(unittest.TestCase):
         self.player.do(GetCommand("food"))
         self.assertEqual(food, self.player.holds())
 
-    def dungeon_with_object(self, thing=Thing("Food")):
+    def dungeon_with_object(self, thing=Thing.from_raw("Food")):
         builder = DungeonBuilder()
         builder.add('start')
         builder.put('start', thing)

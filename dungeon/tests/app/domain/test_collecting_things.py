@@ -11,7 +11,7 @@ from dungeon.tests.fakes.observers.fake_observer import FakeObserver
 
 class CollectingThingsTestCase(unittest.TestCase):
     def setUp(self):
-        self.thing = Thing("Food")
+        self.thing = Thing.from_raw("Food")
         self.builder = DungeonBuilder()
         self.observer = FakeObserver()
         self.player = Player()
@@ -19,7 +19,7 @@ class CollectingThingsTestCase(unittest.TestCase):
 
     @expect_event_containing(PlayerGotDescription, "description", "There are no objects")
     def test_player_collect_object_removes_from_room(self):
-        dungeon = self.dungeon_with_object(Thing("Food"))
+        dungeon = self.dungeon_with_object(Thing.from_raw("Food"))
         dungeon.register(self.observer)
         self.player.awake_in(dungeon)
         self.player.do(CollectCommand("food"))
@@ -27,19 +27,19 @@ class CollectingThingsTestCase(unittest.TestCase):
 
     @expect_event(PlayerCollectedThing)
     def test_dungeon_raises_event(self):
-        dungeon = self.dungeon_with_object(Thing("Food"))
+        dungeon = self.dungeon_with_object(Thing.from_raw("Food"))
         dungeon.register(self.observer)
         self.player.awake_in(dungeon)
         self.player.do(CollectCommand("food"))
 
     @expect_event_containing(BackpackChanged, "content", "Food")
     def test_player_added_item_to_backpack(self):
-        dungeon = self.dungeon_with_object(Thing("Food"))
+        dungeon = self.dungeon_with_object(Thing.from_raw("Food"))
         dungeon.register(self.observer)
         self.player.awake_in(dungeon)
         self.player.do(CollectCommand("food"))
 
-    def dungeon_with_object(self, thing=Thing("Food")):
+    def dungeon_with_object(self, thing=Thing.from_raw("Food")):
         builder = DungeonBuilder()
         builder.add('start')
         builder.put('start', thing)

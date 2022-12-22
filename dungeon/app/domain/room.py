@@ -66,7 +66,7 @@ class Things:
         self._things = dict()
 
     def put(self, a_thing):
-        self._things[a_thing.id().to_s()] = a_thing
+        self._things[a_thing.id()] = a_thing
 
     def look(self):
         if len(self._things) > 0:
@@ -79,6 +79,6 @@ class Things:
 
     def get(self, thing_name):
         thing_id = ThingId.normalized(thing_name)
-        if thing_id.to_s() in self._things.keys():
-            return self._things.pop(thing_id.to_s())
+        if thing_id in self._things.keys():
+            return self._things.pop(thing_id)
         return None

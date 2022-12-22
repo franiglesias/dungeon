@@ -6,7 +6,7 @@ class Backpack:
         self._items = dict()
 
     def append(self, item):
-        self._items[item.id().to_s()] = item
+        self._items[item.id()] = item
 
     def content(self):
         content = []
@@ -17,5 +17,5 @@ class Backpack:
 
     def get(self, thing_name):
         thing_id = ThingId.normalized(thing_name)
-        if thing_id.to_s() in self._items.keys():
-            return self._items.pop(thing_id.to_s())
+        if thing_id in self._items.keys():
+            return self._items.pop(thing_id)

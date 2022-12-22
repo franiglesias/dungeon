@@ -20,6 +20,9 @@ class ThingId:
     def __eq__(self, other):
         return self.to_s() == other.to_s()
 
+    def __hash__(self):
+        return hash(self._id)
+
     def to_s(self):
         return self._id
 

@@ -1,6 +1,6 @@
 from dungeon.app.domain.dir import Dir
 from dungeon.app.domain.dungeon_builder import DungeonBuilder
-from dungeon.app.domain.thing import Thing
+from dungeon.app.domain.thing import Thing, Food
 from dungeon.app.domain.wall import Exit
 
 
@@ -53,7 +53,7 @@ class DungeonFactory:
         builder.connect('21', Dir.E, '22')
 
         builder.set('exit', Dir.E, Exit())
-        builder.put('10', Thing.from_raw("Food"))
+        builder.put('10', Food.from_raw("Banana"))
         builder.put('17', Thing.from_raw("Sword"))
-        builder.put('1', Thing.from_raw("Food"))
+        builder.put('1', Food.from_raw("Apple"))
         return builder.build()

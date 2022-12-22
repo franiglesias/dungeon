@@ -6,7 +6,7 @@ from dungeon.app.domain.dungeon_builder import DungeonBuilder
 from dungeon.app.domain.player.energy import EnergyUnit
 from dungeon.app.domain.player.player import Player
 from dungeon.app.domain.player.player_events import ActionNotCompleted, PlayerEnergyChanged
-from dungeon.app.domain.thing import Thing
+from dungeon.app.domain.thing import Thing, Food
 from dungeon.tests.decorators import expect_event_equal, expect_event
 from dungeon.tests.fakes.observers.fake_observer import FakeObserver
 
@@ -17,14 +17,14 @@ class PlayerUsingFoodTestCase(unittest.TestCase):
 
     @expect_event_equal(PlayerEnergyChanged, "energy", EnergyUnit(58))
     def test_using_food_makes_player_increase_energy(self):
-        dungeon = self.dungeon_with_object(Thing.from_raw("Food"))
+        dungeon = self.dungeon_with_object(Food.from_raw("Banana"))
 
         player = Player(EnergyUnit(50))
         player.awake_in(dungeon)
         player.register(self.observer)
 
-        player.do(GetCommand("Food"))
-        player.do(UseCommand("food"))
+        player.do(GetCommand("Banana"))
+        player.do(UseCommand("Banana"))
 
         self.assertIsNone(player.holds())
 

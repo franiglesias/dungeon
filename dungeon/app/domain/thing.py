@@ -46,11 +46,26 @@ class Thing:
     def id(self):
         return self._id
 
-    def apply_on(self, user):
-        user.increase_energy(EnergyUnit(10))
+    def apply_on(self, some_object):
+        pass
 
     @classmethod
     def from_raw(cls, name):
         thing_name = ThingName(name)
         thing_id = ThingId.from_name(thing_name)
         return cls(thing_name, thing_id)
+
+
+class Food(Thing):
+    @classmethod
+    def from_raw(cls, name, energy=EnergyUnit(10)):
+        thing_name = ThingName(name)
+        thing_id = ThingId.from_name(thing_name)
+        return cls(thing_name, thing_id, energy)
+
+    def __init__(self, name, id, energy):
+        super().__init__(name, id)
+        self._energy = energy
+
+    def apply_on(self, user):
+        user.increase_energy(self._energy)

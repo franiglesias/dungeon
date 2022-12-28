@@ -39,8 +39,7 @@ class Player:
             return
         if self._is_a_different_object(thing_name):
             return
-        self._holds.apply_on(self)
-        self._holds = None
+        self._holds = self._holds.apply_on(self)
 
     def _is_a_different_object(self, thing_name):
         return self._holds.id() != ThingId.normalized(thing_name)

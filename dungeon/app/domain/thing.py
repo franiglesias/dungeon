@@ -69,3 +69,31 @@ class Food(Thing):
 
     def apply_on(self, user):
         user.increase_energy(self._energy)
+
+
+class ThingKey:
+    def __init__(self, key):
+        self._key = key
+
+    def match(self, other):
+        return self.key() == other.key()
+
+    def key(self):
+        return self._key
+
+
+class Key(Thing):
+    @classmethod
+    def from_raw(cls, name, key):
+        thing_name = ThingName(name)
+        thing_id = ThingId.from_name(thing_name)
+        think_key = ThingKey(key)
+        return cls(thing_name, thing_id, think_key)
+
+    def __init__(self, name, _id, key):
+        super().__init__(name, _id)
+        self._key = key
+
+    def apply_on(self, door):
+        door.unlock_with(self._key)
+        return self

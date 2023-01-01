@@ -77,6 +77,9 @@ class Locked(Door):
         else:
             self._door.go()
 
+    def description(self):
+        return "{} (locked)".format(self._door.description())
+
     def unlock_with(self, key):
         self._is_locked = not key.match(self._secret)
         return

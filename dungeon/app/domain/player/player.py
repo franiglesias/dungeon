@@ -1,8 +1,9 @@
+from dungeon.app.domain.dir import Dir
 from dungeon.app.domain.player.backpack import Backpack
 from dungeon.app.domain.player.energy import EnergyUnit, Energy
 from dungeon.app.domain.player.player_events import PlayerDied, PlayerEnergyChanged, PlayerSentCommand, \
     ActionNotCompleted, PlayerAwake, BackpackChanged, PlayerGotThing, PlayerCollectedThing
-from dungeon.app.domain.thing import ThingId
+from dungeon.app.domain.thing import ThingId, Key
 from dungeon.app.events.subject import Subject
 
 
@@ -40,6 +41,15 @@ class Player:
         if self._is_a_different_object(thing_name):
             return
         self._holds = self._holds.apply_on(self)
+
+    def open(self, door_dir):
+        if self._holds is None:
+            self._notify_observers(ActionNotCompleted("You need a key to open something."))
+            return
+        if not isinstance(self._holds, Key):
+            self._notify_observers(ActionNotCompleted("You need a key to open something."))
+            return
+        self._holds = self._holds.apply_on(self._receiver.door(Dir(door_dir)))
 
     def _is_a_different_object(self, thing_name):
         return self._holds.id() != ThingId.normalized(thing_name)

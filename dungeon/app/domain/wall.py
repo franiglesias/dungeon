@@ -1,9 +1,21 @@
 from dungeon.app.domain.dir import Dir
-from dungeon.app.domain.player.player_events import PlayerExited, PlayerMoved, PlayerHitWall, PlayerGotDescription
+from dungeon.app.domain.player.player_events import PlayerExited, PlayerMoved, PlayerHitWall, PlayerGotDescription, \
+    DoorWasLocked
 from dungeon.app.events.subject import Subject
 
 
-class Wall:
+class Boundary:
+    def go(self):
+        pass
+
+    def look(self):
+        pass
+
+    def description(self):
+        pass
+
+
+class Wall(Boundary):
     def __init__(self):
         self._subject = Subject()
 
@@ -23,9 +35,27 @@ class Wall:
         self._subject.notify_observers(event)
 
 
-class Exit(Wall):
+class Door(Boundary):
+    def __init__(self, destination):
+        self._destination = destination
+        self._subject = Subject()
+
+    def go(self):
+        self._notify_observers(PlayerMoved(self._destination))
+
+    def description(self):
+        return "There is a door"
+
+    def register(self, observer):
+        self._subject.register(observer)
+
+    def _notify_observers(self, event):
+        self._subject.notify_observers(event)
+
+
+class Exit(Door):
     def __init__(self):
-        super().__init__()
+        self._subject = Subject()
 
     def go(self):
         self._notify_observers(PlayerExited())
@@ -34,16 +64,26 @@ class Exit(Wall):
         return "There is a door"
 
 
-class Door(Wall):
-    def __init__(self, destination):
-        super().__init__()
-        self._destination = destination
+class Locked(Door):
+    def __init__(self, door, secret):
+        self._door = door
+        self._secret = secret
+        self._is_locked = True
+        self._subject = Subject()
 
     def go(self):
-        self._notify_observers(PlayerMoved(self._destination))
+        if self._is_locked:
+            self._notify_observers(DoorWasLocked())
+        else:
+            self._door.go()
 
-    def description(self):
-        return "There is a door"
+    def unlock_with(self, key):
+        self._is_locked = not key.match(self._secret)
+        return
+
+    def register(self, observer):
+        super().register(observer)
+        self._door.register(observer)
 
 
 class Walls:

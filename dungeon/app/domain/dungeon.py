@@ -28,6 +28,9 @@ class Dungeon:
     def drop(self, thing):
         self._current_room().put(thing)
 
+    def door(self, direction):
+        return self._current_room().door(direction)
+
     def _current_room(self):
         return self._rooms.get(self._current)
 

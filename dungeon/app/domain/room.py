@@ -33,6 +33,9 @@ class Room:
         wall = self._walls.get(direction)
         wall.go()
 
+    def door(self, direction):
+        return self._walls.get(direction)
+
     def look(self, argument):
         if argument == "objects":
             return self._look_objects()

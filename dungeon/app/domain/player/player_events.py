@@ -92,3 +92,7 @@ class BackpackChanged(Event):
 
     def content(self):
         return self._content
+
+
+class DoorWasLocked(Event):
+    pass

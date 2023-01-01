@@ -1,7 +1,7 @@
 from dungeon.app.domain.dir import Dir
 from dungeon.app.domain.dungeon_builder import DungeonBuilder
-from dungeon.app.domain.thing import Thing, Food
-from dungeon.app.domain.wall import Exit
+from dungeon.app.domain.thing import Thing, Food, ThingKey, Key
+from dungeon.app.domain.wall import Exit, Locked
 
 
 class DungeonFactory:
@@ -52,7 +52,9 @@ class DungeonFactory:
         builder.connect('start', Dir.E, '20')
         builder.connect('21', Dir.E, '22')
 
-        builder.set('exit', Dir.E, Exit())
+        builder.set('exit', Dir.E, Locked(Exit(), ThingKey("exit-secret")))
+        builder.put('8', Key.from_raw("RedKey", "exit-secret"))
+        builder.put('6', Key.from_raw("YellowKey", "yellow-secret"))
         builder.put('10', Food.from_raw("Banana"))
         builder.put('17', Thing.from_raw("Sword"))
         builder.put('1', Food.from_raw("Apple"))

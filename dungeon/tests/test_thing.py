@@ -1,9 +1,8 @@
 from unittest import TestCase
 
-from dungeon.app.domain.player.player_events import PlayerMoved, Event
+from dungeon.app.domain.player.player_events import PlayerMoved, DoorWasLocked
 from dungeon.app.domain.thing import ThingName, ThingId, Thing, Key, ThingKey
-from dungeon.app.domain.wall import Door, Wall
-from dungeon.app.events.subject import Subject
+from dungeon.app.domain.wall import Door, Locked
 from dungeon.tests.decorators import expect_event
 from dungeon.tests.fakes.observers.fake_observer import FakeObserver
 
@@ -38,32 +37,6 @@ class TestThing(TestCase):
     def test_could_be_created_from_raw_name(self):
         a_thing = Thing.from_raw("Food")
         self.assertEqual("food", a_thing.id().to_s())
-
-
-class DoorWasLocked(Event):
-    pass
-
-
-class Locked(Wall):
-    def __init__(self, door, secret):
-        self._door = door
-        self._secret = secret
-        self._is_locked = True
-        self._subject = Subject()
-
-    def go(self):
-        if self._is_locked:
-            self._notify_observers(DoorWasLocked())
-        else:
-            self._door.go()
-
-    def unlock_with(self, key):
-        self._is_locked = not key.match(self._secret)
-        return
-
-    def register(self, observer):
-        super().register(observer)
-        self._door.register(observer)
 
 
 class TestLockedDoor(TestCase):

@@ -1,9 +1,10 @@
 from unittest import TestCase
 
 from dungeon.app.domain.dir import Dir
-from dungeon.app.domain.player.player_events import PlayerMoved
-from dungeon.app.domain.wall import Wall, Exit, Door, Walls
-from dungeon.tests.decorators import expect_event_containing
+from dungeon.app.domain.player.player_events import PlayerMoved, DoorWasUnlocked, DoorWasLocked
+from dungeon.app.domain.thing import ThingKey, Key
+from dungeon.app.domain.wall import Wall, Exit, Door, Walls, Locked
+from dungeon.tests.decorators import expect_event_containing, expect_event
 from dungeon.tests.fakes.observers.fake_observer import FakeObserver
 
 
@@ -27,3 +28,27 @@ class TestWalls(TestCase):
         door = Door('destination')
         door.register(self.observer)
         door.go()
+
+
+class TestLocked(TestCase):
+
+    def setUp(self) -> None:
+        self.observer = FakeObserver()
+
+    @expect_event(DoorWasUnlocked)
+    def test_unlock_with_the_right_key(self):
+        door = Door("dest")
+        locked_door = Locked(door, ThingKey("secret"))
+        locked_door.register(self.observer)
+        key = Key.from_raw("Key", "secret")
+
+        key.apply_on(locked_door)
+
+    @expect_event(DoorWasLocked)
+    def test_unlock_with_the_wrong_key(self):
+        door = Door("dest")
+        locked_door = Locked(door, ThingKey("secret"))
+        locked_door.register(self.observer)
+        key = Key.from_raw("Key", "wrong")
+
+        key.apply_on(locked_door)

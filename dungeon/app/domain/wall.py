@@ -83,7 +83,8 @@ class Locked(Door):
 
     def unlock_with(self, key):
         self._is_locked = not key.match(self._secret)
-        self._notify_observers(DoorWasUnlocked())
+        what_happened = DoorWasLocked() if self._is_locked else DoorWasUnlocked()
+        self._notify_observers(what_happened)
 
     def register(self, observer):
         super().register(observer)

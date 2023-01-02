@@ -2,8 +2,8 @@ from dungeon.app.domain.dir import Dir
 from dungeon.app.domain.player.backpack import Backpack
 from dungeon.app.domain.player.energy import EnergyUnit, Energy
 from dungeon.app.domain.player.player_events import PlayerDied, PlayerEnergyChanged, PlayerSentCommand, \
-    ActionNotCompleted, PlayerAwake, BackpackChanged, PlayerGotThing, PlayerCollectedThing
-from dungeon.app.domain.thing import ThingId, Key
+    ActionNotCompleted, PlayerAwake, BackpackChanged, PlayerGotThing, PlayerCollectedThing, ThingInHandChanged
+from dungeon.app.domain.thing import ThingId, Key, ThingName, ThingNullName
 from dungeon.app.events.subject import Subject
 
 
@@ -60,8 +60,10 @@ class Player:
             if self._holds is not None:
                 self._backpack.append(self._holds)
                 self._holds = None
+                self._notify_observers(ThingInHandChanged(ThingNullName()))
             self._holds = thing
             self._notify_observers(BackpackChanged(self._backpack.content()))
+            self._notify_observers(ThingInHandChanged(self._holds.name()))
 
     def increase_energy(self, delta_energy):
         self._energy.increase(delta_energy)
@@ -98,3 +100,4 @@ class Player:
             self._receiver.drop(self._holds)
             self._holds = None
         self._holds = event.thing()
+        self._notify_observers(ThingInHandChanged(self._holds.name()))

@@ -94,5 +94,13 @@ class BackpackChanged(Event):
         return self._content
 
 
+class ThingInHandChanged(Event):
+    def __init__(self, content):
+        self._content = content
+
+    def content(self):
+        return self._content
+
+
 class DoorWasLocked(Event):
     pass

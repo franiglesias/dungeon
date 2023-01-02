@@ -11,6 +11,11 @@ class ThingName:
         return self._name
 
 
+class ThingNullName(ThingName):
+    def __init__(self):
+        self._name = "nothing"
+
+
 class ThingId:
     def __init__(self, id):
         if len(id) == 0:

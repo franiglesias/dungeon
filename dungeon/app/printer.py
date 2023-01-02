@@ -1,6 +1,6 @@
 from dungeon.app.domain.player.player_events import PlayerEnergyChanged, PlayerGotDescription, PlayerMoved, \
     PlayerSentCommand, PlayerExited, PlayerGotThing, ActionNotCompleted, PlayerHitWall, PlayerAwake, BackpackChanged, \
-    DoorWasLocked, ThingInHandChanged
+    DoorWasLocked, ThingInHandChanged, DoorWasUnlocked
 from dungeon.app.scene import Scene
 
 
@@ -39,6 +39,8 @@ class Printer:
             self._description = "Your hand now holds: {}".format(event.content())
         elif event.of_type(DoorWasLocked):
             self._description = "The door is locked. You will need a key."
+        elif event.of_type(DoorWasUnlocked):
+            self._description = "The door is unlocked."
 
     def draw(self):
         scene = Scene(

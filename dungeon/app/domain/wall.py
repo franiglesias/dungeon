@@ -1,6 +1,6 @@
 from dungeon.app.domain.dir import Dir
 from dungeon.app.domain.player.player_events import PlayerExited, PlayerMoved, PlayerHitWall, PlayerGotDescription, \
-    DoorWasLocked
+    DoorWasLocked, DoorWasUnlocked
 from dungeon.app.events.subject import Subject
 
 
@@ -78,11 +78,12 @@ class Locked(Door):
             self._door.go()
 
     def description(self):
-        return "{} (locked)".format(self._door.description())
+        template = "{} (locked)" if self._is_locked else "{} (unlocked)"
+        return template.format(self._door.description())
 
     def unlock_with(self, key):
         self._is_locked = not key.match(self._secret)
-        return
+        self._notify_observers(DoorWasUnlocked())
 
     def register(self, observer):
         super().register(observer)

@@ -107,8 +107,5 @@ class DoorWasLocked(Event):
 
 
 class DoorWasUnlocked(Event):
-    def __init__(self, direction):
-        self._direction = direction
-
-    def direction(self):
-        return self._direction
+    def __init__(self):
+        pass

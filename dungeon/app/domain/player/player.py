@@ -3,7 +3,7 @@ from dungeon.app.domain.player.backpack import Backpack
 from dungeon.app.domain.player.energy import EnergyUnit, Energy
 from dungeon.app.domain.player.player_events import PlayerDied, PlayerEnergyChanged, PlayerSentCommand, \
     ActionNotCompleted, PlayerAwake, BackpackChanged, PlayerGotThing, PlayerCollectedThing, ThingInHandChanged
-from dungeon.app.domain.thing import ThingId, Key, ThingName, ThingNullName
+from dungeon.app.domain.thing import ThingId, Key, ThingNullName
 from dungeon.app.events.subject import Subject
 
 

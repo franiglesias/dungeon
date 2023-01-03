@@ -51,3 +51,9 @@ class Printer:
         )
 
         return self.show_output.put(scene)
+
+    def welcome(self):
+        return self.draw()
+
+    def goodbye(self):
+        return self.draw()

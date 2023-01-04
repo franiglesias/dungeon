@@ -15,7 +15,7 @@ class Game:
         while not self.finished():
             player.do(self._input.command())
             self._printer.draw()
-        self._printer.goodbay()
+        self._printer.goodbye()
 
     def notify(self, event):
         if event.of_type(PlayerExited):

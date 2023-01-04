@@ -1,5 +1,6 @@
 from dungeon.app.domain.dir import Dir
-from dungeon.app.domain.player.player_events import PlayerGotThing, PlayerCollectedThing, PlayerMoved
+from dungeon.app.domain.player.player_events import PlayerGotThing, PlayerCollectedThing, PlayerMoved, \
+    ActionNotCompleted
 from dungeon.app.events.subject import Subject
 
 
@@ -11,7 +12,10 @@ class Dungeon:
         self._rooms.register(self)
 
     def go(self, direction):
-        self._current_room().go(Dir(direction))
+        try:
+            self._current_room().go(Dir(direction))
+        except ValueError:
+            self._notify_observers(ActionNotCompleted("I don't know how to go {}.".format(direction)))
 
     def look(self, focus):
         self._current_room().look(focus)

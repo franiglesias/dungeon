@@ -1,8 +1,10 @@
 import unittest
 
+from dungeon.app.command.commands.bye_command import ByeCommand
 from dungeon.app.domain.dungeon import Dungeon
 from dungeon.app.domain.player.player import Player, EnergyUnit
-from dungeon.app.domain.player.player_events import PlayerEnergyChanged, PlayerSentCommand, PlayerDied, PlayerAwake
+from dungeon.app.domain.player.player_events import PlayerEnergyChanged, PlayerSentCommand, PlayerDied, PlayerAwake, \
+    PlayerFinishedGame
 from dungeon.app.domain.room import Rooms
 from dungeon.tests.decorators import expect_event
 from dungeon.tests.fakes.commands.fake_command import FakeCommand
@@ -30,6 +32,10 @@ class PlayerAsSubjectTestCase(unittest.TestCase):
     @expect_event(PlayerAwake)
     def test_notifies_player_awake(self):
         self.player.awake_in(Dungeon(Rooms()))
+
+    @expect_event(PlayerFinishedGame)
+    def test_wants_to_finish_game(self):
+        self.player.do(ByeCommand())
 
 
 if __name__ == '__main__':

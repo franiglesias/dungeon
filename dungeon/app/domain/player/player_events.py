@@ -109,3 +109,7 @@ class DoorWasLocked(Event):
 class DoorWasUnlocked(Event):
     def __init__(self):
         pass
+
+class PlayerFinishedGame(Event):
+    def __init__(self):
+        pass

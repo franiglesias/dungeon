@@ -2,7 +2,8 @@ from dungeon.app.domain.dir import Dir
 from dungeon.app.domain.player.backpack import Backpack
 from dungeon.app.domain.player.energy import EnergyUnit, Energy
 from dungeon.app.domain.player.player_events import PlayerDied, PlayerEnergyChanged, PlayerSentCommand, \
-    ActionNotCompleted, PlayerAwake, BackpackChanged, PlayerGotThing, PlayerCollectedThing, ThingInHandChanged
+    ActionNotCompleted, PlayerAwake, BackpackChanged, PlayerGotThing, PlayerCollectedThing, ThingInHandChanged, \
+    PlayerFinishedGame
 from dungeon.app.domain.thing import ThingId, Key, ThingNullName
 from dungeon.app.events.subject import Subject
 
@@ -24,6 +25,9 @@ class Player:
     def do(self, command):
         self._execute_command(command, self._receiver)
         self._update_energy()
+
+    def bye(self, *args):
+        self._notify_observers(PlayerFinishedGame())
 
     def _execute_command(self, command, receiver):
         command.do(self)

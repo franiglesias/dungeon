@@ -1,4 +1,4 @@
-from dungeon.app.domain.player.player_events import PlayerExited, PlayerDied
+from dungeon.app.domain.player.player_events import PlayerExited, PlayerDied, PlayerFinishedGame
 
 
 class Game:
@@ -21,6 +21,8 @@ class Game:
         if event.of_type(PlayerExited):
             self._finished = True
         if event.of_type(PlayerDied):
+            self._finished = True
+        if event.of_type(PlayerFinishedGame):
             self._finished = True
 
     def finished(self):

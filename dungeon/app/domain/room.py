@@ -67,7 +67,6 @@ class Room:
 
 class Things:
     def __init__(self):
-        self._things = dict()
         self._collection = ThingsCollection()
 
     def append(self, a_thing):

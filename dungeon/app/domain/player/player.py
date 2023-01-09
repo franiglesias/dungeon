@@ -66,7 +66,7 @@ class Player:
                 self._holds = None
                 self._notify_observers(ThingInHandChanged(ThingNullName()))
             self._holds = thing
-            self._notify_observers(BackpackChanged(self._backpack.content()))
+            self._notify_observers(BackpackChanged(self._backpack.inventory()))
             self._notify_observers(ThingInHandChanged(self._holds.name()))
 
     def increase_energy(self, delta_energy):
@@ -97,7 +97,7 @@ class Player:
 
     def do_collect_thing(self, event):
         self._backpack.append(event.thing())
-        self._notify_observers(BackpackChanged(self._backpack.content()))
+        self._notify_observers(BackpackChanged(self._backpack.inventory()))
 
     def _do_get_thing(self, event):
         if self._holds is not None:

@@ -1,5 +1,6 @@
 from dungeon.app.domain.player.player_events import PlayerGotDescription
 from dungeon.app.domain.thing import ThingId
+from dungeon.app.domain.things_collection import ThingsCollection
 from dungeon.app.events.subject import Subject
 
 
@@ -42,11 +43,11 @@ class Room:
         return self._look_around()
 
     def _look_objects(self):
-        response = self._things.look()
+        response = self._things.inventory()
         self._notify_observers(PlayerGotDescription(response))
 
     def _look_around(self):
-        response = self._things.look()
+        response = self._things.inventory()
         response += self._walls.look()
         self._notify_observers(PlayerGotDescription(response))
 
@@ -55,7 +56,7 @@ class Room:
         self._subject.register(observer)
 
     def put(self, an_object):
-        self._things.put(an_object)
+        self._things.append(an_object)
 
     def get(self, thing_name):
         return self._things.get(thing_name)
@@ -67,21 +68,33 @@ class Room:
 class Things:
     def __init__(self):
         self._things = dict()
+        self._collection = ThingsCollection()
 
-    def put(self, a_thing):
-        self._things[a_thing.id()] = a_thing
+    def append(self, a_thing):
+        self._store_thing(a_thing)
 
-    def look(self):
-        if len(self._things) > 0:
-            response = "There are:\n"
-            for thing in self._things.values():
-                response += "* {}\n".format(thing.name().to_s())
-        else:
-            response = "There are no objects\n"
-        return response
+    def _store_thing(self, a_thing):
+        self._collection.store(a_thing)
+
+    def inventory(self):
+        return self._things_inventory(
+            prefix="There are:\n",
+            item_format="* {}",
+            item_join="\n",
+            empty="There are no objects\n"
+        )
+
+    def _things_inventory(self, prefix, item_format, item_join, empty):
+        return self._collection.inventory(prefix, item_format, item_join, empty)
+
+    def _item_listing(self, item_format, join_string):
+        content = []
+        for key, item in self._things.items():
+            content.append(item_format.format(item.name().to_s()))
+        return join_string.join(content)
 
     def get(self, thing_name):
-        thing_id = ThingId.normalized(thing_name)
-        if thing_id in self._things.keys():
-            return self._things.pop(thing_id)
-        return None
+        return self._retrieve_thing(thing_name)
+
+    def _retrieve_thing(self, thing_name):
+        return self._collection.retrieve(thing_name)

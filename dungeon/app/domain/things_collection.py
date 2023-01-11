@@ -20,7 +20,10 @@ class ThingsCollection:
         else:
             return empty
 
-    def _item_listing(self, item_format: object, join_string: object) -> object:
+    def count(self):
+        return len(self._things)
+
+    def _item_listing(self, item_format: str, join_string: str) -> str:
         content = []
         for key, item in self._things.items():
             content.append(item_format.format(item.name().to_s()))

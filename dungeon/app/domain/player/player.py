@@ -1,3 +1,4 @@
+from dungeon.app.command.command import Command
 from dungeon.app.domain.dir import Dir
 from dungeon.app.domain.player.backpack import Backpack
 from dungeon.app.domain.player.energy import EnergyUnit, Energy
@@ -22,7 +23,7 @@ class Player(CanBeObserved, Observer):
         self._receiver = dungeon
         self._notify_observers(PlayerAwake())
 
-    def do(self, command):
+    def do(self, command: Command):
         self._execute_command(command, self._receiver)
         self._update_energy()
 

@@ -15,9 +15,9 @@ class Boundary:
         raise NotImplementedError
 
 
-class Wall(Boundary):
+class Wall(Boundary, CanBeObserved):
     def __init__(self):
-        self._subject = CanBeObserved()
+        super().__init__()
 
     def go(self):
         self._notify_observers(PlayerHitWall())
@@ -28,17 +28,11 @@ class Wall(Boundary):
     def description(self):
         return "There is a wall"
 
-    def register(self, observer):
-        self._subject.register(observer)
 
-    def _notify_observers(self, event):
-        self._subject.notify_observers(event)
-
-
-class Door(Boundary):
+class Door(Boundary, CanBeObserved):
     def __init__(self, destination):
         self._destination = destination
-        self._subject = CanBeObserved()
+        super().__init__()
 
     def go(self):
         self._notify_observers(PlayerMoved(self._destination))
@@ -46,16 +40,10 @@ class Door(Boundary):
     def description(self):
         return "There is a door"
 
-    def register(self, observer):
-        self._subject.register(observer)
 
-    def _notify_observers(self, event):
-        self._subject.notify_observers(event)
-
-
-class Exit(Boundary):
+class Exit(Boundary, CanBeObserved):
     def __init__(self):
-        self._subject = CanBeObserved()
+        super().__init__()
 
     def go(self):
         self._notify_observers(PlayerExited())
@@ -63,19 +51,13 @@ class Exit(Boundary):
     def description(self):
         return "There is a door"
 
-    def register(self, observer):
-        self._subject.register(observer)
 
-    def _notify_observers(self, event):
-        self._subject.notify_observers(event)
-
-
-class Locked(Boundary):
+class Locked(Boundary, CanBeObserved):
     def __init__(self, door, secret):
         self._door = door
         self._secret = secret
         self._is_locked = True
-        self._subject = CanBeObserved()
+        super().__init__()
 
     def go(self):
         if self._is_locked:
@@ -93,11 +75,8 @@ class Locked(Boundary):
         self._notify_observers(what_happened)
 
     def register(self, observer):
-        self._subject.register(observer)
+        super().register(observer)
         self._door.register(observer)
-
-    def _notify_observers(self, event):
-        self._subject.notify_observers(event)
 
 
 class Walls:

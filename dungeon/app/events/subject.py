@@ -11,3 +11,6 @@ class CanBeObserved:
     def notify_observers(self, event):
         for observer in self._observers:
             observer.notify(event)
+
+    def _notify_observers(self, event):
+        return self.notify_observers(event)

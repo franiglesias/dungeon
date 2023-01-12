@@ -1,10 +1,10 @@
 from dungeon.app.domain.dir import Dir
 from dungeon.app.domain.player.player_events import PlayerGotThing, PlayerCollectedThing, PlayerMoved, \
     ActionNotCompleted
-from dungeon.app.events.subject import CanBeObserved
+from dungeon.app.events.subject import CanBeObserved, Observer
 
 
-class Dungeon(CanBeObserved):
+class Dungeon(CanBeObserved, Observer):
     def __init__(self, rooms):
         super().__init__()
         self._rooms = rooms

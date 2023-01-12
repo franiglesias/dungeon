@@ -5,7 +5,6 @@ class CanBeObserved:
     def register(self, observer):
         if observer in self._observers:
             return
-
         self._observers.append(observer)
 
     def notify_observers(self, event):
@@ -14,3 +13,8 @@ class CanBeObserved:
 
     def _notify_observers(self, event):
         return self.notify_observers(event)
+
+
+class Observer:
+    def notify(self, event):
+        pass

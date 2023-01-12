@@ -1,4 +1,7 @@
-class FakeObserver:
+from dungeon.app.events.subject import Observer
+
+
+class FakeObserver(Observer):
     def __init__(self):
         self._events = dict()
 

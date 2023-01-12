@@ -1,7 +1,8 @@
 from dungeon.app.domain.player.player_events import PlayerExited, PlayerDied, PlayerFinishedGame
+from dungeon.app.events.subject import Observer
 
 
-class Game:
+class Game(Observer):
     def __init__(self, obtain_input, printer):
         self._finished = False
         self._input = obtain_input

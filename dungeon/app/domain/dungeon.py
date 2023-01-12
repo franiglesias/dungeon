@@ -4,11 +4,11 @@ from dungeon.app.domain.player.player_events import PlayerGotThing, PlayerCollec
 from dungeon.app.events.subject import CanBeObserved
 
 
-class Dungeon:
+class Dungeon(CanBeObserved):
     def __init__(self, rooms):
+        super().__init__()
         self._rooms = rooms
         self._current = 'start'
-        self._subject = CanBeObserved()
         self._rooms.register(self)
 
     def go(self, direction):
@@ -38,11 +38,8 @@ class Dungeon:
     def _current_room(self):
         return self._rooms.get(self._current)
 
-    def _notify_observers(self, event):
-        self._subject.notify_observers(event)
-
     def register(self, observer):
-        self._subject.register(observer)
+        super().register(observer)
         self._rooms.register(observer)
 
     def notify(self, event):

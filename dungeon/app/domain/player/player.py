@@ -8,10 +8,10 @@ from dungeon.app.domain.thing import ThingId, Key, ThingNullName
 from dungeon.app.events.subject import CanBeObserved
 
 
-class Player:
+class Player(CanBeObserved):
     def __init__(self, starting_energy=EnergyUnit(100)):
+        super().__init__()
         self._energy = Energy(starting_energy)
-        self._subject = CanBeObserved()
         self._receiver = None
         self._holds = None
         self._last_command = None
@@ -85,12 +85,6 @@ class Player:
         if self._last_command is not None:
             if hasattr(self._last_command, "cost"):
                 return self._last_command.cost()
-
-    def register(self, observer):
-        self._subject.register(observer)
-
-    def _notify_observers(self, event):
-        self._subject.notify_observers(event)
 
     def notify(self, event):
         if event.of_type(PlayerGotThing):

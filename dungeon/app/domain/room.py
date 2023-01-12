@@ -23,11 +23,11 @@ class Rooms:
             room.register(observer)
 
 
-class Room:
+class Room(CanBeObserved):
     def __init__(self, walls):
+        super().__init__()
         self._walls = walls
         self._things = Things()
-        self._subject = CanBeObserved()
 
     def go(self, direction):
         wall = self._walls.get(direction)
@@ -51,17 +51,14 @@ class Room:
         self._notify_observers(PlayerGotDescription(response))
 
     def register(self, observer):
+        super().register(observer)
         self._walls.register(observer)
-        self._subject.register(observer)
 
     def put(self, an_object):
         self._things.append(an_object)
 
     def get(self, thing_name):
         return self._things.get(thing_name)
-
-    def _notify_observers(self, event):
-        self._subject.notify_observers(event)
 
 
 class Things:
@@ -84,12 +81,6 @@ class Things:
 
     def _things_inventory(self, prefix, item_format, item_join, empty):
         return self._collection.inventory(prefix, item_format, item_join, empty)
-
-    def _item_listing(self, item_format, join_string):
-        content = []
-        for key, item in self._collection.items():
-            content.append(item_format.format(item.name().to_s()))
-        return join_string.join(content)
 
     def get(self, thing_name):
         return self._retrieve_thing(thing_name)

@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from dungeon.app.domain.player.player_events import Event
+from dungeon.app.events.subject import Event
 from dungeon.tests.decorators import expect_event
 from dungeon.tests.fakes.observers.fake_observer import FakeObserver
 

@@ -1,9 +1,4 @@
-class Event:
-    def name(self):
-        return self.__class__.__name__
-
-    def of_type(self, cls):
-        return isinstance(self, cls)
+from dungeon.app.events.subject import Event
 
 
 class PlayerDied(Event):
@@ -109,6 +104,7 @@ class DoorWasLocked(Event):
 class DoorWasUnlocked(Event):
     def __init__(self):
         pass
+
 
 class PlayerFinishedGame(Event):
     def __init__(self):

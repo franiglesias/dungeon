@@ -5,13 +5,13 @@ from dungeon.app.domain.player.player_events import PlayerDied, PlayerEnergyChan
     ActionNotCompleted, PlayerAwake, BackpackChanged, PlayerGotThing, PlayerCollectedThing, ThingInHandChanged, \
     PlayerFinishedGame
 from dungeon.app.domain.thing import ThingId, Key, ThingNullName
-from dungeon.app.events.subject import Subject
+from dungeon.app.events.subject import CanBeObserved
 
 
 class Player:
     def __init__(self, starting_energy=EnergyUnit(100)):
         self._energy = Energy(starting_energy)
-        self._subject = Subject()
+        self._subject = CanBeObserved()
         self._receiver = None
         self._holds = None
         self._last_command = None

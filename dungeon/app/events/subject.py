@@ -1,4 +1,4 @@
-class Subject:
+class CanBeObserved:
     def __init__(self):
         self._observers = []
 

@@ -1,14 +1,14 @@
 from dungeon.app.domain.dir import Dir
 from dungeon.app.domain.player.player_events import PlayerGotThing, PlayerCollectedThing, PlayerMoved, \
     ActionNotCompleted
-from dungeon.app.events.subject import Subject
+from dungeon.app.events.subject import CanBeObserved
 
 
 class Dungeon:
     def __init__(self, rooms):
         self._rooms = rooms
         self._current = 'start'
-        self._subject = Subject()
+        self._subject = CanBeObserved()
         self._rooms.register(self)
 
     def go(self, direction):

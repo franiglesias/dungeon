@@ -1,7 +1,7 @@
 from dungeon.app.domain.dir import Dir
 from dungeon.app.domain.player.player_events import PlayerExited, PlayerMoved, PlayerHitWall, PlayerGotDescription, \
     DoorWasLocked, DoorWasUnlocked
-from dungeon.app.events.subject import Subject
+from dungeon.app.events.subject import CanBeObserved
 
 
 class Boundary:
@@ -17,7 +17,7 @@ class Boundary:
 
 class Wall(Boundary):
     def __init__(self):
-        self._subject = Subject()
+        self._subject = CanBeObserved()
 
     def go(self):
         self._notify_observers(PlayerHitWall())
@@ -38,7 +38,7 @@ class Wall(Boundary):
 class Door(Boundary):
     def __init__(self, destination):
         self._destination = destination
-        self._subject = Subject()
+        self._subject = CanBeObserved()
 
     def go(self):
         self._notify_observers(PlayerMoved(self._destination))
@@ -55,7 +55,7 @@ class Door(Boundary):
 
 class Exit(Boundary):
     def __init__(self):
-        self._subject = Subject()
+        self._subject = CanBeObserved()
 
     def go(self):
         self._notify_observers(PlayerExited())
@@ -75,7 +75,7 @@ class Locked(Boundary):
         self._door = door
         self._secret = secret
         self._is_locked = True
-        self._subject = Subject()
+        self._subject = CanBeObserved()
 
     def go(self):
         if self._is_locked:

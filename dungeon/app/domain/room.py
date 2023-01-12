@@ -1,7 +1,6 @@
 from dungeon.app.domain.player.player_events import PlayerGotDescription
-from dungeon.app.domain.thing import ThingId
 from dungeon.app.domain.things_collection import ThingsCollection
-from dungeon.app.events.subject import Subject
+from dungeon.app.events.subject import CanBeObserved
 
 
 class Rooms:
@@ -28,7 +27,7 @@ class Room:
     def __init__(self, walls):
         self._walls = walls
         self._things = Things()
-        self._subject = Subject()
+        self._subject = CanBeObserved()
 
     def go(self, direction):
         wall = self._walls.get(direction)
@@ -88,7 +87,7 @@ class Things:
 
     def _item_listing(self, item_format, join_string):
         content = []
-        for key, item in self._things.items():
+        for key, item in self._collection.items():
             content.append(item_format.format(item.name().to_s()))
         return join_string.join(content)
 

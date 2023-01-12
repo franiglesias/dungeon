@@ -6,13 +6,13 @@ from dungeon.app.events.subject import Subject
 
 class Boundary:
     def go(self):
-        pass
+        raise NotImplementedError
 
     def look(self):
-        pass
+        raise NotImplementedError
 
     def description(self):
-        pass
+        raise NotImplementedError
 
 
 class Wall(Boundary):
@@ -53,7 +53,7 @@ class Door(Boundary):
         self._subject.notify_observers(event)
 
 
-class Exit(Door):
+class Exit(Boundary):
     def __init__(self):
         self._subject = Subject()
 
@@ -63,8 +63,14 @@ class Exit(Door):
     def description(self):
         return "There is a door"
 
+    def register(self, observer):
+        self._subject.register(observer)
 
-class Locked(Door):
+    def _notify_observers(self, event):
+        self._subject.notify_observers(event)
+
+
+class Locked(Boundary):
     def __init__(self, door, secret):
         self._door = door
         self._secret = secret
@@ -87,8 +93,11 @@ class Locked(Door):
         self._notify_observers(what_happened)
 
     def register(self, observer):
-        super().register(observer)
+        self._subject.register(observer)
         self._door.register(observer)
+
+    def _notify_observers(self, event):
+        self._subject.notify_observers(event)
 
 
 class Walls:

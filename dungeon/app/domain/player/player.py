@@ -61,17 +61,17 @@ class Player(CanBeObserved, Observer):
 
     def get(self, thing_name):
         thing = self._backpack.get(thing_name)
-        if thing is not None:
-            if self._holds is not None:
-                try:
-                    self._backpack.append(self._holds)
-                    self._holds = None
-                    self._notify_observers(ThingInHandChanged(ThingNullName()))
-                except IndexError:
-                    self._notify_observers(ActionNotCompleted("Your backpack is full."))
-            self._holds = thing
-            self._notify_observers(BackpackChanged(self._backpack.inventory()))
-            self._notify_observers(ThingInHandChanged(self._holds.name()))
+        if thing is None:
+            return
+        if self._holds is not None:
+            try:
+                self._backpack.keep(self._holds)
+                self._holds = None
+            except IndexError:
+                self._notify_observers(ActionNotCompleted("Your backpack is full."))
+        self._holds = thing
+        self._notify_observers(BackpackChanged(self._backpack.inventory()))
+        self._notify_observers(ThingInHandChanged(self._holds.name()))
 
     def increase_energy(self, delta_energy):
         self._energy.increase(delta_energy)
@@ -95,7 +95,7 @@ class Player(CanBeObserved, Observer):
 
     def do_collect_thing(self, event):
         try:
-            self._backpack.append(event.thing())
+            self._backpack.keep(event.thing())
             self._notify_observers(BackpackChanged(self._backpack.inventory()))
         except IndexError:
             self._notify_observers(ActionNotCompleted("Your backpack is full."))

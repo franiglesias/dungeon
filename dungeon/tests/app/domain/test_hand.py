@@ -10,8 +10,8 @@ class HandTestCase(unittest.TestCase):
         backpack = Backpack()
         something = Thing.from_raw("Something")
         backpack.keep(something)
-        hand = EmptyHand(backpack)
-        full_hand = hand.get("Something")
+        hand = EmptyHand()
+        full_hand = hand.get_from(backpack, "Something")
         self.assertEqual(something, full_hand.holds())
 
     def test_full_hand_exchanges_object_from_backpack(self):
@@ -21,9 +21,9 @@ class HandTestCase(unittest.TestCase):
         backpack.keep(first)
         backpack.keep(second)
 
-        hand = EmptyHand(backpack)
-        full_hand = hand.get("Second")
-        full_hand = full_hand.get("First")
+        hand = EmptyHand()
+        full_hand = hand.get_from(backpack, "Second")
+        full_hand = full_hand.get_from(backpack, "First")
         self.assertEqual(first, full_hand.holds())
         self.assertEqual(second, backpack.get("Second"))
 
@@ -32,16 +32,16 @@ class HandTestCase(unittest.TestCase):
         first = Thing.from_raw("First")
         backpack.keep(first)
 
-        hand = EmptyHand(backpack)
-        full_hand = hand.get("First")
+        hand = EmptyHand()
+        full_hand = hand.get_from(backpack, "First")
         with self.assertRaises(ObjectNotFound):
-            full_hand.get("Another")
+            full_hand.get_from(backpack, "Another")
 
     def test_empty_hand_keeps_being_empty_getting_not_existing_object(self):
         backpack = Backpack()
-        hand = EmptyHand(backpack)
+        hand = EmptyHand()
         with self.assertRaises(ObjectNotFound):
-            hand.get("Another")
+            hand.get_from(backpack, "Another")
 
 
 if __name__ == '__main__':

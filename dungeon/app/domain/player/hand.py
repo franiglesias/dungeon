@@ -5,6 +5,10 @@ class ObjectNotFound(Exception):
     pass
 
 
+class DoNotHaveThatObject(Exception):
+    pass
+
+
 class Hand:
     def __init__(self):
         pass
@@ -13,6 +17,9 @@ class Hand:
         raise NotImplementedError
 
     def get_from(self, container, thing_name):
+        raise NotImplementedError
+
+    def use_thing_with(self, thing_name, receiver):
         raise NotImplementedError
 
 
@@ -30,6 +37,12 @@ class FullHand(Hand):
         except IndexError:
             raise ObjectNotFound
 
+    def use_thing_with(self, thing_name, receiver):
+        if not self._holds.is_named(thing_name):
+            raise DoNotHaveThatObject
+
+        self._holds.apply_on(receiver)
+
 
 class EmptyHand(Hand):
     def __init__(self) -> None:
@@ -41,6 +54,9 @@ class EmptyHand(Hand):
             return FullHand(thing)
         except IndexError:
             raise ObjectNotFound
+
+    def use_thing_with(self, thing_name, receiver):
+        raise ObjectNotFound
 
     def holds(self):
         pass

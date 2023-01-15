@@ -60,6 +60,9 @@ class Thing:
         thing_id = ThingId.from_name(thing_name)
         return cls(thing_name, thing_id)
 
+    def is_named(self, name):
+        return self.id() == ThingId.normalized(name)
+
 
 class Food(Thing):
     @classmethod

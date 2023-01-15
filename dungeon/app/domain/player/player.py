@@ -5,7 +5,7 @@ from dungeon.app.domain.player.energy import EnergyUnit, Energy
 from dungeon.app.domain.player.player_events import PlayerDied, PlayerEnergyChanged, PlayerSentCommand, \
     ActionNotCompleted, PlayerAwake, BackpackChanged, PlayerGotThing, PlayerCollectedThing, ThingInHandChanged, \
     PlayerFinishedGame
-from dungeon.app.domain.thing import ThingId, Key, ThingNullName
+from dungeon.app.domain.thing import Key
 from dungeon.app.events.subject import CanBeObserved, Observer
 
 
@@ -57,7 +57,7 @@ class Player(CanBeObserved, Observer):
         self._holds = self._holds.apply_on(self._receiver.door(Dir(door_dir)))
 
     def _is_a_different_object(self, thing_name):
-        return self._holds.id() != ThingId.normalized(thing_name)
+        return not self._holds.is_named(thing_name)
 
     def get(self, thing_name):
         thing = self._backpack.get(thing_name)

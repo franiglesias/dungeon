@@ -41,7 +41,10 @@ class FullHand(Hand):
         if not self._holds.is_named(thing_name):
             raise DoNotHaveThatObject
 
-        self._holds.apply_on(receiver)
+        result = self._holds.apply_on(receiver)
+        if result is None:
+            return EmptyHand()
+        return self
 
 
 class EmptyHand(Hand):

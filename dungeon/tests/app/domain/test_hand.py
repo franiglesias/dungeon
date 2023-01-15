@@ -1,13 +1,20 @@
 import unittest
 
 from dungeon.app.domain.player.backpack import Backpack
-from dungeon.app.domain.player.hand import EmptyHand, ObjectNotFound, FullHand, DoNotHaveThatObject
-from dungeon.app.domain.thing import Thing
+from dungeon.app.domain.player.hand import EmptyHand, ObjectNotFound, FullHand, DoNotHaveThatObject, ObjectIsNotKey
+from dungeon.app.domain.thing import Thing, Key
 
 
 class MyThing(Thing):
     def apply_on(self, some_object):
         some_object.register_call()
+        return self
+
+
+class MyKey(Key):
+    def apply_on(self, door):
+        door.register_call()
+        return self
 
 
 class HandTestCase(unittest.TestCase):
@@ -64,6 +71,16 @@ class HandTestCase(unittest.TestCase):
     def test_can_use_the_thing_in_hand(self):
         hand = FullHand(MyThing.from_raw("Something"))
         hand.use_thing_with("Something", self)
+        self.assertEqual(1, self.calls)
+
+    def test_cannot_open_when_not_holding_key(self):
+        hand = FullHand(MyThing.from_raw("Something"))
+        with self.assertRaises(ObjectIsNotKey):
+            hand.open_with_key(self)
+
+    def test_can_open_with_a_key(self):
+        hand = FullHand(MyKey.from_raw("Something", "secret"))
+        hand.open_with_key(self)
         self.assertEqual(1, self.calls)
 
     def register_call(self):

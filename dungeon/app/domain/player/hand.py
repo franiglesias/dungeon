@@ -1,4 +1,4 @@
-from dungeon.app.domain.thing import Thing
+from dungeon.app.domain.thing import Thing, Key
 
 
 class ObjectNotFound(Exception):
@@ -6,6 +6,10 @@ class ObjectNotFound(Exception):
 
 
 class DoNotHaveThatObject(Exception):
+    pass
+
+
+class ObjectIsNotKey(Exception):
     pass
 
 
@@ -21,6 +25,9 @@ class Hand:
 
     def use_thing_with(self, thing_name, receiver):
         raise NotImplementedError
+
+    def open_with_key(self, door):
+        raise ObjectIsNotKey
 
 
 class FullHand(Hand):
@@ -45,6 +52,11 @@ class FullHand(Hand):
         if result is None:
             return EmptyHand()
         return self
+
+    def open_with_key(self, door):
+        if not isinstance(self._holds, Key):
+            raise ObjectIsNotKey
+        return self.use_thing_with(self._holds.name().to_s(), door)
 
 
 class EmptyHand(Hand):

@@ -1,8 +1,9 @@
+from dungeon.app.domain.player.container import Container
 from dungeon.app.domain.thing import Thing
 from dungeon.app.domain.things_collection import ThingsCollection
 
 
-class Backpack:
+class Backpack(Container):
     def __init__(self, capacity=5):
         self._capacity = capacity
         self._collection = ThingsCollection()

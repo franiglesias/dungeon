@@ -1,10 +1,12 @@
 from dungeon.app.domain.dir import Dir
+from dungeon.app.domain.player.container import Container
 from dungeon.app.domain.player.player_events import PlayerGotThing, PlayerCollectedThing, PlayerMoved, \
     ActionNotCompleted
+from dungeon.app.domain.thing import Thing
 from dungeon.app.events.subject import CanBeObserved, Observer
 
 
-class Dungeon(CanBeObserved, Observer):
+class Dungeon(CanBeObserved, Observer, Container):
     def __init__(self, rooms):
         super().__init__()
         self._rooms = rooms
@@ -24,6 +26,20 @@ class Dungeon(CanBeObserved, Observer):
         thing = self._current_room().get(thing_name)
         if thing is not None:
             self._notify_observers(PlayerGotThing(thing))
+
+    def get_safe(self, thing_name) -> Thing:
+        thing = self._current_room().get(thing_name)
+        if thing is None:
+            raise IndexError
+        return thing
+
+    def exchange(self, to_keep: Thing, thing_name) -> Thing:
+        try:
+            thing = self.get_safe(thing_name)
+            self.drop(to_keep)
+            return thing
+        except IndexError:
+            raise
 
     def collect(self, thing_name):
         thing = self._current_room().get(thing_name)

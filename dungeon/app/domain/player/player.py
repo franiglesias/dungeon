@@ -2,7 +2,7 @@ from dungeon.app.command.command import Command
 from dungeon.app.domain.dir import Dir
 from dungeon.app.domain.player.backpack import Backpack
 from dungeon.app.domain.player.energy import EnergyUnit, Energy
-from dungeon.app.domain.player.hand import EmptyHand, ObjectNotFound
+from dungeon.app.domain.player.hand import EmptyHand, ObjectNotFound, DoNotHaveThatObject
 from dungeon.app.domain.player.player_events import PlayerDied, PlayerEnergyChanged, PlayerSentCommand, \
     ActionNotCompleted, PlayerAwake, BackpackChanged, PlayerGotThing, PlayerCollectedThing, ThingInHandChanged, \
     PlayerFinishedGame
@@ -48,7 +48,12 @@ class Player(CanBeObserved, Observer):
 
     def use(self, thing_name):
         if self._toggles.is_active("hand"):
-            pass
+            try:
+                self._hand = self._hand.use_thing_with(thing_name, self)
+            except ObjectNotFound:
+                self._notify_observers(ActionNotCompleted("You need an object to use it."))
+            except DoNotHaveThatObject:
+                self._notify_observers(ActionNotCompleted("You don't have that object."))
         else:
             if self._holds is None:
                 self._notify_observers(ActionNotCompleted("You need an object to use it."))

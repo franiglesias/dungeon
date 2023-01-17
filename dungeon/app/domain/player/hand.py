@@ -73,5 +73,5 @@ class EmptyHand(Hand):
     def use_thing_with(self, thing_name, receiver):
         raise ObjectNotFound
 
-    def holds(self):
+    def holds(self) -> Thing:
         pass

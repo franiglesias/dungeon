@@ -1,5 +1,5 @@
 from dungeon.app.domain.player.player_events import PlayerEnergyChanged, PlayerGotDescription, PlayerMoved, \
-    PlayerSentCommand, PlayerExited, PlayerGotThing, ActionNotCompleted, PlayerHitWall, PlayerAwake, BackpackChanged, \
+    PlayerSentCommand, PlayerExited, ActionNotCompleted, PlayerHitWall, PlayerAwake, BackpackChanged, \
     DoorWasLocked, ThingInHandChanged, DoorWasUnlocked, PlayerFinishedGame
 from dungeon.app.events.subject import Observer
 from dungeon.app.scene import Scene
@@ -27,8 +27,6 @@ class Printer(Observer):
             self._command = "{} {}".format(event.command(), event.argument())
         elif event.of_type(PlayerExited):
             self._description = "Congrats. You're out"
-        elif event.of_type(PlayerGotThing):
-            self._description = "You've got {}".format(event.thing().name())
         elif event.of_type(ActionNotCompleted):
             self._description = "Action was not finished because {}".format(event.reason())
         elif event.of_type(PlayerHitWall):

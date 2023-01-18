@@ -4,9 +4,8 @@ from dungeon.app.domain.player.backpack import Backpack
 from dungeon.app.domain.player.energy import EnergyUnit, Energy
 from dungeon.app.domain.player.hand import EmptyHand, ObjectNotFound, DoNotHaveThatObject, ObjectIsNotKey
 from dungeon.app.domain.player.player_events import PlayerDied, PlayerEnergyChanged, PlayerSentCommand, \
-    ActionNotCompleted, PlayerAwake, BackpackChanged, PlayerGotThing, PlayerCollectedThing, ThingInHandChanged, \
+    ActionNotCompleted, PlayerAwake, BackpackChanged, PlayerCollectedThing, ThingInHandChanged, \
     PlayerFinishedGame
-from dungeon.app.domain.thing import Key
 from dungeon.app.events.subject import CanBeObserved, Observer
 from dungeon.app.toggles.toggles import Toggles
 
@@ -41,72 +40,35 @@ class Player(CanBeObserved, Observer):
         self._notify_observers(PlayerSentCommand(command.name(), command.argument()))
 
     def holds(self):
-        if self._toggles.is_active("hand"):
-            return self._hand.holds()
-        else:
-            return self._holds
+        return self._hand.holds()
 
     def use(self, thing_name):
-        if self._toggles.is_active("hand"):
-            try:
-                self._hand = self._hand.use_thing_with(thing_name, self)
-            except ObjectNotFound:
-                self._notify_observers(ActionNotCompleted("You need an object to use it."))
-            except DoNotHaveThatObject:
-                self._notify_observers(ActionNotCompleted("You don't have that object."))
-        else:
-            if self._holds is None:
-                self._notify_observers(ActionNotCompleted("You need an object to use it."))
-                return
-            if self._is_a_different_object(thing_name):
-                return
-            self._holds = self._holds.apply_on(self)
+        try:
+            self._hand = self._hand.use_thing_with(thing_name, self)
+        except ObjectNotFound:
+            self._notify_observers(ActionNotCompleted("You need an object to use it."))
+        except DoNotHaveThatObject:
+            self._notify_observers(ActionNotCompleted("You don't have that object."))
 
     def open(self, door_dir):
-        if self._toggles.is_active("hand"):
-            try:
-                self._hand.open_with_key(self._receiver.door(Dir(door_dir)))
-            except DoNotHaveThatObject:
-                self._notify_observers(ActionNotCompleted("You need the right key."))
-            except ObjectIsNotKey:
-                self._notify_observers(ActionNotCompleted("You need a key to open doors."))
-        else:
-            if self._holds is None:
-                self._notify_observers(ActionNotCompleted("You need a key to open something."))
-                return
-            if not isinstance(self._holds, Key):
-                self._notify_observers(ActionNotCompleted("You need a key to open something."))
-                return
-            self._holds = self._holds.apply_on(self._receiver.door(Dir(door_dir)))
-
-    def _is_a_different_object(self, thing_name):
-        return not self._holds.is_named(thing_name)
+        try:
+            self._hand.open_with_key(self._receiver.door(Dir(door_dir)))
+        except DoNotHaveThatObject:
+            self._notify_observers(ActionNotCompleted("You need the right key."))
+        except ObjectIsNotKey:
+            self._notify_observers(ActionNotCompleted("You need a key to open doors."))
 
     def get(self, thing_name):
-        if self._toggles.is_active("hand"):
+        try:
+            self._hand = self._hand.get_from(self._backpack, thing_name)
+            self._notify_observers(BackpackChanged(self._backpack.inventory()))
+            self._notify_observers(ThingInHandChanged(self._hand.holds().name().to_s()))
+        except ObjectNotFound:
             try:
-                self._hand = self._hand.get_from(self._backpack, thing_name)
-                self._notify_observers(BackpackChanged(self._backpack.inventory()))
+                self._hand = self._hand.get_from(self._receiver, thing_name)
                 self._notify_observers(ThingInHandChanged(self._hand.holds().name().to_s()))
             except ObjectNotFound:
-                try:
-                    self._hand = self._hand.get_from(self._receiver, thing_name)
-                    self._notify_observers(ThingInHandChanged(self._hand.holds().name().to_s()))
-                except ObjectNotFound:
-                    self._notify_observers(ActionNotCompleted("{} not in backpack or cell".format(thing_name)))
-        else:
-            thing = self._backpack.get(thing_name)
-            if thing is None:
-                return
-            if self._holds is not None:
-                try:
-                    self._backpack.keep(self._holds)
-                    self._holds = None
-                except IndexError:
-                    self._notify_observers(ActionNotCompleted("Your backpack is full."))
-            self._holds = thing
-            self._notify_observers(BackpackChanged(self._backpack.inventory()))
-            self._notify_observers(ThingInHandChanged(self._holds.name().to_s()))
+                self._notify_observers(ActionNotCompleted("{} not in backpack or cell".format(thing_name)))
 
     def increase_energy(self, delta_energy):
         self._energy.increase(delta_energy)
@@ -123,9 +85,6 @@ class Player(CanBeObserved, Observer):
                 return self._last_command.cost()
 
     def notify(self, event):
-        if not self._toggles.is_active("hand"):
-            if event.of_type(PlayerGotThing):
-                self._do_get_thing(event)
         if event.of_type(PlayerCollectedThing):
             self.do_collect_thing(event)
 
@@ -135,10 +94,3 @@ class Player(CanBeObserved, Observer):
             self._notify_observers(BackpackChanged(self._backpack.inventory()))
         except IndexError:
             self._notify_observers(ActionNotCompleted("Your backpack is full."))
-
-    def _do_get_thing(self, event):
-        if self._holds is not None:
-            self._receiver.drop(self._holds)
-            self._holds = None
-        self._holds = event.thing()
-        self._notify_observers(ThingInHandChanged(self._holds.name().to_s()))

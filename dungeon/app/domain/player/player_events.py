@@ -47,14 +47,6 @@ class PlayerExited(Event):
         pass
 
 
-class PlayerGotThing(Event):
-    def __init__(self, thing):
-        self._thing = thing
-
-    def thing(self):
-        return self._thing
-
-
 class ActionNotCompleted(Event):
     def __init__(self, reason):
         self._reason = reason

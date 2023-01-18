@@ -2,7 +2,7 @@ from dungeon.app.command.command import Command
 from dungeon.app.domain.dir import Dir
 from dungeon.app.domain.player.backpack import Backpack
 from dungeon.app.domain.player.energy import EnergyUnit, Energy
-from dungeon.app.domain.player.hand import EmptyHand, ObjectNotFound, DoNotHaveThatObject
+from dungeon.app.domain.player.hand import EmptyHand, ObjectNotFound, DoNotHaveThatObject, ObjectIsNotKey
 from dungeon.app.domain.player.player_events import PlayerDied, PlayerEnergyChanged, PlayerSentCommand, \
     ActionNotCompleted, PlayerAwake, BackpackChanged, PlayerGotThing, PlayerCollectedThing, ThingInHandChanged, \
     PlayerFinishedGame
@@ -64,7 +64,12 @@ class Player(CanBeObserved, Observer):
 
     def open(self, door_dir):
         if self._toggles.is_active("hand"):
-            pass
+            try:
+                self._hand.open_with_key(self._receiver.door(Dir(door_dir)))
+            except DoNotHaveThatObject:
+                self._notify_observers(ActionNotCompleted("You need the right key."))
+            except ObjectIsNotKey:
+                self._notify_observers(ActionNotCompleted("You need a key to open doors."))
         else:
             if self._holds is None:
                 self._notify_observers(ActionNotCompleted("You need a key to open something."))
@@ -118,8 +123,9 @@ class Player(CanBeObserved, Observer):
                 return self._last_command.cost()
 
     def notify(self, event):
-        if event.of_type(PlayerGotThing):
-            self._do_get_thing(event)
+        if not self._toggles.is_active("hand"):
+            if event.of_type(PlayerGotThing):
+                self._do_get_thing(event)
         if event.of_type(PlayerCollectedThing):
             self.do_collect_thing(event)
 
@@ -131,11 +137,8 @@ class Player(CanBeObserved, Observer):
             self._notify_observers(ActionNotCompleted("Your backpack is full."))
 
     def _do_get_thing(self, event):
-        if self._toggles.is_active("hand"):
-            pass
-        else:
-            if self._holds is not None:
-                self._receiver.drop(self._holds)
-                self._holds = None
-            self._holds = event.thing()
-            self._notify_observers(ThingInHandChanged(self._holds.name()))
+        if self._holds is not None:
+            self._receiver.drop(self._holds)
+            self._holds = None
+        self._holds = event.thing()
+        self._notify_observers(ThingInHandChanged(self._holds.name()))

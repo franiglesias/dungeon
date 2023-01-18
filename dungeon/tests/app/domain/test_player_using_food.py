@@ -2,7 +2,6 @@ import unittest
 
 from dungeon.app.command.commands.get_command import GetCommand
 from dungeon.app.command.commands.use_command import UseCommand
-from dungeon.app.domain.dungeon_builder import DungeonBuilder
 from dungeon.app.domain.player.energy import EnergyUnit
 from dungeon.app.domain.player.player import Player
 from dungeon.app.domain.player.player_events import ActionNotCompleted, PlayerEnergyChanged
@@ -15,8 +14,8 @@ from mothers.dungeon import DungeonMother
 
 class PlayerUsingFoodTestCase(unittest.TestCase):
     def setUp(self):
-        self.player = Player(EnergyUnit(50), toggles=self.toggle)
         self.toggle = Toggles()
+        self.player = Player(EnergyUnit(50), toggles=self.toggle)
         self.toggle.activate("hand")
         self.observer = FakeObserver()
 

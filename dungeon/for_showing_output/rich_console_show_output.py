@@ -8,5 +8,8 @@ class RichConsoleShowOutput(ShowOutput):
         print("{}".format(scene.title()))
         print("--------------------------------------")
         print("{}".format(scene.description()))
+        print("- - - - - - - - - - - - - - - - - - --")
+        print("In your backpack: {}".format(scene.inventory()))
+        print("In your hand    : {}".format(scene.hand()))
         print("Remaining energy: {}".format(scene.energy()))
         print("======================================")

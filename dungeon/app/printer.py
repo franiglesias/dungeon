@@ -12,6 +12,8 @@ class Printer(Observer):
         self._description = ""
         self._energy = ""
         self._title = ""
+        self._inventory = ""
+        self._hand = ""
 
     def notify(self, event):
         if event.of_type(PlayerEnergyChanged):
@@ -35,9 +37,9 @@ class Printer(Observer):
             self._title = "Welcome to the Dungeon"
             self._energy = "100"
         elif event.of_type(BackpackChanged):
-            self._description = "Your backpack now contains: {}".format(event.content())
+            self._inventory = "Your backpack now contains: {}".format(event.content())
         elif event.of_type(ThingInHandChanged):
-            self._description = "Your hand now holds: {}".format(event.content())
+            self._hand = "Your hand now holds: {}".format(event.content())
         elif event.of_type(DoorWasLocked):
             self._description = "The door is locked. You will need a key."
         elif event.of_type(DoorWasUnlocked):
@@ -51,7 +53,9 @@ class Printer(Observer):
             title=self._title,
             command=self._command,
             description=self._description,
-            energy=self._energy
+            energy=self._energy,
+            inventory=self._inventory,
+            hand=self._hand
         )
 
         return self.show_output.put(scene)

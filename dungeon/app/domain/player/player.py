@@ -87,11 +87,11 @@ class Player(CanBeObserved, Observer):
             try:
                 self._hand = self._hand.get_from(self._backpack, thing_name)
                 self._notify_observers(BackpackChanged(self._backpack.inventory()))
-                self._notify_observers(ThingInHandChanged(self._hand.holds().name()))
+                self._notify_observers(ThingInHandChanged(self._hand.holds().name().to_s()))
             except ObjectNotFound:
                 try:
                     self._hand = self._hand.get_from(self._receiver, thing_name)
-                    self._notify_observers(ThingInHandChanged(self._hand.holds().name()))
+                    self._notify_observers(ThingInHandChanged(self._hand.holds().name().to_s()))
                 except ObjectNotFound:
                     self._notify_observers(ActionNotCompleted("{} not in backpack or cell".format(thing_name)))
         else:
@@ -106,7 +106,7 @@ class Player(CanBeObserved, Observer):
                     self._notify_observers(ActionNotCompleted("Your backpack is full."))
             self._holds = thing
             self._notify_observers(BackpackChanged(self._backpack.inventory()))
-            self._notify_observers(ThingInHandChanged(self._holds.name()))
+            self._notify_observers(ThingInHandChanged(self._holds.name().to_s()))
 
     def increase_energy(self, delta_energy):
         self._energy.increase(delta_energy)
@@ -141,4 +141,4 @@ class Player(CanBeObserved, Observer):
             self._receiver.drop(self._holds)
             self._holds = None
         self._holds = event.thing()
-        self._notify_observers(ThingInHandChanged(self._holds.name()))
+        self._notify_observers(ThingInHandChanged(self._holds.name().to_s()))

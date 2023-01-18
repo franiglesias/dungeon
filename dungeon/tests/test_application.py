@@ -13,6 +13,7 @@ class TestApplication(TestCase):
         self.obtain_user_command = FixedObtainUserCommand("go north")
         self.show_output = FakeShowOutput()
         self.toggles = Toggles()
+        self.toggles.activate("hand")
 
         self.application = Application(self.obtain_user_command, self.show_output, DungeonFactory(), self.toggles)
 

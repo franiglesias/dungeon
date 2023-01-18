@@ -6,6 +6,7 @@ from dungeon.app.command.commands.open_command import OpenCommand
 from dungeon.app.domain.dungeon_factory import DungeonFactory
 from dungeon.app.domain.player.player import Player
 from dungeon.app.domain.player.player_events import PlayerExited
+from dungeon.app.toggles.toggles import Toggles
 from dungeon.tests.decorators import expect_event
 from dungeon.tests.fakes.observers.fake_observer import FakeObserver
 
@@ -18,7 +19,9 @@ class GameDungeonTestCase(unittest.TestCase):
     def test_we_can_complete_dungeon(self):
         dungeon = DungeonFactory().make('game')
         dungeon.register(self.observer)
-        player = Player()
+        toggles = Toggles()
+        toggles.activate("hand")
+        player = Player(toggles=toggles)
         player.register(self.observer)
         player.awake_in(dungeon)
 

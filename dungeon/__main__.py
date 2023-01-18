@@ -13,6 +13,7 @@ def main(args=None):
         args = sys.argv[1:]
 
     toggles = Toggles()
+    # toggles.activate("hand")
     factory = CommandFactory(Autodiscover("dungeon.app.command.commands"))
     obtain_user_command = ConsoleObtainUserCommand(factory)
     application = Application(obtain_user_command, RichConsoleShowOutput(), DungeonFactory(), toggles)

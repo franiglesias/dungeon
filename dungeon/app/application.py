@@ -17,7 +17,7 @@ class Application:
         game.run(player, dungeon)
 
     def _setup_player(self):
-        player = Player()
+        player = Player(toggles=self._toggles)
         player.register(self._printer)
         return player
 

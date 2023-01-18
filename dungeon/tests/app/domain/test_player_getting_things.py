@@ -16,7 +16,6 @@ from mothers.things import ThingMother
 class PlayerGettingThingsTestCase(unittest.TestCase):
     def setUp(self):
         self.toggle = Toggles()
-        self.toggle.activate("hand")
         self.player = Player(toggles=self.toggle)
         self.observer = FakeObserver()
         self.player.register(self.observer)

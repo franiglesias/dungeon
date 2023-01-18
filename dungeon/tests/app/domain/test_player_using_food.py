@@ -16,7 +16,6 @@ class PlayerUsingFoodTestCase(unittest.TestCase):
     def setUp(self):
         self.toggle = Toggles()
         self.player = Player(EnergyUnit(50), toggles=self.toggle)
-        self.toggle.activate("hand")
         self.observer = FakeObserver()
 
     @expect_event_equal(PlayerEnergyChanged, "energy", EnergyUnit(58))

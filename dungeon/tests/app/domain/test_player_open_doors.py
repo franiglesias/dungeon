@@ -25,18 +25,15 @@ class PlayerOpeningDoorsTestCase(unittest.TestCase):
 
     @expect_event(ActionNotCompleted)
     def test_not_having_key_does_not_open_doors(self):
-        self.toggle.activate("hand")
         self.player.do(OpenCommand("north"))
 
     @expect_event(ActionNotCompleted)
     def test_object_that_is_not_a_key_does_not_open_doors(self):
-        self.toggle.activate("hand")
         self.player.do(GetCommand("food"))
         self.player.do(OpenCommand("north"))
 
     @expect_event(PlayerExited)
     def test_key_allows_open_door_and_go_through_it(self):
-        self.toggle.activate("hand")
         self.player.do(GetCommand("key"))
         self.player.do(OpenCommand("north"))
         self.player.do(GoCommand("north"))

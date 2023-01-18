@@ -20,7 +20,6 @@ class GameDungeonTestCase(unittest.TestCase):
         dungeon = DungeonFactory().make('game')
         dungeon.register(self.observer)
         toggles = Toggles()
-        toggles.activate("hand")
         player = Player(toggles=toggles)
         player.register(self.observer)
         player.awake_in(dungeon)

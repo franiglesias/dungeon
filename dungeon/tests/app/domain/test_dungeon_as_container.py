@@ -1,44 +1,33 @@
 import unittest
 
-from dungeon.app.domain.dungeon_builder import DungeonBuilder
-from dungeon.app.domain.thing import Thing
+from dungeon.app.domain.dungeon_builder import DungeonMother
+from dungeon.app.domain.thing import Thing, ThingMother
+
+UNAVAILABLE_OBJECT = "OtherThing"
+OBJECT_IN_CELL = "Food"
 
 
 class DungeonAsContainerTestCase(unittest.TestCase):
-    def test_we_can_grab_object_from_dungeon(self):
-        thing = Thing.from_raw("Food")
-        dungeon = self.dungeon_with_object(thing)
+    def setUp(self):
+        self.thing = Thing.from_raw(OBJECT_IN_CELL)
+        self.dungeon = DungeonMother.with_objects(self.thing)
 
-        got_thing = dungeon.get_safe("Food")
-        self.assertEqual(thing, got_thing)
+    def test_we_can_grab_object_from_dungeon(self):
+        self.assertGotTheThingFromCell(self.dungeon.get_safe(OBJECT_IN_CELL))
 
     def test_cannot_grab_non_existing_object(self):
-        thing = Thing.from_raw("Food")
-        dungeon = self.dungeon_with_object(thing)
         with self.assertRaises(IndexError):
-            dungeon.get_safe("OtherThing")
+            self.dungeon.get_safe(UNAVAILABLE_OBJECT)
 
     def test_we_can_exchange_object_from_dungeon(self):
-        thing = Thing.from_raw("Food")
-        to_keep = Thing.from_raw("Sword")
-        dungeon = self.dungeon_with_object(thing)
-
-        got_thing = dungeon.exchange(to_keep, "Food")
-        self.assertEqual(thing, got_thing)
+        self.assertGotTheThingFromCell(self.dungeon.exchange(Thing.random(), OBJECT_IN_CELL))
 
     def test_cannot_exchange_with_not_existing_object(self):
-        thing = Thing.from_raw("Food")
-        to_keep = Thing.from_raw("Sword")
-        dungeon = self.dungeon_with_object(thing)
-
         with self.assertRaises(IndexError):
-            dungeon.exchange(to_keep, "Another")
+            self.dungeon.exchange(Thing.random(), UNAVAILABLE_OBJECT)
 
-    def dungeon_with_object(self, thing=Thing.from_raw("Food")):
-        builder = DungeonBuilder()
-        builder.add('start')
-        builder.put('start', thing)
-        return builder.build()
+    def assertGotTheThingFromCell(self, got_thing):
+        self.assertEqual(self.thing, got_thing)
 
 
 if __name__ == '__main__':

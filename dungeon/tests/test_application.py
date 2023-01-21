@@ -3,8 +3,8 @@ from unittest import TestCase
 from dungeon.app.application import Application
 from dungeon.app.domain.dungeon_factory import DungeonFactory
 from dungeon.app.toggles.toggles import Toggles
-from dungeon.tests.fakes.obtain_user_command.fixed_obtain_user_command import FixedObtainUserCommand
-from dungeon.tests.fakes.show_output.fake_show_output import FakeShowOutput
+from dungeon.app.obtain_user_command import FixedObtainUserCommand
+from dungeon.app.show_output import FakeShowOutput
 
 
 class TestApplication(TestCase):

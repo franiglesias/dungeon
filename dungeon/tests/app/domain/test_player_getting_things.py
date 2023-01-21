@@ -5,12 +5,11 @@ from dungeon.app.command.commands.get_command import GetCommand
 from dungeon.app.command.commands.look_command import LookCommand
 from dungeon.app.domain.player.player import Player
 from dungeon.app.domain.player.player_events import PlayerGotDescription, BackpackChanged, ActionNotCompleted
-from dungeon.app.domain.thing import Thing
+from dungeon.app.domain.thing import Thing, ThingMother
 from dungeon.app.toggles.toggles import Toggles
 from dungeon.tests.decorators import expect_event_containing, expect_event_equal, expect_event
-from dungeon.tests.fakes.observers.fake_observer import FakeObserver
-from mothers.dungeon import DungeonMother
-from mothers.things import ThingMother
+from dungeon.app.command.command import FakeObserver
+from dungeon.app.domain.dungeon_builder import DungeonMother
 
 
 class PlayerGettingThingsTestCase(unittest.TestCase):

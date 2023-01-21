@@ -8,7 +8,7 @@ from dungeon.app.domain.player.player import Player
 from dungeon.app.domain.player.player_events import PlayerExited
 from dungeon.app.toggles.toggles import Toggles
 from dungeon.tests.decorators import expect_event
-from dungeon.tests.fakes.observers.fake_observer import FakeObserver
+from dungeon.app.command.command import FakeObserver
 
 
 class GameDungeonTestCase(unittest.TestCase):

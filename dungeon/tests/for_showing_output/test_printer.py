@@ -4,7 +4,7 @@ from dungeon.app.domain.player.energy import EnergyUnit
 from dungeon.app.domain.player.player_events import PlayerEnergyChanged, PlayerSentCommand, PlayerGotDescription
 from dungeon.app.domain.player.player_events import PlayerMoved
 from dungeon.app.printer import Printer
-from dungeon.tests.fakes.show_output.fake_show_output import FakeShowOutput
+from dungeon.app.show_output import FakeShowOutput
 
 
 class PrinterAsObserverTestCase(unittest.TestCase):

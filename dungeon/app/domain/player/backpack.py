@@ -52,3 +52,13 @@ class Backpack(Container):
 
     def _retrieve_thing(self, thing_name):
         return self._collection.retrieve(thing_name)
+
+
+class BackpackMother:
+    @staticmethod
+    def full():
+        max_capacity = 5
+        backpack = Backpack(capacity=max_capacity)
+        for i in range(0, max_capacity):
+            backpack.keep(Thing.from_raw("Object {}".format(i + 1)))
+        return backpack

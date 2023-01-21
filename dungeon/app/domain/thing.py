@@ -1,3 +1,6 @@
+import random
+import string
+
 from dungeon.app.domain.player.energy import EnergyUnit
 
 
@@ -105,3 +108,20 @@ class Key(Thing):
     def apply_on(self, door):
         door.unlock_with(self._key)
         return self
+
+
+class ThingMother:
+    @staticmethod
+    def random():
+        return Thing.from_raw(''.join(random.choice(string.ascii_letters)))
+
+    @staticmethod
+    def with_name(name) -> Thing:
+        return Thing.from_raw(name)
+
+    @staticmethod
+    def from_names(*names):
+        result = []
+        for name in names:
+            result.append(Thing.from_raw(name))
+        return result

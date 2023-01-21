@@ -5,7 +5,7 @@ from dungeon.app.domain.player.player_events import PlayerGotDescription, Player
 from dungeon.app.domain.room import Rooms, Room
 from dungeon.app.domain.thing import Thing
 from dungeon.app.domain.wall import Exit, Walls
-from dungeon.tests.fakes.observers.fake_observer import FakeObserver
+from dungeon.app.command.command import FakeObserver
 
 
 class TestRoom(TestCase):

@@ -2,7 +2,7 @@ from unittest import TestCase
 
 from dungeon.app.events.subject import Event
 from dungeon.tests.decorators import expect_event
-from dungeon.tests.fakes.observers.fake_observer import FakeObserver
+from dungeon.app.command.command import FakeObserver
 
 
 class FakeEvent(Event):

@@ -7,8 +7,7 @@ from dungeon.app.domain.player.player_events import PlayerEnergyChanged, PlayerS
     PlayerFinishedGame
 from dungeon.app.domain.room import Rooms
 from dungeon.tests.decorators import expect_event
-from dungeon.tests.fakes.commands.fake_command import FakeCommand
-from dungeon.tests.fakes.observers.fake_observer import FakeObserver
+from dungeon.app.command.command import FakeCommand, FakeObserver
 
 
 class PlayerAsSubjectTestCase(unittest.TestCase):

@@ -5,8 +5,8 @@ from dungeon.app.domain.player.player import Player
 from dungeon.app.domain.player.player_events import PlayerExited, PlayerDied
 from dungeon.app.game import Game
 from dungeon.app.printer import Printer
-from dungeon.tests.fakes.obtain_user_command.fixed_obtain_user_command import FixedObtainUserCommand
-from dungeon.tests.fakes.show_output.fake_show_output import FakeShowOutput
+from dungeon.app.obtain_user_command import FixedObtainUserCommand
+from dungeon.app.show_output import FakeShowOutput
 
 
 class GameTestCase(unittest.TestCase):

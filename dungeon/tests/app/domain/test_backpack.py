@@ -1,7 +1,7 @@
 import unittest
 
-from mothers.backpack import BackpackMother
-from mothers.thing import ThingMother
+from dungeon.app.domain.player.backpack import BackpackMother
+from dungeon.app.domain.thing import ThingMother
 
 
 class BackpackTestCase(unittest.TestCase):

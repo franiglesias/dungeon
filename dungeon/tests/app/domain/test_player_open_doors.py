@@ -8,8 +8,8 @@ from dungeon.app.domain.player.player import Player
 from dungeon.app.domain.player.player_events import ActionNotCompleted, PlayerExited
 from dungeon.app.toggles.toggles import Toggles
 from dungeon.tests.decorators import expect_event
-from dungeon.tests.fakes.observers.fake_observer import FakeObserver
-from mothers.dungeon import DungeonMother
+from dungeon.app.command.command import FakeObserver
+from dungeon.app.domain.dungeon_builder import DungeonMother
 
 
 class PlayerOpeningDoorsTestCase(unittest.TestCase):

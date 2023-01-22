@@ -17,7 +17,7 @@ class MyKey(Key):
         return self
 
 
-class HandTestCase(unittest.TestCase):
+class HandUsingBackpackTestCase(unittest.TestCase):
     def setUp(self) -> None:
         self.calls = 0
 
@@ -58,6 +58,14 @@ class HandTestCase(unittest.TestCase):
         with self.assertRaises(ObjectNotFound):
             hand.get_from(backpack, "Another")
 
+    def register_call(self):
+        self.calls += 1
+
+
+class HandUsingThingsTestCase(unittest.TestCase):
+    def setUp(self) -> None:
+        self.calls = 0
+
     def test_empty_hand_cannot_use_thing(self):
         hand = EmptyHand()
         with self.assertRaises(ObjectNotFound):
@@ -72,6 +80,14 @@ class HandTestCase(unittest.TestCase):
         hand = FullHand(MyThing.from_raw("Something"))
         hand.use_thing_with("Something", self)
         self.assertEqual(1, self.calls)
+
+    def register_call(self):
+        self.calls += 1
+
+
+class HandOpeningDoorsTestCase(unittest.TestCase):
+    def setUp(self) -> None:
+        self.calls = 0
 
     def test_cannot_open_when_not_holding_key(self):
         hand = FullHand(MyThing.from_raw("Something"))

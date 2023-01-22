@@ -1,7 +1,8 @@
 import unittest
 
-from dungeon.app.domain.player.backpack import Backpack
-from dungeon.app.domain.player.hand import EmptyHand, ObjectNotFound, FullHand, DoNotHaveThatObject, ObjectIsNotKey
+from dungeon.app.domain.player.backpack import Backpack, BackpackMother
+from dungeon.app.domain.player.hand import EmptyHand, ObjectNotFound, FullHand, DoNotHaveThatObject, ObjectIsNotKey, \
+    Hand
 from dungeon.app.domain.thing import Thing, Key
 
 
@@ -19,47 +20,69 @@ class MyKey(Key):
 
 class HandUsingBackpackTestCase(unittest.TestCase):
     def setUp(self) -> None:
-        self.calls = 0
+        self.hand = None
+        self.backpack = None
 
     def test_empty_hand_can_get_object_from_backpack(self):
-        backpack = Backpack()
-        something = Thing.from_raw("Something")
-        backpack.keep(something)
-        hand = EmptyHand()
-        full_hand = hand.get_from(backpack, "Something")
-        self.assertEqual(something, full_hand.holds())
+        self.given_players_backpack_contains(Thing.random())
+        self.when_player_gets_it_from_backpack()
+        self.then_player_has_it_the_hand()
 
     def test_full_hand_exchanges_object_from_backpack(self):
-        backpack = Backpack()
-        first = Thing.from_raw("First")
-        second = Thing.from_raw("Second")
-        backpack.keep(first)
-        backpack.keep(second)
+        self.given_players_backpack_contains(Thing.random())
+        self.given_player_holds(Thing.random())
+        self.when_player_gets_it_from_backpack()
+        self.then_player_has_it_the_hand()
+        self.and_the_other_object_is_in_the_backpack()
 
-        hand = EmptyHand()
-        full_hand = hand.get_from(backpack, "Second")
-        full_hand = full_hand.get_from(backpack, "First")
-        self.assertEqual(first, full_hand.holds())
-        self.assertEqual(second, backpack.get("Second"))
-
-    def test_full_hand_keeps_same_object_getting_not_existing_one(self):
-        backpack = Backpack()
-        first = Thing.from_raw("First")
-        backpack.keep(first)
-
-        hand = EmptyHand()
-        full_hand = hand.get_from(backpack, "First")
-        with self.assertRaises(ObjectNotFound):
-            full_hand.get_from(backpack, "Another")
+    def test_full_hand_keeps_same_object_trying_to_get_not_existing_one(self):
+        self.given_players_backpack_contains(Thing.random())
+        self.given_player_holds(Thing.random())
+        self.when_player_tries_to_get_an_object_not_in_backpack()
+        self.then_player_keeps_original_object_in_the_hand()
 
     def test_empty_hand_keeps_being_empty_getting_not_existing_object(self):
-        backpack = Backpack()
-        hand = EmptyHand()
-        with self.assertRaises(ObjectNotFound):
-            hand.get_from(backpack, "Another")
+        self.given_players_backpack_is_empty()
+        self.when_player_tries_to_get_an_object_not_in_backpack()
+        self.then_player_has_nothing_in_her_hand()
 
-    def register_call(self):
-        self.calls += 1
+    def given_players_backpack_contains(self, *something):
+        self.things = something
+        self.backpack = BackpackMother.containing(*something)
+
+    def given_players_backpack_is_empty(self):
+        self.things = []
+        self.backpack = Backpack.empty()
+
+    def given_player_holds(self, other_thing):
+        self.other_thing = other_thing
+        self.hand = FullHand(other_thing)
+
+    def when_player_gets_it_from_backpack(self):
+        if self.hand is None:
+            self.hand = Hand.empty()
+        self.hand = self.hand.get_from(self.backpack, self.things[0].name().to_s())
+
+    def when_player_tries_to_get_an_object_not_in_backpack(self):
+        if self.hand is None:
+            self.hand = Hand.empty()
+        try:
+            self.hand = self.hand.get_from(self.backpack, "another")
+        except ObjectNotFound:
+            pass
+
+    def then_player_has_it_the_hand(self):
+        self.assertEqual(self.things[0], self.hand.holds())
+
+    def then_player_has_nothing_in_her_hand(self):
+        self.assertEqual(None, self.hand.holds())
+
+    def then_player_keeps_original_object_in_the_hand(self):
+        self.assertEqual(self.other_thing, self.hand.holds())
+
+    def and_the_other_object_is_in_the_backpack(self):
+        self.assertEqual(self.other_thing, self.backpack.get(self.other_thing.name().to_s()))
+
 
 
 class HandUsingThingsTestCase(unittest.TestCase):

@@ -29,6 +29,9 @@ class Hand:
     def open_with_key(self, door):
         raise ObjectIsNotKey
 
+    @staticmethod
+    def empty():
+        return EmptyHand()
 
 class FullHand(Hand):
     def __init__(self, holds: Thing) -> None:

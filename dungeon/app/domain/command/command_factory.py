@@ -1,11 +1,11 @@
 from importlib import import_module
 
-from dungeon.app.command.command import Command
-from dungeon.app.command.commands.get_command import GetCommand
-from dungeon.app.command.commands.go_command import GoCommand
-from dungeon.app.command.commands.invalid_command import InvalidCommand
-from dungeon.app.command.commands.look_command import LookCommand
-from dungeon.app.command.commands.use_command import UseCommand
+from dungeon.app.domain.command.command import Command
+from dungeon.app.domain.command.commands.get_command import GetCommand
+from dungeon.app.domain.command.commands.go_command import GoCommand
+from dungeon.app.domain.command.commands.invalid_command import InvalidCommand
+from dungeon.app.domain.command.commands.look_command import LookCommand
+from dungeon.app.domain.command.commands.use_command import UseCommand
 
 
 class CommandFactoryEngine:

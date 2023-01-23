@@ -1,4 +1,4 @@
-from dungeon.app.command.command import Command
+from dungeon.app.domain.command.command import Command
 
 
 class OpenCommand(Command):

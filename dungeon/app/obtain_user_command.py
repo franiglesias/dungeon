@@ -1,5 +1,5 @@
-from dungeon.app.command.command import Command
-from dungeon.app.command.command_factory import CommandFactory
+from dungeon.app.domain.command.command import Command
+from dungeon.app.domain.command.command_factory import CommandFactory
 
 
 class ObtainUserCommand:

@@ -4,7 +4,7 @@ from dungeon.app.domain.player.player_events import PlayerMoved, DoorWasLocked
 from dungeon.app.domain.thing import ThingName, ThingId, Thing, Key, ThingKey
 from dungeon.app.domain.wall import Door, Locked
 from dungeon.tests.decorators import expect_event
-from dungeon.app.command.command import FakeObserver
+from dungeon.app.domain.command.command import FakeObserver
 
 
 class TestThingName(TestCase):

@@ -1,14 +1,14 @@
 import unittest
 
-from dungeon.app.command.commands.get_command import GetCommand
-from dungeon.app.command.commands.go_command import GoCommand
-from dungeon.app.command.commands.open_command import OpenCommand
+from dungeon.app.domain.command.commands.get_command import GetCommand
+from dungeon.app.domain.command.commands.go_command import GoCommand
+from dungeon.app.domain.command.commands.open_command import OpenCommand
 from dungeon.app.domain.dir import Dir
 from dungeon.app.domain.player.player import Player
 from dungeon.app.domain.player.player_events import ActionNotCompleted, PlayerExited
 from dungeon.app.toggles.toggles import Toggles
 from dungeon.tests.decorators import expect_event
-from dungeon.app.command.command import FakeObserver
+from dungeon.app.domain.command.command import FakeObserver
 from dungeon.app.domain.dungeon_builder import DungeonMother
 
 

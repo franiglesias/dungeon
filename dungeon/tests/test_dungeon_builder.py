@@ -6,7 +6,7 @@ from dungeon.app.domain.player.player_events import PlayerExited, PlayerGotDescr
 from dungeon.app.domain.thing import Thing
 from dungeon.app.domain.wall import Exit
 from dungeon.tests.decorators import expect_event, expect_event_containing
-from dungeon.app.command.command import FakeObserver
+from dungeon.app.domain.command.command import FakeObserver
 
 
 class TestDungeonBuilder(TestCase):

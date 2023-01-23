@@ -1,13 +1,13 @@
 import unittest
 
-from dungeon.app.command.commands.bye_command import ByeCommand
+from dungeon.app.domain.command.commands.bye_command import ByeCommand
 from dungeon.app.domain.dungeon import Dungeon
 from dungeon.app.domain.player.player import Player, EnergyUnit
 from dungeon.app.domain.player.player_events import PlayerEnergyChanged, PlayerSentCommand, PlayerDied, PlayerAwake, \
     PlayerFinishedGame
 from dungeon.app.domain.room import Rooms
 from dungeon.tests.decorators import expect_event
-from dungeon.app.command.command import FakeCommand, FakeObserver
+from dungeon.app.domain.command.command import FakeCommand, FakeObserver
 
 
 class PlayerAsSubjectTestCase(unittest.TestCase):

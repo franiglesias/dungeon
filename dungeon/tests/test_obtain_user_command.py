@@ -2,8 +2,8 @@ from unittest import TestCase
 
 from mock.mock import patch
 
-from dungeon.app.command.command_factory import CommandFactory
-from dungeon.app.command.commands.go_command import GoCommand
+from dungeon.app.domain.command.command_factory import CommandFactory
+from dungeon.app.domain.command.commands.go_command import GoCommand
 from dungeon.for_obtaining_commands.console_obtain_user_command import ConsoleObtainUserCommand
 
 

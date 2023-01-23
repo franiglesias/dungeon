@@ -1,4 +1,4 @@
-from dungeon.app.command.command import Command
+from dungeon.app.domain.command.command import Command
 from dungeon.app.domain.dir import Dir
 from dungeon.app.domain.player.backpack import Backpack
 from dungeon.app.domain.player.energy import EnergyUnit, Energy

@@ -5,7 +5,7 @@ from dungeon.app.domain.player.player_events import PlayerMoved, DoorWasUnlocked
 from dungeon.app.domain.thing import ThingKey, Key
 from dungeon.app.domain.wall import Wall, Exit, Door, Walls, Locked
 from dungeon.tests.decorators import expect_event_containing, expect_event
-from dungeon.app.command.command import FakeObserver
+from dungeon.app.domain.command.command import FakeObserver
 
 
 class TestWalls(TestCase):

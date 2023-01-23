@@ -1,14 +1,14 @@
 import unittest
 
-from dungeon.app.command.commands.get_command import GetCommand
-from dungeon.app.command.commands.use_command import UseCommand
+from dungeon.app.domain.command.commands.get_command import GetCommand
+from dungeon.app.domain.command.commands.use_command import UseCommand
 from dungeon.app.domain.player.energy import EnergyUnit
 from dungeon.app.domain.player.player import Player
 from dungeon.app.domain.player.player_events import ActionNotCompleted, PlayerEnergyChanged
 from dungeon.app.domain.thing import Thing, Food
 from dungeon.app.toggles.toggles import Toggles
 from dungeon.tests.decorators import expect_event_equal, expect_event
-from dungeon.app.command.command import FakeObserver
+from dungeon.app.domain.command.command import FakeObserver
 from dungeon.app.domain.dungeon_builder import DungeonMother
 
 

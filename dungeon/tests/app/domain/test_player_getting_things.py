@@ -1,14 +1,14 @@
 import unittest
 
-from dungeon.app.command.commands.collect_command import CollectCommand
-from dungeon.app.command.commands.get_command import GetCommand
-from dungeon.app.command.commands.look_command import LookCommand
+from dungeon.app.domain.command.commands.collect_command import CollectCommand
+from dungeon.app.domain.command.commands.get_command import GetCommand
+from dungeon.app.domain.command.commands.look_command import LookCommand
 from dungeon.app.domain.player.player import Player
 from dungeon.app.domain.player.player_events import PlayerGotDescription, BackpackChanged, ActionNotCompleted
 from dungeon.app.domain.thing import Thing, ThingMother
 from dungeon.app.toggles.toggles import Toggles
 from dungeon.tests.decorators import expect_event_containing, expect_event_equal, expect_event
-from dungeon.app.command.command import FakeObserver
+from dungeon.app.domain.command.command import FakeObserver
 from dungeon.app.domain.dungeon_builder import DungeonMother
 
 

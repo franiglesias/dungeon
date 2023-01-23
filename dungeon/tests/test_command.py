@@ -1,7 +1,7 @@
 from unittest import TestCase
 
-from dungeon.app.command.command_factory import CommandFactory
-from dungeon.app.command.commands.look_command import LookCommand
+from dungeon.app.domain.command.command_factory import CommandFactory
+from dungeon.app.domain.command.commands.look_command import LookCommand
 
 
 class TestCommand(TestCase):

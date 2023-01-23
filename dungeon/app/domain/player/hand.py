@@ -33,9 +33,15 @@ class Hand:
     def empty():
         return EmptyHand()
 
+    @staticmethod
+    def holding(thing):
+        return FullHand(thing)
+
+
 class FullHand(Hand):
     def __init__(self, holds: Thing) -> None:
         self._holds = holds
+        super().__init__()
 
     def holds(self) -> Thing:
         return self._holds
@@ -64,7 +70,7 @@ class FullHand(Hand):
 
 class EmptyHand(Hand):
     def __init__(self) -> None:
-        pass
+        super().__init__()
 
     def get_from(self, container, thing_name) -> FullHand:
         try:

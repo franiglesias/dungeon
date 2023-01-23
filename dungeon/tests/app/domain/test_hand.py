@@ -1,9 +1,13 @@
 import unittest
 
 from dungeon.app.domain.player.backpack import Backpack, BackpackMother
-from dungeon.app.domain.player.hand import EmptyHand, ObjectNotFound, FullHand, DoNotHaveThatObject, ObjectIsNotKey, \
+from dungeon.app.domain.player.hand import ObjectNotFound, FullHand, DoNotHaveThatObject, ObjectIsNotKey, \
     Hand
 from dungeon.app.domain.thing import Thing, Key
+
+OBJECT_NOT_IN_HAND = "Food"
+
+OBJECT_IN_HAND = "Something"
 
 
 class MyThing(Thing):
@@ -84,24 +88,21 @@ class HandUsingBackpackTestCase(unittest.TestCase):
         self.assertEqual(self.other_thing, self.backpack.get(self.other_thing.name().to_s()))
 
 
-
 class HandUsingThingsTestCase(unittest.TestCase):
     def setUp(self) -> None:
         self.calls = 0
 
     def test_empty_hand_cannot_use_thing(self):
-        hand = EmptyHand()
         with self.assertRaises(ObjectNotFound):
-            hand.use_thing_with("Food", self)
+            Hand.empty().use_thing_with(OBJECT_NOT_IN_HAND, self)
 
     def test_cannot_use_a_thing_that_is_not_in_your_hand(self):
-        hand = FullHand(Thing.from_raw("Sword"))
         with self.assertRaises(DoNotHaveThatObject):
-            hand.use_thing_with("Food", self)
+            Hand.holding(Thing.random()).use_thing_with(OBJECT_NOT_IN_HAND, self)
 
     def test_can_use_the_thing_in_hand(self):
-        hand = FullHand(MyThing.from_raw("Something"))
-        hand.use_thing_with("Something", self)
+        hand = FullHand(MyThing.from_raw(OBJECT_IN_HAND))
+        hand.use_thing_with(OBJECT_IN_HAND, self)
         self.assertEqual(1, self.calls)
 
     def register_call(self):
@@ -113,12 +114,11 @@ class HandOpeningDoorsTestCase(unittest.TestCase):
         self.calls = 0
 
     def test_cannot_open_when_not_holding_key(self):
-        hand = FullHand(MyThing.from_raw("Something"))
         with self.assertRaises(ObjectIsNotKey):
-            hand.open_with_key(self)
+            Hand.holding(Thing.random()).open_with_key(self)
 
     def test_can_open_with_a_key(self):
-        hand = FullHand(MyKey.from_raw("Something", "secret"))
+        hand = Hand.holding(MyKey.from_raw("Key", "secret"))
         hand.open_with_key(self)
         self.assertEqual(1, self.calls)
 

@@ -1,5 +1,5 @@
 from dungeon.app.domain.player.energy import EnergyUnit
-from dungeon.app.events.subject import Observer
+from dungeon.app.domain.events.subject import Observer
 
 
 class Command:

@@ -6,7 +6,7 @@ from dungeon.app.domain.player.hand import EmptyHand, ObjectNotFound, DoNotHaveT
 from dungeon.app.domain.player.player_events import PlayerDied, PlayerEnergyChanged, PlayerSentCommand, \
     ActionNotCompleted, PlayerAwake, BackpackChanged, PlayerCollectedThing, ThingInHandChanged, \
     PlayerFinishedGame
-from dungeon.app.events.subject import CanBeObserved, Observer
+from dungeon.app.domain.events.subject import CanBeObserved, Observer
 from dungeon.app.toggles.toggles import Toggles
 
 

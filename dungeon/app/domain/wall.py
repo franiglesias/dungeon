@@ -1,7 +1,7 @@
 from dungeon.app.domain.dir import Dir
 from dungeon.app.domain.player.player_events import PlayerExited, PlayerMoved, PlayerHitWall, PlayerGotDescription, \
     DoorWasLocked, DoorWasUnlocked
-from dungeon.app.events.subject import CanBeObserved
+from dungeon.app.domain.events.subject import CanBeObserved
 
 
 class Boundary:

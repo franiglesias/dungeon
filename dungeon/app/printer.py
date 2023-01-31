@@ -1,7 +1,7 @@
 from dungeon.app.domain.player.player_events import PlayerEnergyChanged, PlayerGotDescription, PlayerMoved, \
     PlayerSentCommand, PlayerExited, ActionNotCompleted, PlayerHitWall, PlayerAwake, BackpackChanged, \
     DoorWasLocked, ThingInHandChanged, DoorWasUnlocked, PlayerFinishedGame
-from dungeon.app.events.subject import Observer
+from dungeon.app.domain.events.subject import Observer
 from dungeon.app.scene import Scene
 
 

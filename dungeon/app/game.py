@@ -1,5 +1,5 @@
 from dungeon.app.domain.player.player_events import PlayerExited, PlayerDied, PlayerFinishedGame
-from dungeon.app.events.subject import Observer
+from dungeon.app.domain.events.subject import Observer
 
 
 class Game(Observer):

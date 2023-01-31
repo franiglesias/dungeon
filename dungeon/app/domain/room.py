@@ -1,6 +1,6 @@
 from dungeon.app.domain.player.player_events import PlayerGotDescription
 from dungeon.app.domain.things_collection import ThingsCollection
-from dungeon.app.events.subject import CanBeObserved
+from dungeon.app.domain.events.subject import CanBeObserved
 
 
 class Rooms:

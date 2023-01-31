@@ -1,4 +1,4 @@
-from dungeon.app.events.subject import Event
+from dungeon.app.domain.events.subject import Event
 
 
 class PlayerDied(Event):

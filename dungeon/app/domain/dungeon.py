@@ -3,7 +3,7 @@ from dungeon.app.domain.player.container import Container
 from dungeon.app.domain.player.player_events import PlayerCollectedThing, PlayerMoved, \
     ActionNotCompleted
 from dungeon.app.domain.thing import Thing
-from dungeon.app.events.subject import CanBeObserved, Observer
+from dungeon.app.domain.events.subject import CanBeObserved, Observer
 
 
 class Dungeon(CanBeObserved, Observer, Container):

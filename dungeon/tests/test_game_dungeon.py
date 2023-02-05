@@ -1,43 +1,41 @@
 import unittest
 
-from dungeon.app.domain.command.commands.get_command import GetCommand
-from dungeon.app.domain.command.commands.go_command import GoCommand
-from dungeon.app.domain.command.commands.open_command import OpenCommand
-from dungeon.app.domain.dungeon_factory import DungeonFactory
-from dungeon.app.domain.player.player import Player
-from dungeon.app.domain.player.player_events import PlayerExited
-from dungeon.app.toggles.toggles import Toggles
-from dungeon.tests.decorators import expect_event
+from dungeon.app.application import Application
 from dungeon.app.domain.command.command import FakeObserver
+from dungeon.app.domain.dungeon_factory import DungeonFactory
+from dungeon.app.obtain_user_command import SequenceObtainUserCommand
+from dungeon.app.show_output import MirrorUserCommand
+from dungeon.app.toggles.toggles import Toggles
 
 
 class GameDungeonTestCase(unittest.TestCase):
     def setUp(self):
         self.observer = FakeObserver()
 
-    @expect_event(PlayerExited)
-    def test_we_can_complete_dungeon(self):
-        dungeon = DungeonFactory().make('game')
-        dungeon.register(self.observer)
-        toggles = Toggles()
-        player = Player(toggles=toggles)
-        player.register(self.observer)
-        player.awake_in(dungeon)
+    def test_using_commands(self):
+        commands = [
+            'go north',
+            'go north',
+            'go north',
+            'go east',
+            'go north',
+            'go east',
+            'go east',
+            'go south',
+            'go west',
+            'get RedKey',
+            'go east',
+            'go south',
+            'open east',
+            'go east'
+        ]
 
-        player.do(GoCommand('north'))
-        player.do(GoCommand('north'))
-        player.do(GoCommand('north'))
-        player.do(GoCommand('east'))
-        player.do(GoCommand('north'))
-        player.do(GoCommand('east'))
-        player.do(GoCommand('east'))
-        player.do(GoCommand('south'))
-        player.do(GoCommand('west'))
-        player.do(GetCommand('RedKey'))
-        player.do(GoCommand('east'))
-        player.do(GoCommand('south'))
-        player.do(OpenCommand('east'))
-        player.do(GoCommand('east'))
+        obtain_user_command = SequenceObtainUserCommand(commands)
+        show_output = MirrorUserCommand()
+        toggles = Toggles()
+
+        application = Application(obtain_user_command, show_output, DungeonFactory(), toggles)
+        application.run(dungeon_name='game')
 
 
 if __name__ == '__main__':

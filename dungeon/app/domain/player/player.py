@@ -34,6 +34,8 @@ class Player(CanBeObserved, Observer):
         self._notify_observers(PlayerFinishedGame())
 
     def _execute_command(self, command, receiver):
+        if not hasattr(command, 'do'):
+            return
         command.do(self)
         command.do(receiver)
         self._last_command = command

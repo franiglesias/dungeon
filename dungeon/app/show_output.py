@@ -15,3 +15,8 @@ class FakeShowOutput(ShowOutput):
 
     def contents(self):
         return self._contents
+
+
+class MirrorUserCommand(ShowOutput):
+    def put(self, scene):
+        print("{} [{}]: {}".format(scene.command(), scene.title(), scene.description()))

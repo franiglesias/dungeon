@@ -14,7 +14,8 @@ class Game(Observer):
         player.awake_in(dungeon)
         self._printer.welcome()
         while not self.finished():
-            player.do(self._input.command())
+            command = self._input.command()
+            player.do(command)
             self._printer.draw()
         self._printer.goodbye()
 

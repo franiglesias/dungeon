@@ -4,6 +4,7 @@ from dungeon.app.application import Application
 from dungeon.app.domain.command.command import FakeObserver
 from dungeon.app.domain.dungeon_factory import DungeonFactory
 from dungeon.app.obtain_user_command import SequenceObtainUserCommand
+from dungeon.app.printer import Printer
 from dungeon.app.show_output import MirrorUserCommand
 from dungeon.app.toggles.toggles import Toggles
 
@@ -51,9 +52,9 @@ class GameDungeonTestCase(unittest.TestCase):
     def run_game_with_dungeon(dungeon_to_test):
         commands = CommandSequenceMother().for_dungeon(dungeon_to_test)
         obtain_user_command = SequenceObtainUserCommand(commands)
-        show_output = MirrorUserCommand()
         toggles = Toggles()
-        application = Application(obtain_user_command, show_output, DungeonFactory(), toggles)
+        printer = Printer(MirrorUserCommand())
+        application = Application(obtain_user_command, printer, DungeonFactory(), toggles)
         application.run(dungeon_name=dungeon_to_test)
 
 

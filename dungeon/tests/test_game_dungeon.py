@@ -3,9 +3,9 @@ import unittest
 from dungeon.app.application import Application
 from dungeon.app.domain.command.command import FakeObserver
 from dungeon.app.domain.dungeon_factory import DungeonFactory
+from dungeon.app.domain.player.player_events import PlayerExited
 from dungeon.app.obtain_user_command import SequenceObtainUserCommand
 from dungeon.app.printer import Printer
-from dungeon.app.show_output import MirrorUserCommand
 from dungeon.app.toggles.toggles import Toggles
 
 
@@ -38,23 +38,33 @@ class CommandSequenceMother:
         return self._dungeons[name]
 
 
+class SpyPrinter(FakeObserver, Printer):
+
+    def draw(self):
+        pass
+
+    def welcome(self):
+        pass
+
+    def goodbye(self):
+        pass
+
+
 class GameDungeonTestCase(unittest.TestCase):
     def setUp(self):
-        self.observer = FakeObserver()
+        self.printer = SpyPrinter()
         dungeons = ["test", "game"]
         self._generator = (dungeon for dungeon in dungeons)
 
     def test_dungeon_can_be_resolved(self):
         for dungeon in self._generator:
             self.run_game_with_dungeon(dungeon)
+            self.assertTrue(self.printer.is_aware_of(PlayerExited), "Not received: {}".format(PlayerExited.__name__))
 
-    @staticmethod
-    def run_game_with_dungeon(dungeon_to_test):
+    def run_game_with_dungeon(self, dungeon_to_test):
         commands = CommandSequenceMother().for_dungeon(dungeon_to_test)
         obtain_user_command = SequenceObtainUserCommand(commands)
-        toggles = Toggles()
-        printer = Printer(MirrorUserCommand())
-        application = Application(obtain_user_command, printer, DungeonFactory(), toggles)
+        application = Application(obtain_user_command, self.printer, DungeonFactory(), Toggles())
         application.run(dungeon_name=dungeon_to_test)
 
 
